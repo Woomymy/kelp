@@ -1,5 +1,5 @@
-mod config;
-pub use config::*;
+mod loader;
+pub use loader::*;
 mod structs;
 pub use structs::*;
 // Use cli::* to make sure imports not look like this:
