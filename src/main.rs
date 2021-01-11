@@ -11,7 +11,12 @@ fn main() -> anyhow::Result<()> {
                 std::process::exit(1);
             }
             let config = lib::config::load_config(confpath)?;
-            println!("{:#?}", config);
+            for f in config.homedir {
+                if let Some(n) = f.name {
+                    println!("Name: {}", n);
+                }
+                println!("Path: {}", f.path);
+            }
         }
     }
     Ok(())
