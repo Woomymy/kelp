@@ -23,11 +23,35 @@ fn main() -> anyhow::Result<()> {
             std::fs::create_dir_all(&homedir_path)?;
             for file in config.homedir {
                 let filepath = format!("{}/{}", std::env::var("HOME").expect("Unable to find $HOME env var!"), file.path);
-                if !std::path::Path::new(&filepath).exists() {
+                if !Path::new(&filepath).exists() {
                     println!("{}", console::style(format!("File {} doesn't exist! Skipping...", filepath)).red());
                     break;
                 }
-                
+                let path = Path::new(&filepath);
+                let mut tomake;
+                if path.is_file() {
+                    tomake = path.parent().unwrap().to_str().unwrap();
+                } else {
+                    tomake = &filepath;
+                }
+                let start;
+                // Make sure paths are splitted corectly:
+                // If you are logged in as root (uid 0)
+                // Your $HOME path is /root/
+                // Then start must be set to 2
+                // If you are logged in as a normal user (others uid)
+                // Your $HOME path is /home/$USERNAME
+                // Then start must be set to 3 
+                if users::get_current_uid() == 0 {
+                    start = 2;
+                } else {
+                    start = 3;
+                }
+                let splitted: Vec<&str> = tomake.split('/').collect();
+                let pure = splitted[start..splitted.len()].join("/");
+                tomake = &pure;
+                println!("{}", tomake);
+                //std::fs::create_dir_all(tomake)?;
             }
         }
     }
