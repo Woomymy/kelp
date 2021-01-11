@@ -61,7 +61,21 @@ fn main() -> anyhow::Result<()> {
                 let splitted: Vec<&str> = tomake.split('/').collect();
                 let pure = splitted[start..splitted.len()].join("/");
                 tomake = &pure;
+                let spath: Vec<&str> = path.to_str().unwrap().split('/').collect();
+                let fname;
+                if path.is_file() {
+                    fname = spath[spath.len() - 1];
+                } else {
+                    fname = spath[spath.len() - 2];
+                }
                 std::fs::create_dir_all(format!("{}/home/{}", root, tomake))?;
+                if path.is_file() {
+                    std::fs::copy(path.to_str().unwrap(), format!("{}/home/{}/{}", root, tomake, fname))?;
+                } else {
+                    let dest 
+                        = format!("{}/home/{}/{}", root, tomake, fname);
+                    copy_dir::copy_dir(path, dest)?;
+                }
             }
         }
     }
