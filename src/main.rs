@@ -1,21 +1,33 @@
 mod lib;
 use structopt::StructOpt;
 use lib::cli::Cli;
+use std::path::Path;
 fn main() -> anyhow::Result<()> {
     match Cli::from_args() {
         Cli::Save { } => {
+            // Get the root of dotfiles
             let root = std::env::var("DOTFILES_PATH").unwrap_or_else(|_| String::from("."));
             let confpath = format!("{}/kelp.yaml", root); 
-            if !std::path::Path::new(&confpath).exists() {
+            if !Path::new(&confpath).exists() {
                 println!("{}", console::style("Please create a kelp.yml file with the \"kelp init\" command!").red().bold());
                 std::process::exit(1);
             }
+            // Read and load configuration
             let config = lib::config::load_config(confpath)?;
-            for f in config.homedir {
-                if let Some(n) = f.name {
-                    println!("Name: {}", n);
+            println!("{}", console::style(format!("Backing up configuration {}...", config.name)).cyan());
+            let homedir_path = format!("{}/home", root);
+            // Create home direcotry
+            if Path::new(&homedir_path).exists() {
+                std::fs::remove_dir_all(&homedir_path)?;
+            }
+            std::fs::create_dir_all(&homedir_path)?;
+            for file in config.homedir {
+                let filepath = format!("{}/{}", std::env::var("HOME").expect("Unable to find $HOME env var!"), file.path);
+                if !std::path::Path::new(&filepath).exists() {
+                    println!("{}", console::style(format!("File {} doesn't exist! Skipping...", filepath)).red());
+                    break;
                 }
-                println!("Path: {}", f.path);
+                
             }
         }
     }
