@@ -28,12 +28,8 @@ fn main() -> anyhow::Result<()> {
                     break;
                 }
                 let path = Path::new(&filepath);
-                let mut tomake;
-                if path.is_file() {
-                    tomake = path.parent().unwrap().to_str().unwrap();
-                } else {
-                    tomake = &filepath;
-                }
+                let mut tomake
+                    = path.parent().unwrap().to_str().unwrap();
                 let start;
                 // Make sure paths are splitted corectly:
                 // If you are logged in as root (uid 0)
@@ -49,9 +45,8 @@ fn main() -> anyhow::Result<()> {
                 }
                 let splitted: Vec<&str> = tomake.split('/').collect();
                 let pure = splitted[start..splitted.len()].join("/");
-                tomake = &pure;
-                println!("{}", tomake);
-                //std::fs::create_dir_all(tomake)?;
+                tomake = &pure; 
+                std::fs::create_dir_all(format!("{}/home/{}", root, tomake))?;
             }
         }
     }
