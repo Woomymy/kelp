@@ -1,5 +1,5 @@
-mod cli;
-pub use cli::*;
+mod opts;
+pub use opts::*;
 
 // Use cli::* to make sure imports not look like this:
 // lib::cli::cli::Cli;
