@@ -34,9 +34,6 @@ fn main() -> anyhow::Result<()> {
             std::fs::create_dir_all(&homedir_path)?;
             // Backup everyone $HOME file
             for file in config.homedir {
-                if let Some(bc) = file.backuponly {
-                    println!("owo");
-                }
                 let distro = lib::util::get_distro()?;
                 if let Some(host) = file.onlyon {
                     if distro != host {
