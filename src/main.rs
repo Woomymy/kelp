@@ -43,6 +43,11 @@ fn main() -> anyhow::Result<()> {
                     );
                     break;
                 }
+                if let Some(fname) = file.name {
+                    println!("{}", console::style(format!("Copying {}...", fname)).bold().magenta());
+                } else {
+                    println!("{}", console::style(format!("Copying {}...", file.path)).bold().magenta());
+                }
                 let path = Path::new(&filepath);
                 let mut tomake = path.parent().unwrap().to_str().unwrap();
                 let start;
