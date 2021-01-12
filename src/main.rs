@@ -1,7 +1,8 @@
 mod lib;
 use lib::cli::Cli;
 use std::path::Path;
-#[macro_use] extern crate anyhow;
+#[macro_use]
+extern crate anyhow;
 use structopt::StructOpt;
 fn main() -> anyhow::Result<()> {
     match Cli::from_args() {
@@ -37,7 +38,15 @@ fn main() -> anyhow::Result<()> {
                 let distro = lib::util::get_distro()?;
                 if let Some(host) = file.onlyon {
                     if distro != host {
-                        println!("{}", console::style(format!("Not saving {} because it can only be saved on {}", file.path, host)).bold().cyan());
+                        println!(
+                            "{}",
+                            console::style(format!(
+                                "Not saving {} because it can only be saved on {}",
+                                file.path, host
+                            ))
+                            .bold()
+                            .cyan()
+                        );
                         break;
                     }
                 }
@@ -103,6 +112,46 @@ fn main() -> anyhow::Result<()> {
                 } else {
                     let dest = format!("{}/home/{}/{}", root, tomake, fname);
                     copy_dir::copy_dir(path, dest)?;
+                }
+            }
+            if let Some(files) = config.rootfiles {
+                for file in files {
+                    let host = lib::util::get_distro()?;
+                    if let Some(h) = file.onlyon {
+                        if h != host {
+                            println!(
+                                "{}",
+                                console::style(format!(
+                                    "Not saving {} because it can only be saved on {}",
+                                    file.path, host
+                                ))
+                                .bold()
+                                .cyan()
+                            );
+                            break;
+                        }
+                    }
+                    if !Path::new(&file.path).exists() {
+                        println!(
+                            "{}",
+                            console::style(format!(
+                                "Skipping file {} because it doesn't exist!",
+                                file.path
+                            ))
+                            .red()
+                            .bold()
+                        );
+                        break;
+                    }
+                    let splittedpath: Vec<&str> = file.path.split('/').collect();
+                    let end;
+                    if Path::new(&file.path).is_file() {
+                        end = 1;
+                    } else {
+                        end = 2;
+                    }
+                    let pure = splittedpath[0..splittedpath.len() - end].join("/");
+                    println!("{:#?}", pure);
                 }
             }
         }
