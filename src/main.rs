@@ -145,7 +145,7 @@ fn main() -> anyhow::Result<()> {
                     }
                     let splittedpath: Vec<&str> = file.path.split('/').collect();
                     let end;
-                    if Path::new(&file.path).is_file() {
+                    if Path::new(&file.path).is_file() || !file.path.ends_with('/') {
                         end = 1;
                     } else {
                         end = 2;
