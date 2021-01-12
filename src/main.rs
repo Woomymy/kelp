@@ -98,7 +98,8 @@ fn main() -> anyhow::Result<()> {
                 tomake = &pure;
                 let spath: Vec<&str> = path.to_str().unwrap().split('/').collect();
                 let fname;
-                if path.is_file() {
+                // If directory name doesn't ends with /, only one element to remove
+                if path.is_file() || !file.path.ends_with('/')  {
                     fname = spath[spath.len() - 1];
                 } else {
                     fname = spath[spath.len() - 2];
