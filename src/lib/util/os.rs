@@ -10,7 +10,7 @@ pub fn get_distro() -> anyhow::Result<String> {
     } else if check_path("/etc/debian_version") {
         return Ok(String::from("debian"));
     } else if check_path("/etc/redhat-release") {
-        return Ok(String::from("redhat")); 
+        return Ok(String::from("redhat"));
     }
     Err(anyhow!("Unable to dertermine OS!"))
 }
