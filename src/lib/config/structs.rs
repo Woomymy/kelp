@@ -5,6 +5,8 @@ pub struct FileInfo {
     pub name: Option<String>,
     /// The path to the file / directory (relative to /home/$USER)ex: .config/i3/config
     pub path: String,
+    /// Only install if distro is ? 
+    pub onlyon: Option<String>
 }
 #[derive(Debug, Serialize, Deserialize)] // Required by serde_yaml
 pub struct KelpConfig {

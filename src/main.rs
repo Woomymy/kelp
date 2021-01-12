@@ -1,6 +1,7 @@
 mod lib;
 use lib::cli::Cli;
 use std::path::Path;
+#[macro_use] extern crate anyhow;
 use structopt::StructOpt;
 fn main() -> anyhow::Result<()> {
     match Cli::from_args() {
@@ -23,13 +24,23 @@ fn main() -> anyhow::Result<()> {
                 "{}",
                 console::style(format!("Backing up configuration {}...", config.name)).cyan()
             );
+            // The directory where /home/$USER files are located in backup
             let homedir_path = format!("{}/home", root);
             // Create home direcotry
             if Path::new(&homedir_path).exists() {
+                // If home directory exists, remove it
                 std::fs::remove_dir_all(&homedir_path)?;
             }
             std::fs::create_dir_all(&homedir_path)?;
+            // Backup everyone $HOME file
             for file in config.homedir {
+                let distro = lib::util::get_distro()?;
+                if let Some(host) = file.onlyon {
+                    if distro != host {
+                        println!("{}", console::style(format!("Not saving {} because it can only be saved on {}", file.path, host)).bold().cyan());
+                        break;
+                    }
+                }
                 let filepath = format!(
                     "{}/{}",
                     std::env::var("HOME").expect("Unable to find $HOME env var!"),
@@ -44,9 +55,19 @@ fn main() -> anyhow::Result<()> {
                     break;
                 }
                 if let Some(fname) = file.name {
-                    println!("{}", console::style(format!("Copying {}...", fname)).bold().magenta());
+                    println!(
+                        "{}",
+                        console::style(format!("Copying {}...", fname))
+                            .bold()
+                            .magenta()
+                    );
                 } else {
-                    println!("{}", console::style(format!("Copying {}...", file.path)).bold().magenta());
+                    println!(
+                        "{}",
+                        console::style(format!("Copying {}...", file.path))
+                            .bold()
+                            .magenta()
+                    );
                 }
                 let path = Path::new(&filepath);
                 let mut tomake = path.parent().unwrap().to_str().unwrap();
@@ -75,10 +96,12 @@ fn main() -> anyhow::Result<()> {
                 }
                 std::fs::create_dir_all(format!("{}/home/{}", root, tomake))?;
                 if path.is_file() {
-                    std::fs::copy(path.to_str().unwrap(), format!("{}/home/{}/{}", root, tomake, fname))?;
+                    std::fs::copy(
+                        path.to_str().unwrap(),
+                        format!("{}/home/{}/{}", root, tomake, fname),
+                    )?;
                 } else {
-                    let dest 
-                        = format!("{}/home/{}/{}", root, tomake, fname);
+                    let dest = format!("{}/home/{}/{}", root, tomake, fname);
                     copy_dir::copy_dir(path, dest)?;
                 }
             }
