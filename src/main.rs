@@ -192,6 +192,7 @@ fn main() -> anyhow::Result<()> {
                 homedir: Vec::new(),
                 rootfiles: Some(Vec::new())
             };
+            lib::config::autoconfig(&mut config);
             std::fs::write(format!("{}/kelp.yaml", root), config.to_string()?)?;
         }
     }
