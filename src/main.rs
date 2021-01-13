@@ -153,6 +153,7 @@ fn main() -> anyhow::Result<()> {
                         end = 2;
                     }
                     let pure = splittedpath[0..splittedpath.len() - end].join("/");
+                    std::fs::remove_dir_all(format!("{}/{}", root, pure))?;
                     std::fs::create_dir_all(format!("{}/{}", root, pure))?;
                     if path.is_file() {
                         std::fs::copy(
@@ -166,6 +167,24 @@ fn main() -> anyhow::Result<()> {
                         )?;
                     }
                 }
+            }
+        }
+        Cli::Init {} => {
+            let root = std::env::var("DOTFILES_PATH").unwrap_or_else(|_| String::from("."));
+            if !Path::new(&root).exists() {
+                println!("{}", 
+                    console::style(format!("Path {} doesn't exist!", root)).red().bold()
+                );
+                std::process::exit(1);
+            } 
+            if Path::new(&format!("{}/kelp.yaml", root)).exists() {
+                println!("{}", 
+                    console::style(format!(
+                        "File {}/kelp.yaml already exists!",
+                        root
+                    )).red().bold()
+                );
+                std::process::exit(1);
             }
         }
     }
