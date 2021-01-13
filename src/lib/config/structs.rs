@@ -19,3 +19,9 @@ pub struct KelpConfig {
     /// Root-located files ex: /var/lib/portage/world
     pub rootfiles: Option<Vec<FileInfo>>,
 }
+impl KelpConfig {
+    /// Transforms configuration to a String
+    pub fn to_string(&self) -> serde_yaml::Result<String> {
+        return serde_yaml::to_string(self);
+    }
+}
