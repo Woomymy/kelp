@@ -146,13 +146,17 @@ fn main() -> anyhow::Result<()> {
                     }
                     let splittedpath: Vec<&str> = file.path.split('/').collect();
                     let end;
-                    if Path::new(&file.path).is_file() || !file.path.ends_with('/') {
+                    let path = Path::new(&file.path);
+                    if path.is_file() || !file.path.ends_with('/') {
                         end = 1;
                     } else {
                         end = 2;
                     }
                     let pure = splittedpath[0..splittedpath.len() - end].join("/");
-                    println!("{:#?}", pure);
+                    std::fs::create_dir_all(format!("{}/{}", root, pure))?;
+                    if path.is_file() {
+                        std::fs::copy(&file.path, format!("{}/{}/{}", root, pure, splittedpath[splittedpath.len() - 1]))?;
+                    }
                 }
             }
         }
