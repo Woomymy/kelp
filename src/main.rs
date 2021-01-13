@@ -156,6 +156,8 @@ fn main() -> anyhow::Result<()> {
                     std::fs::create_dir_all(format!("{}/{}", root, pure))?;
                     if path.is_file() {
                         std::fs::copy(&file.path, format!("{}/{}/{}", root, pure, splittedpath[splittedpath.len() - 1]))?;
+                    } else {
+                        copy_dir::copy_dir(&file.path, format!("{}/{}/{}", root, pure, splittedpath[splittedpath.len() - 1]))?;
                     }
                 }
             }
