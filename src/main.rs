@@ -186,6 +186,13 @@ fn main() -> anyhow::Result<()> {
                 );
                 std::process::exit(1);
             }
+            // Create a basic configuration 
+            let mut config = lib::config::KelpConfig {
+                name: String::from("Dotfiles"),
+                homedir: Vec::new(),
+                rootfiles: Some(Vec::new())
+            };
+            std::fs::write(format!("{}/kelp.yaml", root), config.to_string()?)?;
         }
     }
     Ok(())
