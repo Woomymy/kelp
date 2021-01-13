@@ -1,0 +1,2 @@
+- { name: "I3 config", path: ".config/i3/config" }
+- { path: ".config/rofi", name: "Rofi config" }
