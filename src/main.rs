@@ -99,7 +99,7 @@ fn main() -> anyhow::Result<()> {
                 let spath: Vec<&str> = path.to_str().unwrap().split('/').collect();
                 let fname;
                 // If directory name doesn't ends with /, only one element to remove
-                if path.is_file() || !file.path.ends_with('/')  {
+                if path.is_file() || !file.path.ends_with('/') {
                     fname = spath[spath.len() - 1];
                 } else {
                     fname = spath[spath.len() - 2];
@@ -155,9 +155,15 @@ fn main() -> anyhow::Result<()> {
                     let pure = splittedpath[0..splittedpath.len() - end].join("/");
                     std::fs::create_dir_all(format!("{}/{}", root, pure))?;
                     if path.is_file() {
-                        std::fs::copy(&file.path, format!("{}/{}/{}", root, pure, splittedpath[splittedpath.len() - 1]))?;
+                        std::fs::copy(
+                            &file.path,
+                            format!("{}/{}/{}", root, pure, splittedpath[splittedpath.len() - 1]),
+                        )?;
                     } else {
-                        copy_dir::copy_dir(&file.path, format!("{}/{}/{}", root, pure, splittedpath[splittedpath.len() - 1]))?;
+                        copy_dir::copy_dir(
+                            &file.path,
+                            format!("{}/{}/{}", root, pure, splittedpath[splittedpath.len() - 1]),
+                        )?;
                     }
                 }
             }
