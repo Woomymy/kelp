@@ -12,4 +12,4 @@
 - { name: "Powerlevel10k config", path: ".p10k.zsh" } # Cool ZSH theme
 - { name: "VS Code config", path: ".config/Code/User/settings.json" } # Improved text editor
 - { name: "Vue.JS CLI config", path: ".vuerc" } # CLI of Vue.JS framework
-- { name: "Kitty config", ".config/kitty/kitty.conf" } # Terminal emulator
+- { name: "Kitty config", path: ".config/kitty/kitty.conf" } # Terminal emulator
