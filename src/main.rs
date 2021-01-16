@@ -155,7 +155,12 @@ fn main() -> anyhow::Result<()> {
                 if Path::new(&format!("{}/{}", root, pure)).exists() {
                     std::fs::remove_dir_all(format!("{}/{}", root, pure))?;
                 }
-                println!("{}", console::style(format!("Copying {}", file.path)).bold().magenta());
+                println!(
+                    "{}",
+                    console::style(format!("Copying {}", file.path))
+                        .bold()
+                        .magenta()
+                );
                 std::fs::create_dir_all(format!("{}/{}", root, pure))?;
                 if path.is_file() {
                     std::fs::copy(
