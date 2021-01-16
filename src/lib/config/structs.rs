@@ -17,7 +17,7 @@ pub struct KelpConfig {
     /// Files to copy contained in /home/$USER
     pub homedir: Vec<FileInfo>,
     /// Root-located files ex: /var/lib/portage/world
-    pub rootfiles: Option<Vec<FileInfo>>,
+    pub rootfiles: Vec<FileInfo>,
 }
 impl KelpConfig {
     /// Transforms configuration to a String

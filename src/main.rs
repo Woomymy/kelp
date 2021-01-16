@@ -115,57 +115,58 @@ fn main() -> anyhow::Result<()> {
                     copy_dir::copy_dir(path, dest)?;
                 }
             }
-            if let Some(files) = config.rootfiles {
-                for file in files {
-                    let host = lib::util::get_distro()?;
-                    if let Some(h) = file.onlyon {
-                        if h != host {
-                            println!(
-                                "{}",
-                                console::style(format!(
-                                    "Not saving {} because it can only be saved on {}",
-                                    file.path, host
-                                ))
-                                .bold()
-                                .cyan()
-                            );
-                            break;
-                        }
-                    }
-                    if !Path::new(&file.path).exists() {
+            for file in config.rootfiles {
+                let host = lib::util::get_distro()?;
+                if let Some(h) = file.onlyon {
+                    if h != host {
                         println!(
                             "{}",
                             console::style(format!(
-                                "Skipping file {} because it doesn't exist!",
-                                file.path
+                                "Not saving {} because it can only be saved on {}",
+                                file.path, host
                             ))
-                            .red()
                             .bold()
+                            .cyan()
                         );
                         break;
                     }
-                    let splittedpath: Vec<&str> = file.path.split('/').collect();
-                    let end;
-                    let path = Path::new(&file.path);
-                    if path.is_file() || !file.path.ends_with('/') {
-                        end = 1;
-                    } else {
-                        end = 2;
-                    }
-                    let pure = splittedpath[0..splittedpath.len() - end].join("/");
+                }
+                if !Path::new(&file.path).exists() {
+                    println!(
+                        "{}",
+                        console::style(format!(
+                            "Skipping file {} because it doesn't exist!",
+                            file.path
+                        ))
+                        .red()
+                        .bold()
+                    );
+                    break;
+                }
+                let splittedpath: Vec<&str> = file.path.split('/').collect();
+                let end;
+                let path = Path::new(&file.path);
+                if path.is_file() || !file.path.ends_with('/') {
+                    end = 1;
+                } else {
+                    end = 2;
+                }
+                let pure = splittedpath[0..splittedpath.len() - end].join("/");
+                if Path::new(&format!("{}/{}", root, pure)).exists() {
                     std::fs::remove_dir_all(format!("{}/{}", root, pure))?;
-                    std::fs::create_dir_all(format!("{}/{}", root, pure))?;
-                    if path.is_file() {
-                        std::fs::copy(
-                            &file.path,
-                            format!("{}/{}/{}", root, pure, splittedpath[splittedpath.len() - 1]),
-                        )?;
-                    } else {
-                        copy_dir::copy_dir(
-                            &file.path,
-                            format!("{}/{}/{}", root, pure, splittedpath[splittedpath.len() - 1]),
-                        )?;
-                    }
+                }
+                println!("{}", console::style(format!("Copying {}", file.path)).bold().magenta());
+                std::fs::create_dir_all(format!("{}/{}", root, pure))?;
+                if path.is_file() {
+                    std::fs::copy(
+                        &file.path,
+                        format!("{}/{}/{}", root, pure, splittedpath[splittedpath.len() - 1]),
+                    )?;
+                } else {
+                    copy_dir::copy_dir(
+                        &file.path,
+                        format!("{}/{}/{}", root, pure, splittedpath[splittedpath.len() - 1]),
+                    )?;
                 }
             }
         }
@@ -193,7 +194,7 @@ fn main() -> anyhow::Result<()> {
             let mut config = lib::config::KelpConfig {
                 name: String::from("Dotfiles"),
                 homedir: Vec::new(),
-                rootfiles: Some(Vec::new()),
+                rootfiles: Vec::new(),
             };
             lib::config::autoconfig(&mut config)?;
             println!("{}", console::style("Autoconfiguration applied!").yellow());
