@@ -14,5 +14,12 @@ pub fn autoconfig(config: &mut KelpConfig) -> anyhow::Result<()> {
             config.homedir.push(f);
         }
     }
+    let rawroot = include_str!("../../config/root.yaml");
+    let root: Vec<FileInfo> = serde_yaml::from_str(&rawroot)?;
+    for f in root {
+        if std::path::Path::new(&format!("{}", f.path)).exists() {
+            config.rootfiles.push(f);
+        }
+    }
     Ok(())
 }
