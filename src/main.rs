@@ -172,27 +172,31 @@ fn main() -> anyhow::Result<()> {
         Cli::Init {} => {
             let root = std::env::var("DOTFILES_PATH").unwrap_or_else(|_| String::from("."));
             if !Path::new(&root).exists() {
-                println!("{}", 
-                    console::style(format!("Path {} doesn't exist!", root)).red().bold()
-                );
-                std::process::exit(1);
-            } 
-            if Path::new(&format!("{}/kelp.yaml", root)).exists() {
-                println!("{}", 
-                    console::style(format!(
-                        "File {}/kelp.yaml already exists!",
-                        root
-                    )).red().bold()
+                println!(
+                    "{}",
+                    console::style(format!("Path {} doesn't exist!", root))
+                        .red()
+                        .bold()
                 );
                 std::process::exit(1);
             }
-            // Create a basic configuration 
+            if Path::new(&format!("{}/kelp.yaml", root)).exists() {
+                println!(
+                    "{}",
+                    console::style(format!("File {}/kelp.yaml already exists!", root))
+                        .red()
+                        .bold()
+                );
+                std::process::exit(1);
+            }
+            // Create a basic configuration
             let mut config = lib::config::KelpConfig {
                 name: String::from("Dotfiles"),
                 homedir: Vec::new(),
-                rootfiles: Some(Vec::new())
+                rootfiles: Some(Vec::new()),
             };
             lib::config::autoconfig(&mut config)?;
+            println!("{}", console::style("Autoconfiguration applied!").yellow());
             std::fs::write(format!("{}/kelp.yaml", root), config.to_string()?)?;
         }
     }

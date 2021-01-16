@@ -3,5 +3,5 @@ use structopt::StructOpt;
 #[structopt(name = "kelp")]
 pub enum Cli {
     Save {},
-    Init {}
+    Init {},
 }
