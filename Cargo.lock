@@ -170,7 +170,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "kelp"
+name = "kelpdot"
 version = "1.0.0"
 dependencies = [
  "anyhow",
