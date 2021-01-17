@@ -25,3 +25,13 @@ impl KelpConfig {
         return serde_yaml::to_string(self);
     }
 }
+impl std::fmt::Display for FileInfo {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result{
+        if let Some(n) = &self.name {
+            write!(f, "{}", n)
+        } else {
+            write!(f, "{}", self.path)
+        }
+    }
+}
+
