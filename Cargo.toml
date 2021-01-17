@@ -4,7 +4,7 @@ description = "Simple dotfiles manager"
 version = "1.0.0"
 authors = ["Woomy4680-exe <github@woomy.ovh>"]
 edition = "2018"
-
+license = "MIT"
 [dependencies]
 anyhow = "1.0.38"
 console = "0.14.0"
