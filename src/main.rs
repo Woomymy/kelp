@@ -332,12 +332,35 @@ fn main() -> anyhow::Result<()> {
                         .bold()
                         .yellow()
                 );
-                bashcode = format!(
-                    "\n{}\nif [[ -f {} ]]\nthen\ncp -r {} {}\nfi\n",
-                    bashcode, filepath, filepath, file.path
-                );
+                if Path::new(&filepath).is_file() {
+                    bashcode = format!(
+                        "\n{}\nif [[ -f {} ]]\nthen\ncp -r {} {}\nfi\n",
+                        bashcode, filepath, filepath, file.path
+                    );
+                } else {
+                    let dest: Vec<&str> = file.path.split('/').collect();
+                    let end;
+                    if file.path.ends_with("/") {
+                        end = 2
+                    } else {
+                        end = 1
+                    }
+                    let pure = dest[0..dest.len() - end].join("/");
+                    bashcode = format!(
+                        "\n{}\nif [[ -d {} ]]\nthen\ncp -r {} {}\nfi\n",
+                        bashcode, filepath, filepath, pure
+                    );
+                }
             }
             std::fs::write("/tmp/kelp_sh_install_root.sh", bashcode)?;
+            let mut cmd = runas::Command::new("bash");
+            cmd.arg("/tmp/kelp_sh_install_root.sh");
+            match cmd.status() {
+                Ok(_) => {}
+                Err(_) => {
+                    println!("{}", console::style("Unable to install root files!").red().bold());
+                }
+            }
         }
     }
     Ok(())
