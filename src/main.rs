@@ -47,7 +47,7 @@ fn main() -> anyhow::Result<()> {
                             .bold()
                             .cyan()
                         );
-                        break;
+                        continue;
                     }
                 }
                 let filepath = format!(
@@ -61,7 +61,7 @@ fn main() -> anyhow::Result<()> {
                         console::style(format!("File {} doesn't exist! Skipping...", filepath))
                             .red()
                     );
-                    break;
+                    continue;
                 }
                 if let Some(fname) = file.name {
                     println!(
@@ -128,7 +128,7 @@ fn main() -> anyhow::Result<()> {
                             .bold()
                             .cyan()
                         );
-                        break;
+                        continue;
                     }
                 }
                 if !Path::new(&file.path).exists() {
@@ -141,7 +141,7 @@ fn main() -> anyhow::Result<()> {
                         .red()
                         .bold()
                     );
-                    break;
+                    continue;
                 }
                 let splittedpath: Vec<&str> = file.path.split('/').collect();
                 let end;
@@ -152,26 +152,45 @@ fn main() -> anyhow::Result<()> {
                     end = 2;
                 }
                 let pure = splittedpath[0..splittedpath.len() - end].join("/");
-                if Path::new(&format!("{}/{}", root, pure)).exists() {
-                    std::fs::remove_dir_all(format!("{}/{}", root, pure))?;
-                }
                 println!(
                     "{}",
                     console::style(format!("Copying {}", file.path))
                         .bold()
                         .magenta()
                 );
-                std::fs::create_dir_all(format!("{}/{}", root, pure))?;
+                if !Path::new(&format!("{}/{}", root, pure)).exists() {
+                    std::fs::create_dir_all(format!("{}/{}", root, pure))?;
+                }
                 if path.is_file() {
-                    std::fs::copy(
-                        &file.path,
-                        format!("{}/{}/{}", root, pure, splittedpath[splittedpath.len() - 1]),
-                    )?;
+                    let dest =
+                        format!("{}/{}/{}", root, pure, splittedpath[splittedpath.len() - 1]);
+                    std::fs::copy(&file.path, dest)?;
                 } else {
-                    copy_dir::copy_dir(
-                        &file.path,
-                        format!("{}/{}/{}", root, pure, splittedpath[splittedpath.len() - 1]),
-                    )?;
+                    let end;
+                    if !path.ends_with("/") || path.is_file() {
+                        end = 2;
+                    } else {
+                        end = 1;
+                    }
+                    if Path::new(&format!(
+                        "{}/{}/{}",
+                        root,
+                        pure,
+                        splittedpath[splittedpath.len() - end]
+                    )).exists() {
+                        std::fs::remove_dir_all(format!(
+                            "{}/{}/{}",
+                            root,
+                            pure,
+                            splittedpath[splittedpath.len() - end]
+                        ))?;
+                    }
+                    copy_dir::copy_dir(&file.path, format!(
+                        "{}/{}/{}",
+                        root,
+                        pure,
+                        splittedpath[splittedpath.len() - end]
+                    ))?;
                 }
             }
         }
@@ -223,14 +242,25 @@ fn main() -> anyhow::Result<()> {
             for file in config.homedir {
                 let filepath = format!("{}/home/{}", root, file.path);
                 if !Path::new(&filepath).exists() {
-                    println!("{}", console::style(format!("Skipping {}", file)).bold().yellow());
-                    break;
+                    println!(
+                        "{}",
+                        console::style(format!("Skipping {}", file)).bold().yellow()
+                    );
+                    continue;
                 }
                 let host = lib::util::get_distro()?;
                 if let Some(ref distro) = file.onlyon {
                     if distro != &host {
-                        println!("{}", console::style(format!("Skipping {} because it can only be installed on {}", file, &distro)).bold().yellow());
-                        break;
+                        println!(
+                            "{}",
+                            console::style(format!(
+                                "Skipping {} because it can only be installed on {}",
+                                file, &distro
+                            ))
+                            .bold()
+                            .yellow()
+                        );
+                        continue;
                     }
                 }
                 let path = Path::new(&filepath);
@@ -245,7 +275,12 @@ fn main() -> anyhow::Result<()> {
                 } else {
                     destination = format!("{}/{}/{}", home, pure, dest[dest.len() - 1])
                 }
-                println!("{}", console::style(format!("Copying {} to {}", filepath, destination)).cyan().bold());
+                println!(
+                    "{}",
+                    console::style(format!("Copying {} to {}", filepath, destination))
+                        .cyan()
+                        .bold()
+                );
                 if path.is_file() {
                     std::fs::copy(filepath, destination)?;
                 } else {
@@ -255,6 +290,54 @@ fn main() -> anyhow::Result<()> {
                     copy_dir::copy_dir(filepath, destination)?;
                 }
             }
+            let mut bashcode = String::from("#!/usr/bin/env bash"); // Add shbang
+            for file in config.rootfiles {
+                if let Some(f) = file.backuponly {
+                    if f == true {
+                        println!(
+                            "{}",
+                            console::style(format!("Skipping {} because it is backup only!", file))
+                                .bold()
+                                .yellow()
+                        );
+                        continue;
+                    }
+                }
+                let filepath = format!("{}{}", root, file.path);
+                if !Path::new(&filepath).exists() {
+                    println!(
+                        "{}",
+                        console::style(format!("Skipping {}", file)).bold().yellow()
+                    );
+                    continue;
+                }
+                let host = lib::util::get_distro()?;
+                if let Some(ref distro) = file.onlyon {
+                    if distro != &host {
+                        println!(
+                            "{}",
+                            console::style(format!(
+                                "Skipping {} because it can only be installed on {}",
+                                file, &distro
+                            ))
+                            .bold()
+                            .yellow()
+                        );
+                        continue;
+                    }
+                }
+                println!(
+                    "{}",
+                    console::style(format!("Installing {} in {}", file, filepath))
+                        .bold()
+                        .yellow()
+                );
+                bashcode = format!(
+                    "\n{}\nif [[ -f {} ]]\nthen\ncp -r {} {}\nfi\n",
+                    bashcode, filepath, filepath, file.path
+                );
+            }
+            std::fs::write("/tmp/kelp_sh_install_root.sh", bashcode)?;
         }
     }
     Ok(())
