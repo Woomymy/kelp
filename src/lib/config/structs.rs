@@ -26,7 +26,7 @@ impl KelpConfig {
     }
 }
 impl std::fmt::Display for FileInfo {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result{
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         if let Some(n) = &self.name {
             write!(f, "{}", n)
         } else {
@@ -34,4 +34,3 @@ impl std::fmt::Display for FileInfo {
         }
     }
 }
-
