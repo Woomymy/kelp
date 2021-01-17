@@ -205,6 +205,28 @@ fn main() -> anyhow::Result<()> {
             println!("{}", console::style("Autoconfiguration applied!").yellow());
             std::fs::write(format!("{}/kelp.yaml", root), config.to_string()?)?;
         }
+        Cli::Install {} => {
+            let root = std::env::var("DOTFILES_PATH").unwrap_or_else(|_| String::from("."));
+            let confpath = format!("{}/kelp.yaml", root);
+            if !Path::new(&confpath).exists() {
+                println!(
+                    "{}",
+                    console::style("Please create a kelp.yml file with the \"kelp init\" command!")
+                        .red()
+                        .bold()
+                );
+                std::process::exit(1);
+            }
+            // Read and load configuration
+            let config = lib::config::load_config(confpath)?;
+            let home = std::env::var("HOME")?;
+            for file in config.homedir {
+                let filepath = format!("{}/home/{}", root, file.path);
+                if !Path::new(&filepath).exists() {
+                    println!("{}", console::style(format!("Skipping {}", file)).bold().yellow());
+                }
+            }
+        }
     }
     Ok(())
 }
