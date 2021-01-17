@@ -224,6 +224,35 @@ fn main() -> anyhow::Result<()> {
                 let filepath = format!("{}/home/{}", root, file.path);
                 if !Path::new(&filepath).exists() {
                     println!("{}", console::style(format!("Skipping {}", file)).bold().yellow());
+                    break;
+                }
+                let host = lib::util::get_distro()?;
+                if let Some(ref distro) = file.onlyon {
+                    if distro != &host {
+                        println!("{}", console::style(format!("Skipping {} because it can only be installed on {}", file, &distro)).bold().yellow());
+                        break;
+                    }
+                }
+                let path = Path::new(&filepath);
+                let dest: Vec<&str> = file.path.split('/').collect();
+                let pure = dest[0..dest.len() - 1].join("/");
+                if !Path::new(&format!("{}/{}", home, pure)).exists() {
+                    std::fs::create_dir_all(format!("{}/{}", home, pure))?;
+                }
+                let destination;
+                if pure == "" {
+                    destination = format!("{}/{}", home, dest[dest.len() - 1])
+                } else {
+                    destination = format!("{}/{}/{}", home, pure, dest[dest.len() - 1])
+                }
+                println!("{}", console::style(format!("Copying {} to {}", filepath, destination)).cyan().bold());
+                if path.is_file() {
+                    std::fs::copy(filepath, destination)?;
+                } else {
+                    if Path::new(&destination).exists() {
+                        std::fs::remove_dir_all(&destination)?;
+                    }
+                    copy_dir::copy_dir(filepath, destination)?;
                 }
             }
         }
