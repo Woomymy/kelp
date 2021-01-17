@@ -9,7 +9,7 @@ edition = "2018"
 anyhow = "1.0.38"
 console = "0.14.0"
 copy_dir = "0.1.2"
-serde = { version = "1.0.118", features = ["derive"] }
+serde = { version = "1.0.119", features = ["derive"] }
 serde_yaml = "0.8.15"
 structopt = "0.3.21"
 users = "0.11.0"
