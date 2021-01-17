@@ -1,5 +1,5 @@
 - { name: "Portage configs", path: "/var/lib/portage/world" }
-- { name: "Repos.conf", path: "/etc/portage/repos.conf/" }
-- { name: "Packages uses", path: "/etc/portage/package.use/" }
-- { name: "Packages accept keywords", path: "/etc/portage/package.accept_keywords/" }
+- { name: "Repos.conf", path: "/etc/portage/repos.conf" }
+- { name: "Packages uses", path: "/etc/portage/package.use" }
+- { name: "Packages accept keywords", path: "/etc/portage/package.accept_keywords" }
 - { name: "Make.conf", path: "/etc/portage/make.conf" }

@@ -177,7 +177,9 @@ fn main() -> anyhow::Result<()> {
                         root,
                         pure,
                         splittedpath[splittedpath.len() - end]
-                    )).exists() {
+                    ))
+                    .exists()
+                    {
                         std::fs::remove_dir_all(format!(
                             "{}/{}/{}",
                             root,
@@ -185,12 +187,15 @@ fn main() -> anyhow::Result<()> {
                             splittedpath[splittedpath.len() - end]
                         ))?;
                     }
-                    copy_dir::copy_dir(&file.path, format!(
-                        "{}/{}/{}",
-                        root,
-                        pure,
-                        splittedpath[splittedpath.len() - end]
-                    ))?;
+                    copy_dir::copy_dir(
+                        &file.path,
+                        format!(
+                            "{}/{}/{}",
+                            root,
+                            pure,
+                            splittedpath[splittedpath.len() - end]
+                        ),
+                    )?;
                 }
             }
         }
@@ -358,7 +363,10 @@ fn main() -> anyhow::Result<()> {
             match cmd.status() {
                 Ok(_) => {}
                 Err(_) => {
-                    println!("{}", console::style("Unable to install root files!").red().bold());
+                    println!(
+                        "{}",
+                        console::style("Unable to install root files!").red().bold()
+                    );
                 }
             }
         }
