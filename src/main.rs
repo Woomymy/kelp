@@ -35,6 +35,7 @@ fn main() -> anyhow::Result<()> {
             std::fs::create_dir_all(&homedir_path)?;
             // Backup everyone $HOME file
             for file in config.homedir {
+                let fname = format!("{}", file);
                 let distro = lib::util::get_distro()?;
                 if let Some(host) = file.onlyon {
                     if distro != host {
@@ -63,21 +64,12 @@ fn main() -> anyhow::Result<()> {
                     );
                     continue;
                 }
-                if let Some(fname) = file.name {
-                    println!(
-                        "{}",
-                        console::style(format!("Copying {}...", fname))
-                            .bold()
-                            .magenta()
-                    );
-                } else {
-                    println!(
-                        "{}",
-                        console::style(format!("Copying {}...", file.path))
-                            .bold()
-                            .magenta()
-                    );
-                }
+                println!(
+                    "{}",
+                    console::style(format!("Copying {}...", fname))
+                        .bold()
+                        .magenta()
+                );
                 let path = Path::new(&filepath);
                 let mut tomake = path.parent().unwrap().to_str().unwrap();
                 let start;
