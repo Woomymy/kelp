@@ -27,7 +27,7 @@ fn main() -> anyhow::Result<()> {
             );
             // The directory where /home/$USER files are located in backup
             let homedir_path = format!("{}/home", root);
-            // Create home direcotry
+            // Create home directory
             if Path::new(&homedir_path).exists() {
                 // If home directory exists, remove it
                 std::fs::remove_dir_all(&homedir_path)?;
@@ -88,6 +88,7 @@ fn main() -> anyhow::Result<()> {
                 let splitted: Vec<&str> = tomake.split('/').collect();
                 let pure = splitted[start..splitted.len()].join("/");
                 tomake = &pure;
+                // Get path **without** directory / file name
                 let spath: Vec<&str> = path.to_str().unwrap().split('/').collect();
                 let fname;
                 // If directory name doesn't ends with /, only one element to remove
@@ -96,6 +97,7 @@ fn main() -> anyhow::Result<()> {
                 } else {
                     fname = spath[spath.len() - 2];
                 }
+                // Create required files
                 std::fs::create_dir_all(format!("{}/home/{}", root, tomake))?;
                 if path.is_file() {
                     std::fs::copy(
