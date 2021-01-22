@@ -6,3 +6,4 @@ authors = ["Woomy4680-exe <github@woomy.ovh>"]
 edition = "2018"
 license = "MIT"
 [dependencies]
+structopt = "0.3.21"
