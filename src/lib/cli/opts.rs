@@ -5,5 +5,5 @@ use structopt::StructOpt;
 pub enum Cli {
     Save {},
     Init {},
-    Install {}
+    Install {},
 }
