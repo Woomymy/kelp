@@ -1,16 +1,17 @@
 use structopt::StructOpt;
 mod lib;
+use lib::terminal;
 use lib::cli::Cli;
 fn main() {
     match Cli::from_args() {
         Cli::Save { } => {
-            println!("Not yet implemented!");
+            terminal::messages::not_yet_implemented();
         }
         Cli::Install { } => {
-            println!("Not yet implemented!");
+            terminal::messages::not_yet_implemented();
         }
         Cli::Init { } => {
-            println!("Not yet implemented!");
+            terminal::messages::not_yet_implemented();
         }
     }
 }
