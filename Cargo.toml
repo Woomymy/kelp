@@ -6,11 +6,3 @@ authors = ["Woomy4680-exe <github@woomy.ovh>"]
 edition = "2018"
 license = "MIT"
 [dependencies]
-anyhow = "1.0.38"
-console = "0.14.0"
-copy_dir = "0.1.2"
-serde = { version = "1.0.119", features = ["derive"] }
-serde_yaml = "0.8.15"
-structopt = "0.3.21"
-users = "0.11.0"
-runas = { git = "https://github.com/Woomy4680-exe/rust-runas.git", version = "0.2.1" }
