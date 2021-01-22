@@ -1,11 +1,12 @@
 use structopt::StructOpt;
 mod lib;
-use lib::cli::Cli;
+use lib::cli::opts::Cli;
 use lib::terminal;
-fn main() {
+fn main() -> anyhow::Result<()> {
+    // Check CLI options
     match Cli::from_args() {
         Cli::Save {} => {
-            terminal::messages::not_yet_implemented();
+            lib::cli::save::save()?;
         }
         Cli::Install {} => {
             terminal::messages::not_yet_implemented();
@@ -14,4 +15,5 @@ fn main() {
             terminal::messages::not_yet_implemented();
         }
     }
+    Ok(())
 }
