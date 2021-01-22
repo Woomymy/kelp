@@ -8,4 +8,5 @@ license = "MIT"
 [dependencies]
 anyhow = "1.0.38"
 console = "0.14.0"
+serde = { version = "1.0.120", features = ["derive"] }
 structopt = "0.3.21"
