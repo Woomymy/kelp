@@ -11,6 +11,8 @@ pub fn get_distro() -> anyhow::Result<String> {
         return Ok(String::from("debian"));
     } else if check_path("/etc/redhat-release") {
         return Ok(String::from("redhat"));
+    } else if check_path("/etc/SUSE-brand") {
+        return Ok(String::from("suse"));
     }
     Err(anyhow!("Unable to dertermine OS!"))
 }
