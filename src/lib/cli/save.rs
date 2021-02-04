@@ -5,7 +5,7 @@ pub fn save() -> anyhow::Result<()> {
     let root = get_root()?;
     cyan(&format!("[INFO] Saving dotfiles {}...", root));
     debug_print("Building OS list...");
-    let oses = crate::lib::util::os::build_os_list(root)?;
+    let oses = crate::lib::util::os::build_os_list()?;
     if is_debug() {
         debug_print("Oses:");
         for os in oses {
