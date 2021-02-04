@@ -1,7 +1,6 @@
 use structopt::StructOpt;
 mod lib;
-use lib::cli::opts::Cli;
-use lib::terminal;
+use lib::{cli::opts::Cli, terminal};
 fn main() -> anyhow::Result<()> {
     // Check CLI options
     match Cli::from_args() {
