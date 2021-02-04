@@ -9,4 +9,5 @@ license = "MIT"
 anyhow = "1.0.38"
 console = "0.14.0"
 serde = { version = "1.0.120", features = ["derive"] }
+serde_yaml = "0.8.16"
 structopt = "0.3.21"
