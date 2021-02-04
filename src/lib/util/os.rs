@@ -1,3 +1,4 @@
+use crate::lib::terminal::debug::debug_print;
 use std::path::Path;
 use serde::{Deserialize, Serialize};
 #[derive(Debug,Serialize,Deserialize)]
@@ -13,6 +14,7 @@ pub fn build_os_list(root: String) -> anyhow::Result<Vec<Os>> {
     let search_paths = vec!["/etc/kelpdot/os.yaml", "/etc/kelpdot/os.yml"];
     for path in search_paths {
         if Path::new(path).exists() {
+            debug_print(&format!("Reading OS file {}", path));
             let content = std::fs::read_to_string(path)?;
             let yaml: Vec<Os> = serde_yaml::from_str(&content)?;
             for os in yaml {
@@ -20,6 +22,7 @@ pub fn build_os_list(root: String) -> anyhow::Result<Vec<Os>> {
             }
         }
     }
+    debug_print("Reading bundled OS file...");
     let bundled = include_str!("../../config/oses.yaml");
     let oses: Vec<Os> = serde_yaml::from_str(&bundled)?;
     for os in oses {
