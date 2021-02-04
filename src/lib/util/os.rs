@@ -9,7 +9,7 @@ pub struct Os {
     pub file: String,
 }
 /// Find oses to detect
-pub fn build_os_list(root: String) -> anyhow::Result<Vec<Os>> {
+pub fn build_os_list() -> anyhow::Result<Vec<Os>> {
     let mut osyaml: Vec<Os> = vec![];
     let search_paths = vec!["/etc/kelpdot/os.yaml", "/etc/kelpdot/os.yml"];
     for path in search_paths {
