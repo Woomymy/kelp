@@ -2,5 +2,5 @@
 pub fn get_root() -> anyhow::Result<String> {
     let basepath = std::env::var("DOTFILES_ROOT").unwrap_or_else(|_| String::from("."));
     let full = std::fs::canonicalize(basepath)?;
-    Ok(format!("{}", full.to_str().unwrap()))
+    Ok(full.to_str().unwrap().to_string())
 }
