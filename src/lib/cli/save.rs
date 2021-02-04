@@ -1,5 +1,6 @@
 use crate::lib::{
-    fsutil::paths::get_root, terminal::colors::*, terminal::debug::debug_print, util::os::get_host_os,
+    fsutil::paths::get_root, terminal::colors::*, terminal::debug::debug_print,
+    util::os::get_host_os,
 };
 /// Backup dotfiles
 pub fn save() -> anyhow::Result<()> {
