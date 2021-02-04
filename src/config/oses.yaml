@@ -1,1 +1,9 @@
-- { name: "Gentoo", file: "/etc/gentoo-release" }
+- { name: "gentoo", file: "/etc/gentoo-release" }
+- { name: "arch", file: "/etc/arch-release" }
+- { name: "alpine", file: "/etc/alpine-release"}
+- { name: "debian", file: "/etc/debian_version" }
+- { name: "redhat", file: "/etc/redhat-release" }
+- { name: "suse", file: "/etc/SUSE-brand" }
+- { name: "fedora", file: "/etc/fedora-release" }
+- { name: "calculatelinux", file: "/usr/bin/cl-install" }
+- { name: "parrot", file: "/usr/bin/parrot-upgrade" }
