@@ -1,12 +1,21 @@
-use crate::lib::terminal::debug::debug_print;
+use crate::lib::{terminal::debug::debug_print};
 use serde::{Deserialize, Serialize};
 use std::path::Path;
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct Os {
     /// Name of the os
     pub name: String,
     /// File used to reconise it
     pub file: String,
+    /// "Priority" of the OS
+    /// For example
+    /// Arch has pritority 1 and file /etc/arch-release
+    /// And manjaro has priority 2 and files /etc/arch-release AND /etc/manjaro-release
+    /// If both /etc/manjaro-release and /etc/arch-release exists, the higher priority will be used
+    /// In this case it's 2 (manjaro)
+    pub priority: i16,
+    /// The "pretty" name of the OS: for example "Arch GNU/Linux"
+    pub prettyname: String,
 }
 /// Find oses to detect
 pub fn build_os_list() -> anyhow::Result<Vec<Os>> {
@@ -29,4 +38,27 @@ pub fn build_os_list() -> anyhow::Result<Vec<Os>> {
         osyaml.push(os);
     }
     Ok(osyaml)
+}
+/// Gets the host's OS
+pub fn get_host_os() -> anyhow::Result<Os> {
+    // Get a Vec<Os> wich is a list of reconisables oses
+    let oses = build_os_list()?; 
+    let mut validoses: Vec<Os> = vec!();
+    for system in oses {
+        if Path::new(&system.file).exists() && system.name != "generic" {
+            validoses.push(system);
+        }
+    }
+    let mut sys: Os = Os {
+        name: String::from("generic"),
+        file: String::from("/"),
+        priority: 0,
+        prettyname: String::from("Generic GNU/Linux OS")
+    };
+    for system in validoses {
+        if sys.priority < system.priority {
+            sys = system;
+        }
+    }
+    Ok(sys)
 }

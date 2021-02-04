@@ -1,9 +1,10 @@
-- { name: "gentoo", file: "/etc/gentoo-release" }
-- { name: "arch", file: "/etc/arch-release" }
-- { name: "alpine", file: "/etc/alpine-release"}
-- { name: "debian", file: "/etc/debian_version" }
-- { name: "redhat", file: "/etc/redhat-release" }
-- { name: "suse", file: "/etc/SUSE-brand" }
-- { name: "fedora", file: "/etc/fedora-release" }
-- { name: "calculatelinux", file: "/usr/bin/cl-install" }
-- { name: "parrot", file: "/usr/bin/parrot-upgrade" }
+- { name: "generic", file: "/", priority: 0, prettyname: "Generic GNU/Linux system" } # Generic GNU/Linux System
+- { name: "gentoo", file: "/etc/gentoo-release", priority: 1, prettyname: "Gentoo GNU/Linux" }
+- { name: "arch", file: "/etc/arch-release", priority: 1, prettyname: "Arch GNU/Linux" }
+- { name: "alpine", file: "/etc/alpine-release", priority: 1, prettyname: "Alpine GNU/Linux" }
+- { name: "debian", file: "/etc/debian_version", priority: 1, prettyname: "Debian GNU/Linux" }
+- { name: "redhat", file: "/etc/redhat-release", priority: 1, prettyname: "RedHat Enterprise Linux" }
+- { name: "suse", file: "/etc/SUSE-brand", priority: 1, prettyname: "Suse GNU/Linux" }
+- { name: "fedora", file: "/etc/fedora-release", priority: 2, prettyname: "Fedora GNU/Linux" }
+- { name: "calculatelinux", file: "/usr/bin/cl-install", priority: 2, prettyname: "Calculate GNU/Linux" }
+- { name: "parrot", file: "/usr/bin/parrot-upgrade", priority: 2, prettyname: "Parrot GNU/Linux" }
