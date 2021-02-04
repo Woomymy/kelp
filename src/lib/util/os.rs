@@ -1,7 +1,7 @@
 use crate::lib::terminal::debug::debug_print;
-use std::path::Path;
 use serde::{Deserialize, Serialize};
-#[derive(Debug,Serialize,Deserialize)]
+use std::path::Path;
+#[derive(Debug, Serialize, Deserialize)]
 pub struct Os {
     /// Name of the os
     pub name: String,
@@ -10,7 +10,7 @@ pub struct Os {
 }
 /// Find oses to detect
 pub fn build_os_list(root: String) -> anyhow::Result<Vec<Os>> {
-    let mut osyaml: Vec<Os> = vec!();
+    let mut osyaml: Vec<Os> = vec![];
     let search_paths = vec!["/etc/kelpdot/os.yaml", "/etc/kelpdot/os.yml"];
     for path in search_paths {
         if Path::new(path).exists() {
