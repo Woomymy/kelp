@@ -1,4 +1,4 @@
-use crate::lib::{terminal::debug::debug_print};
+use crate::lib::terminal::debug::debug_print;
 use serde::{Deserialize, Serialize};
 use std::path::Path;
 #[derive(Debug, Serialize, Deserialize, Clone)]
@@ -42,8 +42,8 @@ pub fn build_os_list() -> anyhow::Result<Vec<Os>> {
 /// Gets the host's OS
 pub fn get_host_os() -> anyhow::Result<Os> {
     // Get a Vec<Os> wich is a list of reconisables oses
-    let oses = build_os_list()?; 
-    let mut validoses: Vec<Os> = vec!();
+    let oses = build_os_list()?;
+    let mut validoses: Vec<Os> = vec![];
     for system in oses {
         if Path::new(&system.file).exists() && system.name != "generic" {
             validoses.push(system);
@@ -53,7 +53,7 @@ pub fn get_host_os() -> anyhow::Result<Os> {
         name: String::from("generic"),
         file: String::from("/"),
         priority: 0,
-        prettyname: String::from("Generic GNU/Linux OS")
+        prettyname: String::from("Generic GNU/Linux OS"),
     };
     for system in validoses {
         if sys.priority < system.priority {
