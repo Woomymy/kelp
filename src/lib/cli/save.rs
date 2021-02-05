@@ -68,8 +68,24 @@ pub fn save() -> anyhow::Result<()> {
             // Get path to make:
             // Example:
             // $DOTFILES_ROOT/etc/portage/repos.conf
-            // let tomake = get_to_make(f.path)?;
+            let path = f.path.to_owned();
+            let tomake = get_to_make(f.path)?;
+            let file = Path::new(&path);
+            if Path::new(&format!("{}/{}", root, tomake)).exists() {
+                std::fs::remove_dir_all(format!("{}/{}", root, tomake))?;
+            }
+            std::fs::create_dir_all(format!("{}/{}", root, tomake))?;
+            copy(
+                path.clone(),
+                format!(
+                    "{}/{}/{}",
+                    root,
+                    tomake,
+                    file.file_name().unwrap().to_str().unwrap().to_owned()
+                ),
+            )?;
         }
+        cyan("[OK] Rootfiles saved!");
     }
     Ok(())
 }
