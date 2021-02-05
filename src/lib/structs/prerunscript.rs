@@ -1,5 +1,5 @@
 use serde::{Deserialize, Serialize};
-#[derive(Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize)]
 /// A "prerun" script
 pub struct PrerunScript {
     /// Path relative to $DOTFILES_ROOT
