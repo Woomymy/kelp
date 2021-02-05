@@ -4,8 +4,10 @@ use crate::lib::{
         copy::copy,
         paths::{get_root, get_to_make},
     },
-    terminal::colors::*,
-    terminal::debug::debug_print,
+    terminal::{
+        colors::{cyan, green, magenta},
+        debug::debug_print,
+    },
     util::os::get_host_os,
 };
 use std::path::Path;
