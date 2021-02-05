@@ -1,3 +1,5 @@
+use serde::{Deserialize, Serialize};
+#[derive(Serialize, Deserialize)]
 /// A script that runs **AFTER** dotfiles install
 pub struct PostrunScript {
     /// Path relative to $DOTFILES_ROOT
