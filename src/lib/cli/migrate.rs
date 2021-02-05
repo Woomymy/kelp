@@ -16,7 +16,7 @@ pub fn migrate() -> anyhow::Result<()> {
     let config: LegacyKelpConfig =
         serde_yaml::from_str(&std::fs::read_to_string(format!("{}/kelp.yaml", root))?)?;
     let new = migrate_configs(config)?; // Migrate config
-    // Write it to filesystem
+                                        // Write it to filesystem
     std::fs::write(format!("{}/kelp.yaml", root), serde_yaml::to_string(&new)?)?;
     Ok(())
 }
