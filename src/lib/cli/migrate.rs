@@ -1,5 +1,7 @@
 use crate::lib::{
-    config::migration::migrate_configs, fsutil::paths::get_root, structs::legacy::LegacyKelpConfig,
+    config::migration::migrate_configs, fsutil::paths::get_root, structs::{
+        config::KelpDotConfig, legacy::LegacyKelpConfig
+    },
     terminal::colors::*,
 };
 use std::path::Path;
@@ -12,9 +14,20 @@ pub fn migrate() -> anyhow::Result<()> {
         red(&format!("[ERROR] {}/kelp.yaml doesn't exist!", root));
         std::process::exit(1);
     }
-    // TODO: Try to load config with newer to make sure config isn't already migrated
+    let contents = std::fs::read_to_string(format!("{}/kelp.yaml", root))?;
+    match serde_yaml::from_str::<KelpDotConfig>(&contents) {
+        Ok(_) => {
+            green("[MIGRATION] Config is already up-to-date");
+            std::process::exit(0);
+            // Exit with 0 because this isn't realy an "error", 
+            // if config is Up-to-date, the result is the same than migrating
+        }
+        Err(_) => {
+            // If the config isn't up to date the function will upgrade it
+        }
+    };
     let config: LegacyKelpConfig =
-        serde_yaml::from_str(&std::fs::read_to_string(format!("{}/kelp.yaml", root))?)?;
+        serde_yaml::from_str(&contents)?;
     let new = migrate_configs(config)?; // Migrate config
                                         // Write it to filesystem
     std::fs::write(format!("{}/kelp.yaml", root), serde_yaml::to_string(&new)?)?;
