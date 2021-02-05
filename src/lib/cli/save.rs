@@ -1,5 +1,7 @@
 use crate::lib::{
-    fsutil::paths::get_root, terminal::colors::*, terminal::debug::debug_print,
+    fsutil::paths::get_root,
+    terminal::colors::*,
+    terminal::debug::debug_print,
     util::os::get_host_os,
     config::loader::load_cfg,
 };
@@ -10,6 +12,11 @@ pub fn save() -> anyhow::Result<()> {
     debug_print("Building OS list...");
     let os = get_host_os()?;
     cyan(&format!("[INFO] Found Os {}", os.prettyname));
-    let _config = load_cfg(root)?;
+    let config = load_cfg(root)?;
+    if let Some(files) = config.homefiles {
+        for f in files {
+            green(&format!("[SAVE] Copying file {}...", f));
+        }
+    }
     Ok(())
 }
