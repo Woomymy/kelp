@@ -1,5 +1,5 @@
 pub use serde::{Deserialize, Serialize};
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(PartialEq,Serialize, Deserialize, Debug, Clone)]
 /// FileINFO struct: used for represent a file to backup
 pub struct FileInfo {
     /// The name of the file, optional but recommended to reconize files
