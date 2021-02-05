@@ -2,7 +2,7 @@ use crate::lib::structs::{
     fileinfo::FileInfo, script::Script,
 };
 use serde::{Deserialize, Serialize};
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(PartialEq, Serialize, Deserialize, Debug)]
 /// This is the new Configuration struct
 pub struct KelpDotConfig {
     /// Files stored in $HOME/*
