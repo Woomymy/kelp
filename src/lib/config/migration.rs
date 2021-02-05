@@ -16,6 +16,7 @@ pub fn migrate_configs(config: LegacyKelpConfig) -> anyhow::Result<KelpDotConfig
     Ok(KelpDotConfig {
         rootfiles: Some(rfiles),
         homefiles: Some(homefiles),
+        postsave: Some(vec![]),
         prerun: Some(vec![]),
         postrun: Some(vec![]),
     })

@@ -87,5 +87,6 @@ pub fn save() -> anyhow::Result<()> {
         }
         cyan("[OK] Rootfiles saved!");
     }
+    magenta("[OK] All dotfiles saved!");
     Ok(())
 }
