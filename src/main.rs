@@ -13,6 +13,9 @@ fn main() -> anyhow::Result<()> {
         Cli::Init {} => {
             terminal::messages::not_yet_implemented();
         }
+        Cli::Migrate {} => {
+            lib::cli::migrate::migrate()?;
+        }
     }
     Ok(())
 }
