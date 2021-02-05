@@ -3,6 +3,7 @@ use crate::lib::structs::{
     fileinfo::FileInfo,
     legacy::{LegacyFileInfo, LegacyKelpConfig},
 };
+/// Migrate v1.0.* config file to newer format
 pub fn migrate_configs(config: LegacyKelpConfig) -> anyhow::Result<KelpDotConfig> {
     let mut rfiles = vec![];
     for file in config.rootfiles {
@@ -20,6 +21,7 @@ pub fn migrate_configs(config: LegacyKelpConfig) -> anyhow::Result<KelpDotConfig
     };
     Ok(new)
 }
+/// Convert a fileinfo
 pub fn fileinfo_to_new(info: LegacyFileInfo) -> FileInfo {
     FileInfo {
         backuponly: info.backuponly,

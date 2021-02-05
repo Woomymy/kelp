@@ -12,6 +12,8 @@ pub struct FileInfo {
     /// Note: There's a list of bundled OSes
     pub onlyon: Option<String>,
 }
+// If the file is named, print it's name
+// Else print it's path
 impl std::fmt::Display for FileInfo {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         if let Some(n) = &self.name {
