@@ -7,6 +7,7 @@ pub struct PostrunScript {
     /// If the script needs to start as root
     pub elevated: Option<bool>,
 }
+// To make sure we can use println!("{}", script)
 impl std::fmt::Display for PostrunScript {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "{}", self.path)

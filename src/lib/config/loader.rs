@@ -3,6 +3,7 @@ use crate::lib::{
     terminal::{colors::red, debug::debug_print},
 };
 use std::path::Path;
+/// Loads config
 pub fn load_cfg(root: String) -> anyhow::Result<KelpDotConfig> {
     if !Path::new(&format!("{}/kelp.yaml", root)).exists() {
         red(&format!("File {}/kelp.yaml not found!", root));
