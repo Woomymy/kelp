@@ -5,7 +5,7 @@ use structopt::StructOpt;
 mod lib;
 use lib::{cli::opts::Cli, terminal::{messages::not_yet_implemented, debug::debug_print, colors::*}};
 fn main() -> anyhow::Result<()> {
-    green(&format!("KelpDot V{}-{}", build::PKG_VERSION, build::BRANCH));
+    green(&format!("KelpDot V{}", build::PKG_VERSION));
     debug_print(&format!("Commit {} Branch {}", build::SHORT_COMMIT, build::BRANCH));
     debug_print(&format!("Built with {}-{}", build::RUST_VERSION, build::RUST_CHANNEL));
     debug_print(&format!("Commit by {}", build::COMMIT_AUTHOR));
