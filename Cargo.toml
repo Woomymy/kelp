@@ -5,7 +5,11 @@ version = "1.1.0"
 authors = ["Woomy4680-exe <github@woomy.ovh>"]
 edition = "2018"
 license = "MIT"
+build = "build.rs"
+[build-dependencies]
+shadow-rs = "0.5"
 [dependencies]
+shadow-rs = "0.5"
 anyhow = "1.0.38"
 console = "0.14.0"
 copy_dir = "0.1.2"
