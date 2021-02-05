@@ -1,5 +1,5 @@
 use crate::lib::structs::{
-    fileinfo::FileInfo, postrunscript::PostrunScript, prerunscript::PrerunScript,
+    fileinfo::FileInfo, script::Script,
 };
 use serde::{Deserialize, Serialize};
 #[derive(Serialize, Deserialize, Debug)]
@@ -9,10 +9,12 @@ pub struct KelpDotConfig {
     pub homefiles: Option<Vec<FileInfo>>,
     /// Files relative to /
     pub rootfiles: Option<Vec<FileInfo>>,
+    /// Scripts to run AFTER saving the dotfiles
+    pub postsave: Option<Vec<Script>>,
     /// Scripts to run BEFORE installing the dotfiles.
     /// Path relative to $DOTFILES_ROOT
-    pub prerun: Option<Vec<PrerunScript>>,
+    pub prerun: Option<Vec<Script>>,
     /// Scripts to run After installing the dotfiles
     /// Path relative to $DOTFILES_ROOT
-    pub postrun: Option<Vec<PostrunScript>>,
+    pub postrun: Option<Vec<Script>>,
 }
