@@ -1,6 +1,9 @@
 use crate::lib::{
     config::loader::load_cfg,
-    fsutil::{copy::copy, paths::{get_root, get_to_make}},
+    fsutil::{
+        copy::copy,
+        paths::{get_root, get_to_make},
+    },
     terminal::colors::*,
     terminal::debug::debug_print,
     util::os::get_host_os,
@@ -43,7 +46,15 @@ pub fn save() -> anyhow::Result<()> {
             let tomake = get_to_make(f.path)?;
             // Create the file
             std::fs::create_dir_all(format!("{}/home/{}", root, tomake))?;
-            copy(path.clone(), format!("{}/home/{}/{}", root, tomake, file.file_name().unwrap().to_str().unwrap().to_owned()))?;
+            copy(
+                path.clone(),
+                format!(
+                    "{}/home/{}/{}",
+                    root,
+                    tomake,
+                    file.file_name().unwrap().to_str().unwrap().to_owned()
+                ),
+            )?;
         }
         cyan(&format!("[OK] Homefiles saved!"));
     }
