@@ -13,13 +13,12 @@ pub fn migrate_configs(config: LegacyKelpConfig) -> anyhow::Result<KelpDotConfig
     for file in config.homedir {
         homefiles.push(fileinfo_to_new(file));
     }
-    let new = KelpDotConfig {
+    Ok(KelpDotConfig {
         rootfiles: Some(rfiles),
         homefiles: Some(homefiles),
         prerun: Some(vec![]),
         postrun: Some(vec![]),
-    };
-    Ok(new)
+    })
 }
 /// Convert a fileinfo
 pub fn fileinfo_to_new(info: LegacyFileInfo) -> FileInfo {
