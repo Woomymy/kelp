@@ -6,4 +6,5 @@ pub enum Cli {
     Save {},
     Init {},
     Install {},
+    Migrate {},
 }
