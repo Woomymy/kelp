@@ -7,3 +7,6 @@ pub fn red(msg: &str) {
 pub fn green(msg: &str) {
     println!("{}", console::style(msg).green().bold());
 }
+pub fn magenta(msg: &str) {
+    println!("{}", console::style(msg).magenta().bold());
+}
