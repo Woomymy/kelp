@@ -1,23 +1,23 @@
+use kelpdot_macros::*;
 use crate::lib::{
     config::migration::migrate_configs,
     fsutil::paths::get_root,
     structs::{config::KelpDotConfig, legacy::LegacyKelpConfig},
-    terminal::colors::{cyan, green, red},
 };
 use std::path::Path;
 /// Migrates config from legacy v1.0.* config style
 pub fn migrate() -> anyhow::Result<()> {
     let root = get_root()?;
-    cyan(&format!("[INFO] Migrating dotfiles {}", root));
+    cyan!("[INFO] Migrating dotfiles {}", root);
     // Make sure that kelp is initalised
     if !Path::new(&format!("{}/kelp.yaml", root)).exists() {
-        red(&format!("[ERROR] {}/kelp.yaml doesn't exist!", root));
+        red!("[ERROR] {}/kelp.yaml doesn't exist!", root);
         std::process::exit(1);
     }
     let contents = std::fs::read_to_string(format!("{}/kelp.yaml", root))?;
     match serde_yaml::from_str::<KelpDotConfig>(&contents) {
         Ok(_) => {
-            green("[MIGRATION] Config is already up-to-date");
+            green!("[MIGRATION] Config is already up-to-date");
             std::process::exit(0);
             // Exit with 0 because this isn't realy an "error",
             // if config is Up-to-date, the result is the same than migrating
