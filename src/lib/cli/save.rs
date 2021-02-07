@@ -1,3 +1,4 @@
+use kelpdot_macros::*;
 use std::process::Command;
 use crate::lib::{
     config::loader::load_cfg,
@@ -6,7 +7,6 @@ use crate::lib::{
         paths::{get_root, get_to_make},
     },
     terminal::{
-        colors::{cyan, green, magenta},
         debug::debug_print,
     },
     util::os::get_host_os,
@@ -16,10 +16,10 @@ use std::path::Path;
 /// Backup dotfiles
 pub fn save() -> anyhow::Result<()> {
     let root = get_root()?;
-    cyan(&format!("[INFO] Saving dotfiles {}...", root));
+    cyan!("[INFO] Saving dotfiles {}...", root);
     debug_print("Building OS list...");
     let os = get_host_os()?; // Here we get guest os; If OS is unreconized, return a generic GNU / Linux System
-    cyan(&format!("[INFO] Found Os {}", os.prettyname));
+    cyan!("[INFO] Found Os {}", os.prettyname);
     let config: KelpDotConfig = load_cfg(root.clone())?; // Load a KelpConfig struct wich is basically $DOTFILES_ROOT/kelp.yaml
 
     if let Some(files) = config.homefiles {
@@ -34,15 +34,15 @@ pub fn save() -> anyhow::Result<()> {
         }
         std::fs::create_dir(format!("{}/home", root))?;
         for f in files {
-            green(&format!("[SAVE] Copying file {}...", f));
+            green!("[SAVE] Copying file {}...", f);
             let path = format!("{}/{}", home, f.path);
             let file = Path::new(&path);
             // Make sur that file exists
             if !file.exists() {
-                magenta(&format!(
+                magenta!(
                     "[WARNING] Skipping {} because it doesn't exist!",
                     f
-                ));
+                );
                 break;
             }
             // Get path to make
@@ -61,13 +61,12 @@ pub fn save() -> anyhow::Result<()> {
                 ),
             )?;
         }
-        cyan(&format!("[OK] Homefiles saved!"));
+        cyan!("[OK] Homefiles saved!");
     }
     // If config has "rootfiles" key, backup every file
     if let Some(files) = config.rootfiles {
         for f in files {
-            // WIP
-            green(&format!("[SAVE] Copying file {}", f));
+            green!("[SAVE] Copying file {}", f);
             // Get path to make:
             // Example:
             // $DOTFILES_ROOT/etc/portage/repos.conf
@@ -88,17 +87,17 @@ pub fn save() -> anyhow::Result<()> {
                 ),
             )?;
         }
-        cyan("[OK] Rootfiles saved!");
+        cyan!("[OK] Rootfiles saved!");
     }
     if let Some(scripts) = config.postsave {
         for script in scripts {
-            cyan(&format!("[POSTSAVE] Running script {}/{}", root, script.path));
+            cyan!("[POSTSAVE] Running script {}/{}", root, script.path);
             Command::new("sh") // Use SH because some systems symlinks it to bash / zsh / ash
             .arg("-c")
             .arg(&format!("{}/{}", root, script.path))
             .spawn()?;
         }
     }
-    magenta("[OK] All dotfiles saved!");
+    magenta!("[OK] All dotfiles saved!");
     Ok(())
 }

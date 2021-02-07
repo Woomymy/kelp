@@ -1,14 +1,16 @@
-#[macro_use]
-extern crate shadow_rs;
+#[macro_use] extern crate shadow_rs;
 shadow!(build);
 use structopt::StructOpt;
+
+#[macro_use] extern crate kelpdot_macros;
+
 mod lib;
 use lib::{
     cli::opts::Cli,
-    terminal::{colors::*, debug::debug_print, messages::not_yet_implemented},
+    terminal::{debug::debug_print, messages::not_yet_implemented},
 };
 fn main() -> anyhow::Result<()> {
-    green(&format!("KelpDot V{}", build::PKG_VERSION));
+    green!("KelpDot V{}", build::PKG_VERSION);
     debug_print(&format!(
         "Commit {} Branch {}",
         build::SHORT_COMMIT,
@@ -20,7 +22,7 @@ fn main() -> anyhow::Result<()> {
         build::RUST_CHANNEL
     ));
     debug_print(&format!("Commit by {}", build::COMMIT_AUTHOR));
-    green("==============");
+    green!("==============");
     // Check CLI options
     match Cli::from_args() {
         Cli::Save {} => {

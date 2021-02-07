@@ -185,11 +185,19 @@ dependencies = [
  "anyhow",
  "console",
  "copy_dir",
+ "kelpdot_macros",
  "libc",
  "serde",
  "serde_yaml",
  "shadow-rs",
  "structopt",
+]
+
+[[package]]
+name = "kelpdot_macros"
+version = "2.0.0"
+dependencies = [
+ "console",
 ]
 
 [[package]]
