@@ -1,32 +1,12 @@
-#![macro_use]
-
-pub extern crate console;
-
-#[macro_export]
-/// Prints a text in cyan
-macro_rules! cyan {
-    ($($arg:tt)*) => {
-        println!("{}", ::kelpdot_macros::console::style(format!($($arg)*)).cyan().bold());
-    };
+pub mod colors;
+pub mod debug;
+#[test]
+pub fn isdebug_true_works() {
+    std::env::set_var("KELP_DEBUG", "true");
+    assert_eq!(true, debug::debug::is_debug())
 }
-#[macro_export]
-/// Prints a text in red
-macro_rules! red {
-    ($($arg:tt)*) => {
-        println!("{}", ::kelpdot_macros::console::style(format!($($arg)*)).red().bold());
-    };
-}
-#[macro_export]
-/// Prints a text in green
-macro_rules! green {
-    ($($arg:tt)*) => {
-        println!("{}", ::kelpdot_macros::console::style(format!($($arg)*)).green().bold());
-    };
-}
-#[macro_export]
-/// Prints a text in magenta
-macro_rules! magenta {
-    ($($arg:tt)*) => {
-        println!("{}", ::kelpdot_macros::console::style(format!($($arg)*)).magenta().bold());
-    };
+#[test]
+pub fn isdebug_false_works() {
+    std::env::set_var("KELP_DEBUG", "false");
+    assert_eq!(false, debug::debug::is_debug())
 }

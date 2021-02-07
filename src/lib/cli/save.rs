@@ -6,9 +6,6 @@ use crate::lib::{
         copy::copy,
         paths::{get_root, get_to_make},
     },
-    terminal::{
-        debug::debug_print,
-    },
     util::os::get_host_os,
     structs::config::KelpDotConfig
 };
@@ -17,7 +14,7 @@ use std::path::Path;
 pub fn save() -> anyhow::Result<()> {
     let root = get_root()?;
     cyan!("[INFO] Saving dotfiles {}...", root);
-    debug_print("Building OS list...");
+    debug_print!("Building OS list...");
     let os = get_host_os()?; // Here we get guest os; If OS is unreconized, return a generic GNU / Linux System
     cyan!("[INFO] Found Os {}", os.prettyname);
     let config: KelpDotConfig = load_cfg(root.clone())?; // Load a KelpConfig struct wich is basically $DOTFILES_ROOT/kelp.yaml
@@ -25,7 +22,7 @@ pub fn save() -> anyhow::Result<()> {
     if let Some(files) = config.homefiles {
         // If config has "homefiles" keys, copy each $HOME/$FILE
         let home = std::env::var("HOME")?; // Get $HOME path or crash
-        debug_print(&format!("Home: {}", home));
+        debug_print!("Home: {}", home);
 
         // Make sur that $DOTFILES_ROOT/home doesn't exist
         // or doesn't contain files
