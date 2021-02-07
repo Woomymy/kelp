@@ -1,3 +1,4 @@
+use std::process::Command;
 use crate::lib::{
     config::loader::load_cfg,
     fsutil::{
@@ -9,6 +10,7 @@ use crate::lib::{
         debug::debug_print,
     },
     util::os::get_host_os,
+    structs::config::KelpDotConfig
 };
 use std::path::Path;
 /// Backup dotfiles
@@ -18,7 +20,8 @@ pub fn save() -> anyhow::Result<()> {
     debug_print("Building OS list...");
     let os = get_host_os()?; // Here we get guest os; If OS is unreconized, return a generic GNU / Linux System
     cyan(&format!("[INFO] Found Os {}", os.prettyname));
-    let config = load_cfg(root.clone())?; // Load a KelpConfig struct wich is basically $DOTFILES_ROOT/kelp.yaml
+    let config: KelpDotConfig = load_cfg(root.clone())?; // Load a KelpConfig struct wich is basically $DOTFILES_ROOT/kelp.yaml
+
     if let Some(files) = config.homefiles {
         // If config has "homefiles" keys, copy each $HOME/$FILE
         let home = std::env::var("HOME")?; // Get $HOME path or crash
@@ -86,6 +89,15 @@ pub fn save() -> anyhow::Result<()> {
             )?;
         }
         cyan("[OK] Rootfiles saved!");
+    }
+    if let Some(scripts) = config.postsave {
+        for script in scripts {
+            cyan(&format!("[POSTSAVE] Running script {}/{}", root, script.path));
+            Command::new("sh") // Use SH because some systems symlinks it to bash / zsh / ash
+            .arg("-c")
+            .arg(&format!("{}/{}", root, script.path))
+            .spawn()?;
+        }
     }
     magenta("[OK] All dotfiles saved!");
     Ok(())
