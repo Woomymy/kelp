@@ -23,7 +23,7 @@ fn main() -> anyhow::Result<()> {
             not_yet_implemented();
         }
         Cli::Init {} => {
-            not_yet_implemented();
+            lib::cli::init::init()?;
         }
         Cli::Migrate {} => {
             lib::cli::migrate::migrate()?;
