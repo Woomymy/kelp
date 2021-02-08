@@ -1,6 +1,4 @@
-use crate::lib::structs::{
-    fileinfo::FileInfo, script::Script,
-};
+use crate::lib::structs::{fileinfo::FileInfo, script::Script};
 use serde::{Deserialize, Serialize};
 #[derive(PartialEq, Serialize, Deserialize, Debug)]
 /// This is the new Configuration struct

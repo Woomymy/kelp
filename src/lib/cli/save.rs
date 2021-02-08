@@ -1,15 +1,15 @@
-use kelpdot_macros::*;
-use std::process::Command;
 use crate::lib::{
     config::loader::load_cfg,
     fsutil::{
         copy::copy,
         paths::{get_root, get_to_make},
     },
+    structs::config::KelpDotConfig,
     util::os::get_host_os,
-    structs::config::KelpDotConfig
 };
+use kelpdot_macros::*;
 use std::path::Path;
+use std::process::Command;
 /// Backup dotfiles
 pub fn save() -> anyhow::Result<()> {
     let root = get_root()?;
@@ -36,10 +36,7 @@ pub fn save() -> anyhow::Result<()> {
             let file = Path::new(&path);
             // Make sur that file exists
             if !file.exists() {
-                magenta!(
-                    "[WARNING] Skipping {} because it doesn't exist!",
-                    f
-                );
+                magenta!("[WARNING] Skipping {} because it doesn't exist!", f);
                 break;
             }
             // Get path to make
@@ -90,9 +87,9 @@ pub fn save() -> anyhow::Result<()> {
         for script in scripts {
             cyan!("[POSTSAVE] Running script {}/{}", root, script.path);
             Command::new("sh") // Use SH because some systems symlinks it to bash / zsh / ash
-            .arg("-c")
-            .arg(&format!("{}/{}", root, script.path))
-            .spawn()?;
+                .arg("-c")
+                .arg(&format!("{}/{}", root, script.path))
+                .spawn()?;
         }
     }
     magenta!("[OK] All dotfiles saved!");
