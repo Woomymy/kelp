@@ -13,7 +13,7 @@ pub fn is_debug() -> bool {
 macro_rules! debug_print {
     ($($arg:tt)*) => {
         if ::kelpdot_macros::debug::debug::is_debug() {
-            println!("{}", ::kelpdot_macros::colors::console::style(format!($($arg)*)).yellow().bold());
+            println!("{}", ::kelpdot_macros::colors::console::style(format!("[DEBUG] {}", format!($($arg)*))).yellow().bold());
         }
     };
 }
