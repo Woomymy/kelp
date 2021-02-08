@@ -1,6 +1,9 @@
 use structopt::StructOpt;
 #[derive(StructOpt)]
-#[structopt(name = "kelpdot", about = "Simple dotfiles manager with YAML configuration and usefull features.")]
+#[structopt(
+    name = "kelpdot",
+    about = "Simple dotfiles manager with YAML configuration and usefull features."
+)]
 pub enum Cli {
     /// Backup dotfiles
     Save {},

@@ -1,7 +1,5 @@
+use crate::lib::structs::config::KelpDotConfig;
 use kelpdot_macros::*;
-use crate::lib::{
-    structs::config::KelpDotConfig,
-};
 use std::path::Path;
 /// Loads config
 pub fn load_cfg(root: String) -> anyhow::Result<KelpDotConfig> {
