@@ -1,9 +1,9 @@
-use kelpdot_macros::*;
 use crate::lib::{
     config::migration::migrate_configs,
     fsutil::paths::get_root,
     structs::{config::KelpDotConfig, legacy::LegacyKelpConfig},
 };
+use kelpdot_macros::*;
 use std::path::Path;
 /// Migrates config from legacy v1.0.* config style
 pub fn migrate() -> anyhow::Result<()> {

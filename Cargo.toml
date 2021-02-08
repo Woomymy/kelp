@@ -22,3 +22,7 @@ console = "0.14.0"
 [lib]
 name = "libkelp"
 path = "src/exports.rs"
+
+[profile.release]
+lto = "yes"
+opt-level = "z"
