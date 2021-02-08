@@ -1,0 +1,2 @@
+- { name: "Sysctl config", path: "/etc/sysctl.conf", backuponly: true }  # In case of distro change, reinstalling sysctl.conf may not be a good idea
+- { name: "Pacman Mirrors", path: "/etc/pacman.d/mirrorlist", onlyon: "arch" }
