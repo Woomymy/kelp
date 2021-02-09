@@ -1,9 +1,9 @@
-use kelpdot_macros::*;
 use crate::lib::{
+    config::autoconfig::{get_home_files, get_root_files},
     fsutil::paths::get_root,
-    config::autoconfig::{get_root_files, get_home_files},
-    structs::config::KelpDotConfig
+    structs::config::KelpDotConfig,
 };
+use kelpdot_macros::*;
 use std::path::Path;
 /// Init and autconfig
 pub fn init() -> anyhow::Result<()> {
@@ -18,9 +18,9 @@ pub fn init() -> anyhow::Result<()> {
     let cfg = KelpDotConfig {
         homefiles: Some(homefiles),
         rootfiles: Some(rootfiles),
-        postrun: Some(vec!()),
-        prerun: Some(vec!()),
-        postsave: Some(vec!())
+        postrun: Some(vec![]),
+        prerun: Some(vec![]),
+        postsave: Some(vec![]),
     };
     let conf_path = format!("{}/kelp.yaml", root);
     magenta!("[INFO] Config file {} created!", conf_path);
