@@ -183,10 +183,8 @@ name = "kelpdot"
 version = "2.0.0"
 dependencies = [
  "anyhow",
- "console",
  "copy_dir",
  "kelpdot_macros",
- "libc",
  "serde",
  "serde_yaml",
  "shadow-rs",
