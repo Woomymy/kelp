@@ -4,7 +4,7 @@ use structopt::StructOpt;
 extern crate kelpdot_macros;
 
 mod lib;
-use lib::{cli::opts::Cli};
+use lib::cli::opts::Cli;
 fn main() -> anyhow::Result<()> {
     green!("KelpDot V{}", env!("CARGO_PKG_VERSION"));
     green!("==============");
