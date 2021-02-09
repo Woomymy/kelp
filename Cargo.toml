@@ -5,11 +5,9 @@ version = "2.0.0"
 authors = ["Woomy4680-exe <github@woomy.ovh>"]
 edition = "2018"
 license = "MIT"
-build = "build.rs"
 [build-dependencies]
 shadow-rs = "0.5"
 [dependencies]
-shadow-rs = "0.5"
 anyhow = "1.0.38"
 kelpdot_macros = { version = "2.0.0", path = "./crates/kelpdot_macros" }
 copy_dir = "0.1.2"
