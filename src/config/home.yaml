@@ -1,1 +1,15 @@
-- { name: "I3 config", path: ".config/i3/config" }
+- { name: "I3 config", path: ".config/i3/config" } # A window manager
+- { path: ".config/rofi", name: "Rofi config" } # A dmenu replacement
+- { name: "ZSH Config", path: ".zshrc" } # A shell
+- { name: "Bash config", path: ".bashrc" } # A shell
+- { name: "Polybar config", path: ".config/polybar" } # A status bar
+- { name: "Dunst config", path: ".config/dunst/dunstrc" } # A notification daemon
+- { name: "Neovim config", path: ".config/nvim" } # A text editor (fork of VIM)
+- { name: "Picom config", path: ".config/picom" } # A X compositor
+- { name: "Nushell config", path: ".config/nu/config.toml" } # A shell
+- { name: "Alacritty config", path: ".config/alacritty/alacritty.yml" } # A terminal emulator
+- { name: "Xresources config", path: ".Xresources" } # SOME configurations for X applications
+- { name: "Powerlevel10k config", path: ".p10k.zsh" } # Cool ZSH theme
+- { name: "VS Code config", path: ".config/Code/User/settings.json" } # Improved text editor
+- { name: "Vue.JS CLI config", path: ".vuerc" } # CLI of Vue.JS framework
+- { name: "Kitty config", path: ".config/kitty/kitty.conf" } # Terminal emulator
