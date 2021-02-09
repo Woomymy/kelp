@@ -13,3 +13,4 @@
 - { name: "VS Code config", path: ".config/Code/User/settings.json" } # Improved text editor
 - { name: "Vue.JS CLI config", path: ".vuerc" } # CLI of Vue.JS framework
 - { name: "Kitty config", path: ".config/kitty/kitty.conf" } # Terminal emulator
+- { name: "Termux configuration", path: ".termux" } # Termux (android terminal emulator) additional config
