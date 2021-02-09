@@ -5,7 +5,7 @@ use crate::lib::{
         paths::{get_root, get_to_make},
     },
     structs::config::KelpDotConfig,
-    util::os::get_host_os,
+    util::{exec::get_root_exec_program, os::get_host_os},
 };
 use kelpdot_macros::*;
 use std::path::Path;
@@ -85,11 +85,29 @@ pub fn save() -> anyhow::Result<()> {
     }
     if let Some(scripts) = config.postsave {
         for script in scripts {
-            cyan!("[POSTSAVE] Running script {}/{}", root, script.path);
-            Command::new("sh") // Use SH because some systems symlinks it to bash / zsh / ash
-                .arg("-c")
-                .arg(&format!("{}/{}", root, script.path))
-                .spawn()?;
+            if let Some(run) = script.elevated {
+                if run == true {
+                    debug_print!("Getting elevator for script {}", script);
+                    let elevator = get_root_exec_program()?;
+                    cyan!(
+                        "[POSTSAVE] Running script {}/{} with {}",
+                        root,
+                        script.path,
+                        elevator
+                    );
+                    Command::new(&elevator) // Use SH because some systems symlinks it to bash / zsh / ash
+                        .arg("sh")
+                        .arg("-c")
+                        .arg(&format!("{}/{}", root, script.path))
+                        .status()?;
+                }
+            } else {
+                cyan!("[POSTSAVE] Running script {}/{}", root, script.path);
+                Command::new("sh") // Use SH because some systems symlinks it to bash / zsh / ash
+                    .arg("-c")
+                    .arg(&format!("{}/{}", root, script.path))
+                    .status()?;
+            }
         }
     }
     magenta!("[OK] All dotfiles saved!");
