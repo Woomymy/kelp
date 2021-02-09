@@ -4,7 +4,7 @@ use structopt::StructOpt;
 extern crate kelpdot_macros;
 
 mod lib;
-use lib::{cli::opts::Cli, terminal::messages::not_yet_implemented};
+use lib::{cli::opts::Cli};
 fn main() -> anyhow::Result<()> {
     green!("KelpDot V{}", env!("CARGO_PKG_VERSION"));
     green!("==============");
@@ -14,7 +14,7 @@ fn main() -> anyhow::Result<()> {
             lib::cli::save::save()?;
         }
         Cli::Install {} => {
-            not_yet_implemented();
+            red!("Not yet implemeted!");
         }
         Cli::Init {} => {
             lib::cli::init::init()?;
