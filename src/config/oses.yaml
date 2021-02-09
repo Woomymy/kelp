@@ -8,3 +8,4 @@
 - { name: "fedora", file: "/etc/fedora-release", priority: 2, prettyname: "Fedora GNU/Linux" }
 - { name: "calculatelinux", file: "/usr/bin/cl-install", priority: 2, prettyname: "Calculate GNU/Linux" }
 - { name: "parrot", file: "/usr/bin/parrot-upgrade", priority: 2, prettyname: "Parrot GNU/Linux" }
+- { name: "termux", file: "/data/data/com.termux/files", priority: 2, prettyname: "Termux" }
