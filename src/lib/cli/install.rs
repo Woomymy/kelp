@@ -42,8 +42,8 @@ pub fn install() -> anyhow::Result<()> {
         let home_files_path = format!("{}/home", root);
         for file in files {
             if let Some(distro) = &file.onlyon {
-                if &os.name != distro {
-                    debug_print!("Not installing file because host != onlyon");
+                if &os.name != distro && !os.submatches.iter().any(|mat| mat == distro) {
+                    debug_print!("Not installing file {} because host != onlyon", file);
                     break;
                 }
             }
@@ -66,8 +66,8 @@ pub fn install() -> anyhow::Result<()> {
     if let Some(files) = config.rootfiles {
         for file in files {
             if let Some(distro) = &file.onlyon {
-                if &os.name != distro {
-                    debug_print!("Not installing file because host != onlyon");
+                if &os.name != distro && !os.submatches.iter().any(|mat| mat == distro) {
+                    debug_print!("Not installing file {} because host != onlyon", file);
                     break;
                 }
             }
