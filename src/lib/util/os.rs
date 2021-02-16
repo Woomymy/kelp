@@ -16,6 +16,8 @@ pub struct Os {
     pub priority: i16,
     /// The "pretty" name of the OS: for example "Arch GNU/Linux"
     pub prettyname: String,
+    /// Submatches (parent distros)
+    pub submatches: Vec<String>,
 }
 /// Find oses to detect
 pub fn build_os_list() -> anyhow::Result<Vec<Os>> {
@@ -54,6 +56,7 @@ pub fn get_host_os() -> anyhow::Result<Os> {
         file: String::from("/"),
         priority: 0,
         prettyname: String::from("Generic GNU/Linux OS"),
+        submatches: vec!()
     };
     for system in validoses {
         if sys.priority < system.priority {
