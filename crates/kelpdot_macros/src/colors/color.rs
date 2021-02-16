@@ -1,7 +1,5 @@
 #![macro_use]
 
-pub extern crate console;
-
 #[macro_export]
 /// Prints a text in cyan
 macro_rules! cyan {
