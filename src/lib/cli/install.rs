@@ -1,6 +1,11 @@
-use std::{path::Path,process::Command};
+use crate::lib::{
+    config::loader::load_cfg,
+    fsutil::{copy::copy, paths::get_root},
+    structs::config::KelpDotConfig,
+    util::{exec::get_root_exec_program, os::get_host_os},
+};
 use kelpdot_macros::*;
-use crate::lib::{fsutil::{paths::get_root,copy::copy},util::{os::get_host_os,exec::get_root_exec_program},config::loader::load_cfg,structs::config::KelpDotConfig};
+use std::{path::Path, process::Command};
 pub fn install() -> anyhow::Result<()> {
     let root = get_root()?;
     cyan!("[INFO] Installing dotfiles {}", root);
@@ -15,7 +20,10 @@ pub fn install() -> anyhow::Result<()> {
             debug_print!("Home: {}", home);
             if Path::new(&format!("{}/{}", home_files_path, file.path)).exists() {
                 cyan!("[INFO] Installing {}", file);
-                copy(format!("{}/{}", home_files_path, file.path), format!("{}/{}", home, file.path))?;
+                copy(
+                    format!("{}/{}", home_files_path, file.path),
+                    format!("{}/{}", home, file.path),
+                )?;
             }
         }
     }
@@ -32,16 +40,22 @@ pub fn install() -> anyhow::Result<()> {
             let path = Path::new(&fpath);
             let dest_parent = Path::new(&file.path).parent().unwrap().to_str().unwrap();
             if path.exists() {
-                bash_code = format!("{}if [[ ! -d {} ]]\nthen\nmkdir -p {}\nfi\ncp -r {} {}\n", bash_code, dest_parent, dest_parent, path.to_str().unwrap(), file.path);
+                bash_code = format!(
+                    "{}if [[ ! -d {} ]]\nthen\nmkdir -p {}\nfi\ncp -r {} {}\n",
+                    bash_code,
+                    dest_parent,
+                    dest_parent,
+                    path.to_str().unwrap(),
+                    file.path
+                );
             }
             std::fs::write("/tmp/kelpdot_install.sh", bash_code)?;
         }
         let rexec = get_root_exec_program()?;
         Command::new(&rexec) // Use SH because some systems symlinks it to bash / zsh / ash
-                        .arg("sh")
-                        .arg("/tmp/kelpdot_install.sh")
-                        .status()?;
-        
+            .arg("sh")
+            .arg("/tmp/kelpdot_install.sh")
+            .status()?;
     }
     Ok(())
 }
