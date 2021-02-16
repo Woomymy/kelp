@@ -86,7 +86,7 @@ pub fn save() -> anyhow::Result<()> {
     if let Some(scripts) = config.postsave {
         for script in scripts {
             if let Some(run) = script.elevated {
-                if run == true {
+                if run {
                     debug_print!("Getting elevator for script {}", script);
                     let elevator = get_root_exec_program()?;
                     cyan!(

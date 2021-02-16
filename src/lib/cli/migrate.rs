@@ -15,17 +15,12 @@ pub fn migrate() -> anyhow::Result<()> {
         std::process::exit(1);
     }
     let contents = std::fs::read_to_string(format!("{}/kelp.yaml", root))?;
-    match serde_yaml::from_str::<KelpDotConfig>(&contents) {
-        Ok(_) => {
-            green!("[MIGRATION] Config is already up-to-date");
-            std::process::exit(0);
-            // Exit with 0 because this isn't realy an "error",
-            // if config is Up-to-date, the result is the same than migrating
-        }
-        Err(_) => {
-            // If the config isn't up to date the function will upgrade it
-        }
-    };
+    if serde_yaml::from_str::<KelpDotConfig>(&contents).is_ok() {
+        green!("[MIGRATION] Config is already up-to-date");
+        std::process::exit(0);
+        // Exit with 0 because this isn't realy an "error",
+        // if config is Up-to-date, the result is the same than migrating
+    }
     let config: LegacyKelpConfig = serde_yaml::from_str(&contents)?;
     let new = migrate_configs(config)?; // Migrate config
                                         // Write it to filesystem
