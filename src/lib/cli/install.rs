@@ -27,7 +27,8 @@ pub fn install() -> anyhow::Result<()> {
     if let Some(files) = config.rootfiles {
         for file in files {
             let fpath = format!("{}{}", root, file.path);
-            let mut bash_code = String::from("#!/usr/bin/env bash\n#This script has been auto-generated and will be runned by KelpDot\n#It isn't intended to be modified manually\n");
+            // ShBang isn't really needed, I know
+            let mut bash_code = String::from("#!/usr/bin/env sh\n#This script has been auto-generated and will be runned by KelpDot\n#It isn't intended to be modified manually\n");
             let path = Path::new(&fpath);
             let dest_parent = Path::new(&file.path).parent().unwrap().to_str().unwrap();
             if path.exists() {

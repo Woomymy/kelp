@@ -97,14 +97,12 @@ pub fn save() -> anyhow::Result<()> {
                     );
                     Command::new(&elevator) // Use SH because some systems symlinks it to bash / zsh / ash
                         .arg("sh")
-                        .arg("-c")
                         .arg(&format!("{}/{}", root, script.path))
                         .status()?;
                 }
             } else {
                 cyan!("[POSTSAVE] Running script {}/{}", root, script.path);
                 Command::new("sh") // Use SH because some systems symlinks it to bash / zsh / ash
-                    .arg("-c")
                     .arg(&format!("{}/{}", root, script.path))
                     .status()?;
             }
