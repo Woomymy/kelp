@@ -14,7 +14,7 @@ fn main() -> anyhow::Result<()> {
             lib::cli::save::save()?;
         }
         Cli::Install {} => {
-            red!("Not yet implemeted!");
+            lib::cli::install::install()?;
         }
         Cli::Init {} => {
             lib::cli::init::init()?;
