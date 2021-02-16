@@ -2,7 +2,7 @@ name: Linux
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, refactor ]
   pull_request:
     branches: [ main ]
 
@@ -17,6 +17,8 @@ jobs:
       uses: actions-rs/toolchain@v1.0.6
       with:
         toolchain: stable
+    - name: Test
+      run: cargo test --verbose
     - name: Build
       run: cargo build --verbose --release
     - name: Upload build
