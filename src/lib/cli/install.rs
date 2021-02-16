@@ -41,6 +41,12 @@ pub fn install() -> anyhow::Result<()> {
     if let Some(files) = config.homefiles {
         let home_files_path = format!("{}/home", root);
         for file in files {
+            if let Some(distro) = &file.onlyon {
+                if &os.name != distro {
+                    debug_print!("Not installing file because host != onlyon");
+                    break;
+                }
+            }
             let home = std::env::var("HOME")?; // Get $HOME path or crash
             debug_print!("Home: {}", home);
             if Path::new(&format!("{}/{}", home_files_path, file.path)).exists() {
@@ -59,6 +65,12 @@ pub fn install() -> anyhow::Result<()> {
     // DONE!
     if let Some(files) = config.rootfiles {
         for file in files {
+            if let Some(distro) = &file.onlyon {
+                if &os.name != distro {
+                    debug_print!("Not installing file because host != onlyon");
+                    break;
+                }
+            }
             let mut bash_code = String::from("#!/usr/bin/env sh\n#This script has been auto-generated and will be runned by KelpDot\n#It isn't intended to be modified manually\n");
             let fpath = format!("{}{}", root, file.path);
             // ShBang isn't really needed, I know
