@@ -13,6 +13,31 @@ pub fn install() -> anyhow::Result<()> {
     let os = get_host_os()?;
     cyan!("Found OS {}", os.prettyname);
     let config: KelpDotConfig = load_cfg(root.clone())?;
+    if let Some(scripts) = config.prerun {
+        for script in scripts {
+            if let Some(run) = script.elevated {
+                if run {
+                    debug_print!("Getting elevator for script {}", script);
+                    let elevator = get_root_exec_program()?;
+                    cyan!(
+                        "[PRERUN] Running script {}/{} with {}",
+                        root,
+                        script.path,
+                        elevator
+                    );
+                    Command::new(&elevator) // Use SH because some systems symlinks it to bash / zsh / ash
+                        .arg("sh")
+                        .arg(&format!("{}/{}", root, script.path))
+                        .status()?;
+                }
+            } else {
+                cyan!("[PRERUN] Running script {}/{}", root, script.path);
+                Command::new("sh") // Use SH because some systems symlinks it to bash / zsh / ash
+                    .arg(&format!("{}/{}", root, script.path))
+                    .status()?;
+            }
+        }
+    }
     if let Some(files) = config.homefiles {
         let home_files_path = format!("{}/home", root);
         for file in files {
@@ -56,6 +81,31 @@ pub fn install() -> anyhow::Result<()> {
             .arg("sh")
             .arg("/tmp/kelpdot_install.sh")
             .status()?;
+    }
+    if let Some(scripts) = config.postrun {
+        for script in scripts {
+            if let Some(run) = script.elevated {
+                if run {
+                    debug_print!("Getting elevator for script {}", script);
+                    let elevator = get_root_exec_program()?;
+                    cyan!(
+                        "[POSTRUN] Running script {}/{} with {}",
+                        root,
+                        script.path,
+                        elevator
+                    );
+                    Command::new(&elevator) // Use SH because some systems symlinks it to bash / zsh / ash
+                        .arg("sh")
+                        .arg(&format!("{}/{}", root, script.path))
+                        .status()?;
+                }
+            } else {
+                cyan!("[POSTRUN] Running script {}/{}", root, script.path);
+                Command::new("sh") // Use SH because some systems symlinks it to bash / zsh / ash
+                    .arg(&format!("{}/{}", root, script.path))
+                    .status()?;
+            }
+        }
     }
     Ok(())
 }
