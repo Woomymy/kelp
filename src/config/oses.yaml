@@ -1,0 +1,11 @@
+- { name: "generic", file: "/", priority: 0, prettyname: "Generic GNU/Linux system", submatches: [] } # Generic GNU/Linux System
+- { name: "gentoo", file: "/etc/gentoo-release", priority: 1, prettyname: "Gentoo GNU/Linux", submatches: [] }
+- { name: "arch", file: "/etc/arch-release", priority: 1, prettyname: "Arch GNU/Linux", submatches: [] }
+- { name: "alpine", file: "/etc/alpine-release", priority: 1, prettyname: "Alpine GNU/Linux", submatches: [] }
+- { name: "debian", file: "/etc/debian_version", priority: 1, prettyname: "Debian GNU/Linux", submatches: [] }
+- { name: "redhat", file: "/etc/redhat-release", priority: 1, prettyname: "RedHat Enterprise Linux", submatches: ["fedora"] }
+- { name: "suse", file: "/etc/SUSE-brand", priority: 1, prettyname: "Suse GNU/Linux", submatches: [] }
+- { name: "fedora", file: "/etc/fedora-release", priority: 2, prettyname: "Fedora GNU/Linux", submatches: ["redhat"] }
+- { name: "calculatelinux", file: "/usr/bin/cl-install", priority: 2, prettyname: "Calculate GNU/Linux", submatches: ["gentoo"] }
+- { name: "parrot", file: "/usr/bin/parrot-upgrade", priority: 2, prettyname: "Parrot GNU/Linux", submatches: ["ubuntu"] }
+- { name: "termux", file: "/data/data/com.termux/files", priority: 2, prettyname: "Termux", submatches: [] }
