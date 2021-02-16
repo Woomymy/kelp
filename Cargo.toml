@@ -12,7 +12,7 @@ anyhow = "1.0.38"
 kelpdot_macros = { version = "2.0.0", path = "./crates/kelpdot_macros" }
 copy_dir = "0.1.2"
 serde = { version = "1.0.123", features = ["derive"] }
-serde_yaml = "0.8.16"
+serde_yaml = "0.8.17"
 structopt = "0.3.21"
 
 [lib]
