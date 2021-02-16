@@ -1,0 +1,7 @@
+[package]
+name = "kelpdot_macros"
+version = "2.0.0"
+authors = ["Woomy4680-exe <github@woomy.ovh>"]
+edition = "2018"
+
+[dependencies]
