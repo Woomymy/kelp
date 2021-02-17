@@ -67,8 +67,14 @@ pub fn save() -> anyhow::Result<()> {
             let path = f.path.to_owned();
             let tomake = get_to_make(f.path)?;
             let file = Path::new(&path);
-            if Path::new(&format!("{}/{}", root, tomake)).exists() {
-                std::fs::remove_dir_all(format!("{}/{}", root, tomake))?;
+            let file_name = file.file_name().unwrap().to_str().unwrap().to_owned();
+            let dest = format!("{}/{}/{}", root, tomake, &file_name);
+            if Path::new(&dest).exists() {
+                if Path::new(&dest).is_file() {
+                    std::fs::remove_file(dest)?;
+                } else {
+                    std::fs::remove_dir_all(dest)?;
+                }
             }
             std::fs::create_dir_all(format!("{}/{}", root, tomake))?;
             copy(
@@ -77,7 +83,7 @@ pub fn save() -> anyhow::Result<()> {
                     "{}/{}/{}",
                     root,
                     tomake,
-                    file.file_name().unwrap().to_str().unwrap().to_owned()
+                    file_name
                 ),
             )?;
         }
