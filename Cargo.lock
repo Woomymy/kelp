@@ -173,6 +173,8 @@ dependencies = [
 [[package]]
 name = "kelpdot_macros"
 version = "2.0.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "94e62f1c5a5a08d42589b76fdb79cf0cda5a72c5c4d31afb123222b079782eb0"
 
 [[package]]
 name = "kernel32-sys"

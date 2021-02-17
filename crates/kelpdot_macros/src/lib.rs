@@ -1,3 +1,5 @@
+/// ! # KelpDot_macros
+/// ! Very simple lib with some macros for color printing using ANSI esapces
 pub mod colors;
 pub mod debug;
 #[test]
