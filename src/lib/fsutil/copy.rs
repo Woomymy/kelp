@@ -8,6 +8,13 @@ pub fn copy(source: String, dest: String) -> anyhow::Result<()> {
     if !parent.exists() {
         std::fs::create_dir_all(parent)?;
     }
+    if destpath.exists() {
+        if destpath.is_file() {
+            std::fs::remove_file(destpath)?;
+        } else {
+            std::fs::remove_dir_all(destpath)?;
+        }
+    }
     if Path::new(&source).is_file() {
         std::fs::copy(source, dest)?;
     } else {
