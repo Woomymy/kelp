@@ -56,7 +56,7 @@ pub fn get_host_os() -> anyhow::Result<Os> {
         file: String::from("/"),
         priority: 0,
         prettyname: String::from("Generic GNU/Linux OS"),
-        submatches: vec!()
+        submatches: vec![],
     };
     for system in validoses {
         if sys.priority < system.priority {
