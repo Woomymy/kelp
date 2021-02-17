@@ -77,15 +77,7 @@ pub fn save() -> anyhow::Result<()> {
                 }
             }
             std::fs::create_dir_all(format!("{}/{}", root, tomake))?;
-            copy(
-                path.clone(),
-                format!(
-                    "{}/{}/{}",
-                    root,
-                    tomake,
-                    file_name
-                ),
-            )?;
+            copy(path.clone(), format!("{}/{}/{}", root, tomake, file_name))?;
         }
         cyan!("[OK] Rootfiles saved!");
     }
