@@ -64,6 +64,7 @@ pub fn install() -> anyhow::Result<()> {
     // We execute it as root
     // DONE!
     if let Some(files) = config.rootfiles {
+        let mut bash_code = String::from("#!/usr/bin/env sh\n#This script has been auto-generated and will be runned by KelpDot\n#It isn't intended to be modified manually\n");
         for file in files {
             if let Some(distro) = &file.onlyon {
                 if &os.name != distro && !os.submatches.iter().any(|mat| mat == distro) {
@@ -71,7 +72,6 @@ pub fn install() -> anyhow::Result<()> {
                     break;
                 }
             }
-            let mut bash_code = String::from("#!/usr/bin/env sh\n#This script has been auto-generated and will be runned by KelpDot\n#It isn't intended to be modified manually\n");
             let fpath = format!("{}{}", root, file.path);
             // ShBang isn't really needed, I know
             let path = Path::new(&fpath);
@@ -86,8 +86,8 @@ pub fn install() -> anyhow::Result<()> {
                     file.path
                 );
             }
-            std::fs::write("/tmp/kelpdot_install.sh", bash_code)?;
         }
+        std::fs::write("/tmp/kelpdot_install.sh", bash_code)?;
         let rexec = get_root_exec_program()?;
         Command::new(&rexec) // Use SH because some systems symlinks it to bash / zsh / ash
             .arg("sh")
