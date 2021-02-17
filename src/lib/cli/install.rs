@@ -83,7 +83,7 @@ pub fn install() -> anyhow::Result<()> {
                     dest_parent,
                     dest_parent,
                     path.to_str().unwrap(),
-                    file.path
+                    dest_parent
                 );
             }
         }
