@@ -35,25 +35,23 @@ pub fn save() -> anyhow::Result<()> {
             let path = format!("{}/{}", home, f.path);
             let file = Path::new(&path);
             // Make sur that file exists
-            if !file.exists() {
-                magenta!("[WARNING] Skipping {} because it doesn't exist!", f);
-                break;
+            if file.exists() {
+                // Get path to make
+                // Example:
+                // home/**.config/i3** directory
+                let tomake = get_to_make(f.path)?;
+                // Create the file
+                std::fs::create_dir_all(format!("{}/home/{}", root, tomake))?;
+                copy(
+                    path.clone(),
+                    format!(
+                        "{}/home/{}/{}",
+                        root,
+                        tomake,
+                        file.file_name().unwrap().to_str().unwrap().to_owned()
+                    ),
+                )?;
             }
-            // Get path to make
-            // Example:
-            // home/**.config/i3** directory
-            let tomake = get_to_make(f.path)?;
-            // Create the file
-            std::fs::create_dir_all(format!("{}/home/{}", root, tomake))?;
-            copy(
-                path.clone(),
-                format!(
-                    "{}/home/{}/{}",
-                    root,
-                    tomake,
-                    file.file_name().unwrap().to_str().unwrap().to_owned()
-                ),
-            )?;
         }
         cyan!("[OK] Homefiles saved!");
     }
@@ -67,17 +65,19 @@ pub fn save() -> anyhow::Result<()> {
             let path = f.path.to_owned();
             let tomake = get_to_make(f.path)?;
             let file = Path::new(&path);
-            let file_name = file.file_name().unwrap().to_str().unwrap().to_owned();
-            let dest = format!("{}/{}/{}", root, tomake, &file_name);
-            if Path::new(&dest).exists() {
-                if Path::new(&dest).is_file() {
-                    std::fs::remove_file(dest)?;
-                } else {
-                    std::fs::remove_dir_all(dest)?;
+            if file.exists() {
+                let file_name = file.file_name().unwrap().to_str().unwrap().to_owned();
+                let dest = format!("{}/{}/{}", root, tomake, &file_name);
+                if Path::new(&dest).exists() {
+                    if Path::new(&dest).is_file() {
+                        std::fs::remove_file(dest)?;
+                    } else {
+                        std::fs::remove_dir_all(dest)?;
+                    }
                 }
+                std::fs::create_dir_all(format!("{}/{}", root, tomake))?;
+                copy(path.clone(), format!("{}/{}/{}", root, tomake, file_name))?;
             }
-            std::fs::create_dir_all(format!("{}/{}", root, tomake))?;
-            copy(path.clone(), format!("{}/{}/{}", root, tomake, file_name))?;
         }
         cyan!("[OK] Rootfiles saved!");
     }
