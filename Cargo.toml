@@ -5,6 +5,8 @@ version = "2.0.1"
 authors = ["Woomy4680-exe <github@woomy.ovh>"]
 edition = "2018"
 license = "MIT"
+homepage = "https://woomy4680-exe.github.io/kelp-docs/"
+repository = "https://github.com/Woomy4680-exe/kelp"
 [dependencies]
 anyhow = "1.0.38"
 kelpdot_macros = "2.0.0"
