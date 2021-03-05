@@ -5,7 +5,7 @@ use crate::lib::{
         paths::{get_root, get_to_make},
     },
     structs::config::KelpDotConfig,
-    util::{scripts::run_script,os::get_host_os},
+    util::{os::get_host_os, scripts::run_script},
 };
 use kelpdot_macros::*;
 use std::path::Path;
@@ -82,7 +82,7 @@ pub fn save() -> anyhow::Result<()> {
     }
     if let Some(scripts) = config.postsave {
         for script in scripts {
-            cyan!("[POSTSAVE] Running script {}",script.path);
+            cyan!("[POSTSAVE] Running script {}", script.path);
             run_script(root.clone(), script)?;
         }
     }
