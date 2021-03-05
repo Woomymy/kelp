@@ -2,7 +2,7 @@ use crate::lib::{
     config::loader::load_cfg,
     fsutil::{copy::copy, paths::get_root},
     structs::config::KelpDotConfig,
-    util::{exec::get_root_exec_program, os::get_host_os},
+    util::{exec::get_root_exec_program, scripts::run_script, os::get_host_os},
 };
 use kelpdot_macros::*;
 use std::{path::Path, process::Command};
@@ -15,27 +15,8 @@ pub fn install() -> anyhow::Result<()> {
     let config: KelpDotConfig = load_cfg(root.clone())?;
     if let Some(scripts) = config.prerun {
         for script in scripts {
-            if let Some(run) = script.elevated {
-                if run {
-                    debug_print!("Getting elevator for script {}", script);
-                    let elevator = get_root_exec_program()?;
-                    cyan!(
-                        "[PRERUN] Running script {}/{} with {}",
-                        root,
-                        script.path,
-                        elevator
-                    );
-                    Command::new(&elevator) // Use SH because some systems symlinks it to bash / zsh / ash
-                        .arg("sh")
-                        .arg(&format!("{}/{}", root, script.path))
-                        .status()?;
-                }
-            } else {
-                cyan!("[PRERUN] Running script {}/{}", root, script.path);
-                Command::new("sh") // Use SH because some systems symlinks it to bash / zsh / ash
-                    .arg(&format!("{}/{}", root, script.path))
-                    .status()?;
-            }
+            cyan!("[PRERUN] Running script {}",script.path);
+            run_script(root.clone(), script)?;
         }
     }
     if let Some(files) = config.homefiles {
@@ -96,27 +77,8 @@ pub fn install() -> anyhow::Result<()> {
     }
     if let Some(scripts) = config.postrun {
         for script in scripts {
-            if let Some(run) = script.elevated {
-                if run {
-                    debug_print!("Getting elevator for script {}", script);
-                    let elevator = get_root_exec_program()?;
-                    cyan!(
-                        "[POSTRUN] Running script {}/{} with {}",
-                        root,
-                        script.path,
-                        elevator
-                    );
-                    Command::new(&elevator) // Use SH because some systems symlinks it to bash / zsh / ash
-                        .arg("sh")
-                        .arg(&format!("{}/{}", root, script.path))
-                        .status()?;
-                }
-            } else {
-                cyan!("[POSTRUN] Running script {}/{}", root, script.path);
-                Command::new("sh") // Use SH because some systems symlinks it to bash / zsh / ash
-                    .arg(&format!("{}/{}", root, script.path))
-                    .status()?;
-            }
+            cyan!("[POSTRUN] Running script {}",script.path);
+            run_script(root.clone(), script)?;
         }
     }
     Ok(())
