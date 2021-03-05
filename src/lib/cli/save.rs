@@ -5,11 +5,10 @@ use crate::lib::{
         paths::{get_root, get_to_make},
     },
     structs::config::KelpDotConfig,
-    util::{exec::get_root_exec_program, os::get_host_os},
+    util::{scripts::run_script,os::get_host_os},
 };
 use kelpdot_macros::*;
 use std::path::Path;
-use std::process::Command;
 /// Backup dotfiles
 pub fn save() -> anyhow::Result<()> {
     let root = get_root()?;
@@ -83,27 +82,8 @@ pub fn save() -> anyhow::Result<()> {
     }
     if let Some(scripts) = config.postsave {
         for script in scripts {
-            if let Some(run) = script.elevated {
-                if run {
-                    debug_print!("Getting elevator for script {}", script);
-                    let elevator = get_root_exec_program()?;
-                    cyan!(
-                        "[POSTSAVE] Running script {}/{} with {}",
-                        root,
-                        script.path,
-                        elevator
-                    );
-                    Command::new(&elevator) // Use SH because some systems symlinks it to bash / zsh / ash
-                        .arg("sh")
-                        .arg(&format!("{}/{}", root, script.path))
-                        .status()?;
-                }
-            } else {
-                cyan!("[POSTSAVE] Running script {}/{}", root, script.path);
-                Command::new("sh") // Use SH because some systems symlinks it to bash / zsh / ash
-                    .arg(&format!("{}/{}", root, script.path))
-                    .status()?;
-            }
+            cyan!("[POSTSAVE] Running script {}",script.path);
+            run_script(root.clone(), script)?;
         }
     }
     magenta!("[OK] All dotfiles saved!");
