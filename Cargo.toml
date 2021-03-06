@@ -9,7 +9,7 @@ homepage = "https://woomy4680-exe.github.io/kelp-docs/"
 repository = "https://github.com/Woomy4680-exe/kelp"
 [dependencies]
 anyhow = "1.0.38"
-kelpdot_macros = "2.0.1" 
+kelpdot_macros = { path = "./crates/kelpdot_macros" }
 serde = { version = "1.0.123", features = ["derive"] }
 serde_yaml = "0.8.17"
 structopt = "0.3.21"

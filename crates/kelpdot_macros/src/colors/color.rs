@@ -28,3 +28,9 @@ macro_rules! magenta_print {
         println!("{}", format!("\x1B[1;95m{}\x1b[0;m", format!($($arg)*)));
     };
 }
+#[macro_export]
+macro_rules! red {
+    ($($arg:tt)*) => {
+        format!("\x1b[91m{}\x1b[m", format!($($arg)*));
+    };
+}
