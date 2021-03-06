@@ -7,6 +7,7 @@ use crate::lib::{
     structs::config::KelpDotConfig,
     util::{os::get_host_os, scripts::run_script},
 };
+use anyhow::Context;
 use kelpdot_macros::*;
 use std::path::Path;
 /// Backup dotfiles
@@ -14,19 +15,19 @@ pub fn save() -> anyhow::Result<()> {
     let root = get_root()?;
     cyan_print!("[INFO] Saving dotfiles {}...", root);
     debug_print!("Building OS list...");
-    let os = get_host_os()?; // Here we get guest os; If OS is unreconized, return a generic GNU / Linux System
+    let os = get_host_os().with_context(|| red!("Unable to get host OS name!"))?; // Here we get guest os; If OS is unreconized, return a generic GNU / Linux System
     cyan_print!("[INFO] Found Os {}", os.prettyname);
     let config: KelpDotConfig = load_cfg(root.clone())?; // Load a KelpConfig struct wich is basically $DOTFILES_ROOT/kelp.yaml
 
     if let Some(files) = config.homefiles {
         // If config has "homefiles" keys, copy each $HOME/$FILE
-        let home = std::env::var("HOME")?; // Get $HOME path or crash
+        let home = std::env::var("HOME").with_context(|| red!("Unable to get env var $HOME!"))?; // Get $HOME path or crash
         debug_print!("Home: {}", home);
 
         // Make sur that $DOTFILES_ROOT/home doesn't exist
         // or doesn't contain files
         if Path::new(&format!("{}/home", root)).exists() {
-            std::fs::remove_dir_all(&format!("{}/home", root))?;
+            std::fs::remove_dir_all(&format!("{}/home", root)).with_context(|| red!("Unable to remove old home directory!"))?;
         }
         std::fs::create_dir(format!("{}/home", root))?;
         for f in files {
@@ -74,7 +75,7 @@ pub fn save() -> anyhow::Result<()> {
                         std::fs::remove_dir_all(dest)?;
                     }
                 }
-                std::fs::create_dir_all(format!("{}/{}", root, tomake))?;
+                std::fs::create_dir_all(format!("{}/{}", root, tomake)).with_context(|| red!("Unable to create dir {}/{}", root, tomake))?;
                 copy(path.clone(), format!("{}/{}/{}", root, tomake, file_name))?;
             }
         }
