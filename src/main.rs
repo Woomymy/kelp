@@ -15,13 +15,15 @@ fn main() -> anyhow::Result<()> {
             lib::cli::save::save().with_context(|| red!("Unable to save the dotfiles!"))?;
         }
         Cli::Install {} => {
-            lib::cli::install::install().with_context(|| red!("Unable to install the dotfiles!"))?;
+            lib::cli::install::install()
+                .with_context(|| red!("Unable to install the dotfiles!"))?;
         }
         Cli::Init {} => {
             lib::cli::init::init().with_context(|| red!("Unable to init kelpdot!"))?;
         }
         Cli::Migrate {} => {
-            lib::cli::migrate::migrate().with_context(|| red!("Unable to migrate configurations!"))?;
+            lib::cli::migrate::migrate()
+                .with_context(|| red!("Unable to migrate configurations!"))?;
         }
     }
     Ok(())

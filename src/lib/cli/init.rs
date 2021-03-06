@@ -25,6 +25,7 @@ pub fn init() -> anyhow::Result<()> {
     };
     let conf_path = format!("{}/kelp.yaml", root);
     magenta_print!("[INFO] Config file {} created!", conf_path);
-    std::fs::write(conf_path, serde_yaml::to_string(&cfg)?).with_context(|| red!("Unable to write new config file!"))?;
+    std::fs::write(conf_path, serde_yaml::to_string(&cfg)?)
+        .with_context(|| red!("Unable to write new config file!"))?;
     Ok(())
 }

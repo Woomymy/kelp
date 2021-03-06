@@ -1,6 +1,6 @@
-use std::path::Path;
-use kelpdot_macros::red;
 use anyhow::Context;
+use kelpdot_macros::red;
+use std::path::Path;
 /// Gets the root of dotfiles using DOTFILES_ROOT path or .
 pub fn get_root() -> anyhow::Result<String> {
     let basepath = std::env::var("DOTFILES_ROOT").unwrap_or_else(|_| String::from("."));

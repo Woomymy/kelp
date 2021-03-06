@@ -9,7 +9,10 @@ pub fn load_cfg(root: String) -> anyhow::Result<KelpDotConfig> {
         std::process::exit(1);
     }
     debug_print!("Loading config {}/kelp.yaml", root);
-    let cfg: KelpDotConfig =
-        serde_yaml::from_str(&std::fs::read_to_string(format!("{}/kelp.yaml", root)).with_context(|| red!("Unable to read config file!"))?).with_context(|| red!("Unable to parse config file!"))?;
+    let cfg: KelpDotConfig = serde_yaml::from_str(
+        &std::fs::read_to_string(format!("{}/kelp.yaml", root))
+            .with_context(|| red!("Unable to read config file!"))?,
+    )
+    .with_context(|| red!("Unable to parse config file!"))?;
     Ok(cfg)
 }
