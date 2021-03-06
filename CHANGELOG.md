@@ -1,6 +1,12 @@
 # Changelog
 
-## V2.0.0 - 06 / 05 / 2021
+## V2.0.3 - 06 / 05 / 2021
+
+### Errors
+
+- Improve CLI errors handling
+
+## V2.0.2 - 06 / 05 / 2021
 
 ### Docs
 
