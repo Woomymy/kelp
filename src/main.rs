@@ -6,8 +6,8 @@ extern crate kelpdot_macros;
 mod lib;
 use lib::cli::opts::Cli;
 fn main() -> anyhow::Result<()> {
-    green!("KelpDot V{}", env!("CARGO_PKG_VERSION"));
-    green!("==============");
+    green_print!("KelpDot V{}", env!("CARGO_PKG_VERSION"));
+    green_print!("==============");
     // Check CLI options
     match Cli::from_args() {
         Cli::Save {} => {

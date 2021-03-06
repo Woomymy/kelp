@@ -12,10 +12,10 @@ use std::path::Path;
 /// Backup dotfiles
 pub fn save() -> anyhow::Result<()> {
     let root = get_root()?;
-    cyan!("[INFO] Saving dotfiles {}...", root);
+    cyan_print!("[INFO] Saving dotfiles {}...", root);
     debug_print!("Building OS list...");
     let os = get_host_os()?; // Here we get guest os; If OS is unreconized, return a generic GNU / Linux System
-    cyan!("[INFO] Found Os {}", os.prettyname);
+    cyan_print!("[INFO] Found Os {}", os.prettyname);
     let config: KelpDotConfig = load_cfg(root.clone())?; // Load a KelpConfig struct wich is basically $DOTFILES_ROOT/kelp.yaml
 
     if let Some(files) = config.homefiles {
@@ -30,7 +30,7 @@ pub fn save() -> anyhow::Result<()> {
         }
         std::fs::create_dir(format!("{}/home", root))?;
         for f in files {
-            green!("[SAVE] Copying file {}...", f);
+            green_print!("[SAVE] Copying file {}...", f);
             let path = format!("{}/{}", home, f.path);
             let file = Path::new(&path);
             // Make sur that file exists
@@ -52,12 +52,12 @@ pub fn save() -> anyhow::Result<()> {
                 )?;
             }
         }
-        cyan!("[OK] Homefiles saved!");
+        cyan_print!("[OK] Homefiles saved!");
     }
     // If config has "rootfiles" key, backup every file
     if let Some(files) = config.rootfiles {
         for f in files {
-            green!("[SAVE] Copying file {}", f);
+            green_print!("[SAVE] Copying file {}", f);
             // Get path to make:
             // Example:
             // $DOTFILES_ROOT/etc/portage/repos.conf
@@ -78,14 +78,14 @@ pub fn save() -> anyhow::Result<()> {
                 copy(path.clone(), format!("{}/{}/{}", root, tomake, file_name))?;
             }
         }
-        cyan!("[OK] Rootfiles saved!");
+        cyan_print!("[OK] Rootfiles saved!");
     }
     if let Some(scripts) = config.postsave {
         for script in scripts {
-            cyan!("[POSTSAVE] Running script {}", script.path);
+            cyan_print!("[POSTSAVE] Running script {}", script.path);
             run_script(root.clone(), script)?;
         }
     }
-    magenta!("[OK] All dotfiles saved!");
+    magenta_print!("[OK] All dotfiles saved!");
     Ok(())
 }
