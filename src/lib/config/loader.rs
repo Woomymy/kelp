@@ -4,7 +4,7 @@ use std::path::Path;
 /// Loads config
 pub fn load_cfg(root: String) -> anyhow::Result<KelpDotConfig> {
     if !Path::new(&format!("{}/kelp.yaml", root)).exists() {
-        red!("File {}/kelp.yaml not found!", root);
+        red_print!("File {}/kelp.yaml not found!", root);
         std::process::exit(1);
     }
     debug_print!("Loading config {}/kelp.yaml", root);

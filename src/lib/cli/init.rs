@@ -10,7 +10,7 @@ pub fn init() -> anyhow::Result<()> {
     let root = get_root()?;
     debug_print!("Root: {}", root);
     if Path::new(&format!("{}/kelp.yaml", root)).exists() {
-        red!("{}/kelp.yaml already exists!", root);
+        red_print!("{}/kelp.yaml already exists!", root);
         std::process::exit(1);
     }
     let rootfiles = get_root_files()?;
@@ -23,7 +23,7 @@ pub fn init() -> anyhow::Result<()> {
         postsave: Some(vec![]),
     };
     let conf_path = format!("{}/kelp.yaml", root);
-    magenta!("[INFO] Config file {} created!", conf_path);
+    magenta_print!("[INFO] Config file {} created!", conf_path);
     std::fs::write(conf_path, serde_yaml::to_string(&cfg)?)?;
     Ok(())
 }
