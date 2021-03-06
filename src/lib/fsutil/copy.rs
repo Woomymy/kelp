@@ -9,23 +9,20 @@ pub fn copy(source: String, dest: String) -> anyhow::Result<()> {
     if !parent.exists() {
         std::fs::create_dir_all(parent)?;
     }
-    if destpath.exists() {
-        if destpath.is_file() {
-            std::fs::remove_file(destpath)?;
-        } else {
-            std::fs::remove_dir_all(destpath)?;
-        }
-    }
     if Path::new(&source).is_file() {
         std::fs::copy(source, dest)?;
     } else {
-        copy_dir(&source, &dest)?;
+        copy_file_or_dir(&source, &dest)?;
     }
     Ok(())
 }
-fn copy_dir(source: &str, dest: &str) -> anyhow::Result<()> {
+fn copy_file_or_dir(source: &str, dest: &str) -> anyhow::Result<()> {
     if Path::new(&dest).exists() {
-        std::fs::remove_dir_all(dest)?;
+        if Path::new(&dest).is_file() {
+            std::fs::remove_file(dest)?;
+        } else {
+            std::fs::remove_dir_all(dest)?;
+        }
     }
     std::fs::create_dir_all(&dest)?;
     copy_process(source, dest)?;
@@ -46,7 +43,7 @@ fn copy_process(src: &str, dest: &str) -> Result<()> {
             let fname = entrypath.file_name().unwrap().to_str().unwrap();
             let destination = format!("{}/{}", dest, fname);
             let source = format!("{}/{}", src, fname);
-            copy_dir(&source, &destination)?;
+            copy_file_or_dir(&source, &destination)?;
         }
     }
     Ok(())
