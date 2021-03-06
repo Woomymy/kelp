@@ -1,13 +1,15 @@
 use std::path::Path;
+use kelpdot_macros::red;
+use anyhow::Context;
 /// Gets the root of dotfiles using DOTFILES_ROOT path or .
 pub fn get_root() -> anyhow::Result<String> {
     let basepath = std::env::var("DOTFILES_ROOT").unwrap_or_else(|_| String::from("."));
-    let full = std::fs::canonicalize(basepath)?;
+    let full = std::fs::canonicalize(basepath).with_context(|| red!("Unable to get root path!"))?;
     Ok(full.to_str().unwrap().to_string())
 }
 /// Get name of directory to make
 pub fn get_to_make(path: String) -> anyhow::Result<String> {
-    let home = std::env::var("HOME")?;
+    let home = std::env::var("HOME").with_context(|| red!("Unable to get env var $HOME"))?;
     // If file is located at /home
     if Path::new(&format!("{}/{}", home, path)).exists() {
         Ok(Path::new(&path)
