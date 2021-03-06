@@ -29,7 +29,8 @@ pub fn install() -> anyhow::Result<()> {
                     break;
                 }
             }
-            let home = std::env::var("HOME").with_context(|| red!("Unable to get env var $HOME!"))?; // Get $HOME path or crash
+            let home =
+                std::env::var("HOME").with_context(|| red!("Unable to get env var $HOME!"))?; // Get $HOME path or crash
             debug_print!("Home: {}", home);
             if Path::new(&format!("{}/{}", home_files_path, file.path)).exists() {
                 cyan_print!("[INFO] Installing {}", file);
@@ -74,7 +75,8 @@ pub fn install() -> anyhow::Result<()> {
         Command::new(&rexec) // Use SH because some systems symlinks it to bash / zsh / ash
             .arg("sh")
             .arg("/tmp/kelpdot_install.sh")
-            .status().with_context(|| red!("Unable to call rootfiles install script!"))?;
+            .status()
+            .with_context(|| red!("Unable to call rootfiles install script!"))?;
     }
     if let Some(scripts) = config.postrun {
         for script in scripts {
