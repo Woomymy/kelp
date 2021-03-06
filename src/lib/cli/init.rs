@@ -3,6 +3,7 @@ use crate::lib::{
     fsutil::paths::get_root,
     structs::config::KelpDotConfig,
 };
+use anyhow::Context;
 use kelpdot_macros::*;
 use std::path::Path;
 /// Init and autconfig
@@ -24,6 +25,6 @@ pub fn init() -> anyhow::Result<()> {
     };
     let conf_path = format!("{}/kelp.yaml", root);
     magenta_print!("[INFO] Config file {} created!", conf_path);
-    std::fs::write(conf_path, serde_yaml::to_string(&cfg)?)?;
+    std::fs::write(conf_path, serde_yaml::to_string(&cfg)?).with_context(|| red!("Unable to write new config file!"))?;
     Ok(())
 }

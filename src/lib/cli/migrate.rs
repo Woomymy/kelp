@@ -3,6 +3,7 @@ use crate::lib::{
     fsutil::paths::get_root,
     structs::{config::KelpDotConfig, legacy::LegacyKelpConfig},
 };
+use anyhow::Context;
 use kelpdot_macros::*;
 use std::path::Path;
 /// Migrates config from legacy v1.0.* config style
@@ -21,9 +22,9 @@ pub fn migrate() -> anyhow::Result<()> {
         // Exit with 0 because this isn't realy an "error",
         // if config is Up-to-date, the result is the same than migrating
     }
-    let config: LegacyKelpConfig = serde_yaml::from_str(&contents)?;
-    let new = migrate_configs(config)?; // Migrate config
+    let config: LegacyKelpConfig = serde_yaml::from_str(&contents).with_context(|| red!("Unable to parse old config!"))?;
+    let new = migrate_configs(config).with_context(|| red!("Unable to migrate config!"))?; // Migrate config
                                         // Write it to filesystem
-    std::fs::write(format!("{}/kelp.yaml", root), serde_yaml::to_string(&new)?)?;
+    std::fs::write(format!("{}/kelp.yaml", root), serde_yaml::to_string(&new)?).with_context(|| red!("Unable to write new config file!"))?;
     Ok(())
 }
