@@ -1,6 +1,7 @@
 use kelpdot_macros::*;
 use serde::{Deserialize, Serialize};
 use std::path::Path;
+use anyhow::{Context, Result};
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct Os {
     /// Name of the os
@@ -20,14 +21,14 @@ pub struct Os {
     pub submatches: Vec<String>,
 }
 /// Find oses to detect
-pub fn build_os_list() -> anyhow::Result<Vec<Os>> {
+pub fn build_os_list() -> Result<Vec<Os>> {
     let mut osyaml: Vec<Os> = vec![];
     let search_paths = vec!["/etc/kelpdot/os.yaml", "/etc/kelpdot/os.yml"];
     for path in search_paths {
         if Path::new(path).exists() {
             debug_print!("Reading OS file {}", path);
-            let content = std::fs::read_to_string(path)?;
-            let yaml: Vec<Os> = serde_yaml::from_str(&content)?;
+            let content = std::fs::read_to_string(path).with_context(|| red!("Unable to read OS file {}", path))?;
+            let yaml: Vec<Os> = serde_yaml::from_str(&content).with_context(|| red!("Failed to parse OS file {}", path))?;
             for os in yaml {
                 osyaml.push(os);
             }
@@ -35,7 +36,7 @@ pub fn build_os_list() -> anyhow::Result<Vec<Os>> {
     }
     debug_print!("Reading bundled OS file...");
     let bundled = include_str!("../../config/oses.yaml");
-    let oses: Vec<Os> = serde_yaml::from_str(&bundled)?;
+    let oses: Vec<Os> = serde_yaml::from_str(&bundled).with_context(|| red!("Unable to parse bundled OS list file (please report this with a GitHub issue)"))?;
     for os in oses {
         osyaml.push(os);
     }
