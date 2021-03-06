@@ -1,6 +1,6 @@
-use std::path::Path;
-use kelpdot_macros::red;
 use anyhow::{Error, Result};
+use kelpdot_macros::red;
+use std::path::Path;
 pub fn get_root_exec_program() -> Result<String> {
     if Path::new("/usr/bin/doas").exists() {
         return Ok(String::from("doas"));

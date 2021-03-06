@@ -27,7 +27,8 @@ pub fn save() -> anyhow::Result<()> {
         // Make sur that $DOTFILES_ROOT/home doesn't exist
         // or doesn't contain files
         if Path::new(&format!("{}/home", root)).exists() {
-            std::fs::remove_dir_all(&format!("{}/home", root)).with_context(|| red!("Unable to remove old home directory!"))?;
+            std::fs::remove_dir_all(&format!("{}/home", root))
+                .with_context(|| red!("Unable to remove old home directory!"))?;
         }
         std::fs::create_dir(format!("{}/home", root))?;
         for f in files {
@@ -75,7 +76,8 @@ pub fn save() -> anyhow::Result<()> {
                         std::fs::remove_dir_all(dest)?;
                     }
                 }
-                std::fs::create_dir_all(format!("{}/{}", root, tomake)).with_context(|| red!("Unable to create dir {}/{}", root, tomake))?;
+                std::fs::create_dir_all(format!("{}/{}", root, tomake))
+                    .with_context(|| red!("Unable to create dir {}/{}", root, tomake))?;
                 copy(path.clone(), format!("{}/{}/{}", root, tomake, file_name))?;
             }
         }

@@ -1,5 +1,5 @@
-use kelpdot_macros::*;
 use anyhow::{Context, Result};
+use kelpdot_macros::*;
 use std::{fs::read_dir, path::Path};
 /// Copy a file / Directory
 pub fn copy(source: String, dest: String) -> anyhow::Result<()> {
@@ -7,12 +7,15 @@ pub fn copy(source: String, dest: String) -> anyhow::Result<()> {
     let parent = destpath.parent().unwrap();
     debug_print!("Checking parents path...");
     if !parent.exists() {
-        std::fs::create_dir_all(parent).with_context(|| red!("Unable to create dir {}", parent.to_str().unwrap()))?;
+        std::fs::create_dir_all(parent)
+            .with_context(|| red!("Unable to create dir {}", parent.to_str().unwrap()))?;
     }
     if Path::new(&source).is_file() {
-        std::fs::copy(source.clone(), dest.clone()).with_context(|| red!("Unable to copy {} to {}", source, dest))?;
+        std::fs::copy(source.clone(), dest.clone())
+            .with_context(|| red!("Unable to copy {} to {}", source, dest))?;
     } else {
-        copy_file_or_dir(&source, &dest).with_context(|| red!("Unable to copy dir {} to {}", source, dest))?;
+        copy_file_or_dir(&source, &dest)
+            .with_context(|| red!("Unable to copy dir {} to {}", source, dest))?;
     }
     Ok(())
 }
