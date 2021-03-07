@@ -20,6 +20,6 @@ package() {
 }
 EOF
 VERSION="$(grep -i version Cargo.toml | head -n 1 | awk '{print $3}' | cut -d '"' -f 2)"
-sed -i "s/@PKGSUM@/$(sha256sum kelpdot-*-x86_64.tar.gz | awk '{print $1}')/g"
-sed -i "s/@VERSION@/${VERSION}/g"
+sed -i "s/@PKGSUM@/$(sha256sum kelpdot-*-x86_64.tar.gz | awk '{print $1}')/g" "PKGBUILD"
+sed -i "s/@VERSION@/${VERSION}/g" "PKGBUILD"
 cat "PKGBUILD"
