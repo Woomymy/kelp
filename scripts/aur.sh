@@ -16,7 +16,7 @@ source=("https://github.com/Woomy4680-exe/kelp/releases/download/\$pkgver/kelpdo
 sha256sums=("@PKGSUM@")
 
 package() {
-    install -Dm755 kelpdot -t "$pkgdir/usr/bin/"
+    install -Dm755 kelpdot -t "\$pkgdir/usr/bin/"
 }
 EOF
 VERSION="$(grep -i version Cargo.toml | head -n 1 | awk '{print $3}' | cut -d '"' -f 2)"
