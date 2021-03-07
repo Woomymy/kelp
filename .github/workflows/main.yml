@@ -1,8 +1,8 @@
 name: AUR package
 on:
   push:
-          #    tags:
-          #- '*'
+    tags:
+        - '*'
 
 jobs:
     AUR:
@@ -18,3 +18,20 @@ jobs:
           run: cargo install cargo-aur
         - name: Run custom packaging script
           run: bash scripts/aur.sh
+        - name: Release
+          uses: softprops/action-gh-release@v1
+          if: startsWith(github.ref, 'refs/tags/')
+          env:
+            GITHUB_TOKEN: ${{ secrets.TOKEN }}
+          with:
+                  files: "kelpdot-aur.tar.gz"
+        - name: Publish AUR package
+          uses: KSXGitHub/github-actions-deploy-aur@v2.2.3
+          with:
+            pkgname: my-awesome-package
+            pkgbuild: ./PKGBUILD
+            commit_username: ${{ secrets.AUR_USERNAME }}
+            commit_email: ${{ secrets.AUR_EMAIL }}
+            ssh_private_key: ${{ secrets.AUR_SSH_PRIVATE_KEY }}
+            commit_message: Update AUR package
+            ssh_keyscan_types: rsa,dsa,ecdsa,ed25519

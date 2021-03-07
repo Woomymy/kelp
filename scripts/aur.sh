@@ -12,7 +12,7 @@ license=("MIT")
 arch=("x86_64")
 provides=("kelpdot")
 options=("strip")
-source=("https://github.com/Woomy4680-exe/kelp/releases/download/$pkgver/kelpdot-$pkgver-x86_64.tar.gz")
+source=("https://github.com/Woomy4680-exe/kelp/releases/download/$pkgver/kelpdot-aur.tar.gz")
 sha256sums=("@PKGSUM@")
 
 package() {
