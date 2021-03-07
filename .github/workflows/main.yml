@@ -14,8 +14,6 @@ jobs:
           with:
             toolchain:
               stable
-        - name: Test repo
-          run: cargo test
         - name: Install cargo-aur
           run: cargo install cargo-aur
         - name: Run custom packaging script
