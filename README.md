@@ -16,4 +16,6 @@ cargo install kelpdot
 
 ### With package manager
 
-WIP
+#### Arch Linux
+
+KelpDot is aviable on the AUR as `kelpdot-bin`
