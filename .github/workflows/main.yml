@@ -18,3 +18,4 @@ jobs:
         - name: Install cargo-aur
           run: cargo install cargo-aur
         - name: Run custom packaging script
+          run: bash scripts/aur.sh
