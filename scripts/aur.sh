@@ -13,7 +13,7 @@ arch=("x86_64")
 provides=("kelpdot")
 options=("strip")
 source=("https://github.com/Woomy4680-exe/kelp/releases/download/$pkgver/kelpdot-$pkgver-x86_64.tar.gz")
-sha256sums=("@PKG_SUM@")
+sha256sums=("@PKGSUM@")
 
 package() {
     install -Dm755 kelpdot -t "$pkgdir/usr/bin/"
