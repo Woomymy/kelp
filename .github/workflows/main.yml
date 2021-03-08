@@ -1,8 +1,8 @@
 name: AUR package
 on:
   push:
-          #tags:
-          #- '*'
+        tags:
+          - '*'
 
 jobs:
     AUR:
