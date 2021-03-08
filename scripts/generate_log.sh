@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
-scripts/changelog.sh > KCL.md
-cat KCL.md
+scripts/changelog.sh > changelog.txt
+cat changelog.txt
