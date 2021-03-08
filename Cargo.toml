@@ -10,7 +10,7 @@ repository = "https://github.com/Woomy4680-exe/kelp"
 [dependencies]
 anyhow = "1.0.38"
 kelpdot_macros = "2.0.2"
-serde = { version = "1.0.123", features = ["derive"] }
+serde = { version = "1.0.124", features = ["derive"] }
 serde_yaml = "0.8.17"
 structopt = "0.3.21"
 
