@@ -24,8 +24,6 @@ jobs:
                   git checkout main
         - name: Generate Changelog
           run: bash scripts/generate_log.sh
-        - name: Setup tmate session
-          uses: mxschmitt/action-tmate@v3
         - name: Release
           uses: softprops/action-gh-release@v1
           if: startsWith(github.ref, 'refs/tags/')
