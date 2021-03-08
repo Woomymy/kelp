@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -e
 cargo aur
-cat << EOF >> PKGBUILD
+cat << EOF > PKGBUILD
 # Maintainer: Woomy4680-exe <github@woomy.ovh>
 pkgname=kelpdot-bin
 pkgver=@VERSION@
