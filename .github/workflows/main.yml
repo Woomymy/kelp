@@ -27,7 +27,7 @@ jobs:
             GITHUB_TOKEN: ${{ secrets.TOKEN }}
           with:
                   files: "kelpdot-aur.tar.gz"
-                  body_path: "KCL.md"
+                  body: "# Changelog"
         - name: Publish AUR package
           uses: KSXGitHub/github-actions-deploy-aur@v2.2.3
           with:
