@@ -84,9 +84,9 @@ dependencies = [
 
 [[package]]
 name = "kelpdot_macros"
-version = "2.0.2"
+version = "2.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "cfa1b186a2eabdeb72df5f4377f84429e609e6d0f17e6c130a1b430b397f2b10"
+checksum = "bb71f6353dd00eba5d22661eb989bbabda43eab47eb70373dcd82295b007ca46"
 
 [[package]]
 name = "lazy_static"
@@ -150,18 +150,18 @@ dependencies = [
 
 [[package]]
 name = "serde"
-version = "1.0.123"
+version = "1.0.124"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "92d5161132722baa40d802cc70b15262b98258453e85e5d1d365c757c73869ae"
+checksum = "bd761ff957cb2a45fbb9ab3da6512de9de55872866160b23c25f1a841e99d29f"
 dependencies = [
  "serde_derive",
 ]
 
 [[package]]
 name = "serde_derive"
-version = "1.0.123"
+version = "1.0.124"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9391c295d64fc0abb2c556bad848f33cb8296276b1ad2677d1ae1ace4f258f31"
+checksum = "1800f7693e94e186f5e25a28291ae1570da908aff7d97a095dec1e56ff99069b"
 dependencies = [
  "proc-macro2",
  "quote",
