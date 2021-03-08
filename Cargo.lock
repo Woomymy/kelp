@@ -84,9 +84,9 @@ dependencies = [
 
 [[package]]
 name = "kelpdot_macros"
-version = "2.0.2"
+version = "2.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "cfa1b186a2eabdeb72df5f4377f84429e609e6d0f17e6c130a1b430b397f2b10"
+checksum = "bb71f6353dd00eba5d22661eb989bbabda43eab47eb70373dcd82295b007ca46"
 
 [[package]]
 name = "lazy_static"
