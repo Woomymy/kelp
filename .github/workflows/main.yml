@@ -20,8 +20,8 @@ jobs:
           run: bash scripts/aur.sh
         - name: Generate Changelog
           run: |
-                  bash scripts/changelog.sh > ${{ github.workflow }}-CHANGELOG.md
-                  cat CHANGELOG_RELEASE.md
+                  bash scripts/changelog.sh > KCL.md
+                  cat KCL.md
         - name: Release
           uses: softprops/action-gh-release@v1
           if: startsWith(github.ref, 'refs/tags/')
@@ -29,7 +29,7 @@ jobs:
             GITHUB_TOKEN: ${{ secrets.TOKEN }}
           with:
                   files: "kelpdot-aur.tar.gz"
-                  body_path: ${{ github.workflow }}-CHANGELOG.md
+                  body_path: "KCL.md"
         - name: Publish AUR package
           uses: KSXGitHub/github-actions-deploy-aur@v2.2.3
           with:
