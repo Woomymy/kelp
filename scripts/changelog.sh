@@ -13,6 +13,11 @@ main(){
 		red "Invalid tag: ${TAG}"
 		exit 1
 	}
-	echo $TAG	
+	COMMITS="$(git log --pretty --format="%h" ${TAG}..HEAD)"
+	for COMMIT in $COMMITS
+	do
+		COMMIT_DESC="$(git log --pretty --format="%B" -n 1 ${COMMIT})" # Get the description of the commit (NOTE: the -n1 option is required) 
+		echo $COMMIT_DESC
+	done
 }
 main $@
