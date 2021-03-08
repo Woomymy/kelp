@@ -17,7 +17,12 @@ main(){
 	for COMMIT in $COMMITS
 	do
 		COMMIT_DESC="$(git log --pretty --format="%B" -n 1 ${COMMIT})" # Get the description of the commit (NOTE: the -n1 option is required) 
-		echo $COMMIT_DESC
+		if [[ $COMMIT_DESC =~ ^Merge* ]] || [[ $COMMIT_DESC =~ ^Bump* ]]
+		then
+			continue; # We need to ignore merge commits and dependabot commits
+		fi
+		COMMIT_TYPE="$(echo $COMMIT_DESC | awk -F ': ' '{ print $1 }')"
+		COMMIT_INFO="$(echo $COMMIT_DESC | awk -F ': ' '{ print $2 }')"
 	done
 }
 main $@
