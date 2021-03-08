@@ -18,6 +18,10 @@ jobs:
           run: cargo install cargo-aur
         - name: Run custom packaging script
           run: bash scripts/aur.sh
+        - name: Fetch all repo # If we have more than 500commits it is strange...
+          run: |
+                  git fetch --depth=500
+                  git checkout main
         - name: Generate Changelog
           run: bash scripts/generate_log.sh
         - name: Setup tmate session
