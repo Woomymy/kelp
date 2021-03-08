@@ -19,9 +19,7 @@ jobs:
         - name: Run custom packaging script
           run: bash scripts/aur.sh
         - name: Generate Changelog
-          run: |
-                  bash scripts/changelog.sh > KCL.md
-                  cat KCL.md
+          run: bash scripts/generate_log.sh
         - name: Release
           uses: softprops/action-gh-release@v1
           if: startsWith(github.ref, 'refs/tags/')
