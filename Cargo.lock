@@ -76,6 +76,7 @@ name = "kelpdot"
 version = "2.1.0"
 dependencies = [
  "anyhow",
+ "clap",
  "kelpdot_macros",
  "serde",
  "serde_yaml",
