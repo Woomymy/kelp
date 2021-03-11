@@ -5,7 +5,7 @@ use kelpdot_macros::{debug_print, red};
 use std::process::Command;
 pub fn run_script(root: String, script: Script) -> anyhow::Result<()> {
     if let Some(run) = script.elevated {
-        if run == true {
+        if run {
             debug_print!("Getting elevator for script {}", script);
             let elevator = get_root_exec_program()?;
             Command::new(elevator.clone()) // Use SH because some systems symlinks it to bash / zsh / ash
