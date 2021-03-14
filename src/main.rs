@@ -4,8 +4,6 @@ use anyhow::Context;
 extern crate kelpdot_macros;
 use clap::{crate_authors, App, SubCommand};
 mod lib;
-use lib::structs::pm::PackageManager;
-use lib::packagemangers::portage::Portage;
 fn main() -> anyhow::Result<()> {
     green_print!("KelpDot V{}", env!("CARGO_PKG_VERSION"));
     green_print!("==============");
