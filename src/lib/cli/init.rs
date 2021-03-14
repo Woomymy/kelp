@@ -21,6 +21,7 @@ pub fn init() -> anyhow::Result<()> {
         rootfiles: Some(rootfiles),
         postrun: Some(vec![]),
         prerun: Some(vec![]),
+        packages: None,
         postsave: Some(vec![]),
     };
     let conf_path = format!("{}/kelp.yaml", root);
