@@ -19,6 +19,7 @@ pub fn migrate_configs(config: LegacyKelpConfig) -> anyhow::Result<KelpDotConfig
         postsave: Some(vec![]),
         prerun: Some(vec![]),
         postrun: Some(vec![]),
+        packages: None
     })
 }
 /// Convert a fileinfo

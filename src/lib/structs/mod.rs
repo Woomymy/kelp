@@ -1,3 +1,4 @@
+pub mod packages;
 pub mod config;
 pub mod fileinfo;
 pub mod legacy;
