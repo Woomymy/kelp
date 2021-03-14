@@ -16,6 +16,11 @@ cargo install kelpdot
 
 ### With package manager
 
-#### Arch Linux
+#### Arch GNU/Linux
 
 KelpDot is aviable on the AUR as `kelpdot-bin`
+
+#### Gentoo GNU/Linux
+
+KelpDot is aviable in the [Woomy-overlay](https://github.com/Woomy4680-exe/Woomy-overlay)
+
