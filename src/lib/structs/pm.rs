@@ -9,4 +9,3 @@ pub trait PackageManager {
 pub trait ExternalPackageManager: PackageManager {
     fn install_on_distro<T: PackageManager>(&self, pm: T) -> Result<()>;
 }
-
