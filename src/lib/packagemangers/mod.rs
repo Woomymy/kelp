@@ -1,1 +1,1 @@
-//pub mod portage; // Gentoo's package manager
+pub mod portage; // Gentoo's package manager

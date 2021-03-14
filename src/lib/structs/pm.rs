@@ -1,11 +1,12 @@
 use anyhow::Result;
 /// Base trait for PM integrations
-trait PackageManager {
-    fn install_packages(packages: Vec<String>) -> Result<()>;
-    fn install_package(package: &str) -> Result<()>;
+pub trait PackageManager {
+    fn install_packages(&self, packages: Vec<String>) -> Result<()>;
+    fn install_package(&self, package: &str) -> Result<()>;
+    fn new() -> Self;
 }
 /// Packages managers such as NPM or cargo
-trait ExternalPackageManager: PackageManager {
-    fn install_on_distro<T: PackageManager>(pm: T) -> Result<()>;
+pub trait ExternalPackageManager: PackageManager {
+    fn install_on_distro<T: PackageManager>(&self, pm: T) -> Result<()>;
 }
 
