@@ -3,9 +3,7 @@ use anyhow::{Context, Result};
 use kelpdot_macros::red;
 use std::process::Command;
 /// The gentoo's package manager
-pub struct Portage {
-    name: String,
-}
+pub struct Portage {}
 
 impl PackageManager for Portage {
     fn install_package(&self, package: &str) -> Result<()> {
@@ -14,7 +12,7 @@ impl PackageManager for Portage {
             .arg("emerge")
             .arg(package)
             .status()
-            .with_context(|| red!("Unable to install {} with {}", package, self.name))?;
+            .with_context(|| red!("Unable to install {}!", package))?;
         Ok(())
     }
     fn install_packages(&self, packages: Vec<String>) -> Result<()> {
@@ -28,8 +26,6 @@ impl PackageManager for Portage {
         Ok(())
     }
     fn new() -> Self {
-        Self {
-            name: String::from("portage"),
-        }
+        Self {}
     }
 }
