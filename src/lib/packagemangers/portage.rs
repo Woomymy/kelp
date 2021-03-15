@@ -15,6 +15,7 @@ impl PackageManager for Portage {
             .with_context(|| red!("Unable to install {}!", package))?;
         Ok(())
     }
+
     fn install_packages(&self, packages: Vec<String>) -> Result<()> {
         let executor = get_root_exec_program()?;
         let mut cmd = Command::new(&executor);
