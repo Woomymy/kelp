@@ -1,7 +1,10 @@
 use crate::lib::{
     config::autoconfig::{get_home_files, get_root_files},
     fsutil::paths::get_root,
-    structs::config::KelpDotConfig,
+    structs::{
+        config::KelpDotConfig,
+        packages::{PackageInfo, Packages},
+    },
 };
 use anyhow::Context;
 use kelpdot_macros::*;
@@ -21,7 +24,32 @@ pub fn init() -> anyhow::Result<()> {
         rootfiles: Some(rootfiles),
         postrun: Some(vec![]),
         prerun: Some(vec![]),
-        packages: None,
+        packages: Some(Packages {
+            gentoo: Some(PackageInfo {
+                with_file: None,
+                packages: Some(vec![]),
+            }),
+            arch: Some(PackageInfo {
+                with_file: None,
+                packages: Some(vec![]),
+            }),
+            debian: Some(PackageInfo {
+                with_file: None,
+                packages: Some(vec!()),
+            }),
+            fedora: Some(PackageInfo {
+                with_file: None,
+                packages: Some(vec!()),
+            }),
+            gems: Some(PackageInfo {
+                with_file: None,
+                packages: Some(vec!()),
+            }),
+            npm: Some(PackageInfo {
+                with_file: None,
+                packages: Some(vec!()),
+            }),
+        }),
         postsave: Some(vec![]),
     };
     let conf_path = format!("{}/kelp.yaml", root);
