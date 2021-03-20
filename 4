@@ -2,7 +2,8 @@ use crate::lib::{
     config::loader::load_cfg,
     fsutil::{copy::copy, paths::get_root},
     structs::{config::KelpDotConfig, pm::PackageManager},
-    util::{exec::get_root_exec_program, os::{is_os,get_host_os}, pm::get_distro_pm, scripts::run_script}
+    util::{exec::get_root_exec_program, os::{is_os,get_host_os}, scripts::run_script},
+    packagemangers::*,
 };
 use anyhow::Context;
 use kelpdot_macros::*;
@@ -80,11 +81,11 @@ pub fn install() -> anyhow::Result<()> {
     }
     // Check if we need to install packages
     if let Some(packages) = config.packages {
-        let pm = get_distro_pm()?; 
         if let Some(gentoo) = packages.gentoo {
+            let pm = portage::Portage::new(); 
             if is_os("gentoo")? {
                 if let Some(pkgs) = gentoo.packages {
-                        return pm.install_packages(pkgs);
+                        pm.install_packages(pkgs)?;
                 }
             }
         }
