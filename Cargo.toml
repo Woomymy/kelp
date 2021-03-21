@@ -1,7 +1,7 @@
 [package]
 name = "kelpdot"
 description = "Simple dotfiles manager"
-version = "2.1.0"
+version = "2.1.3"
 authors = ["Woomy4680-exe <github@woomy.ovh>"]
 edition = "2018"
 license = "MIT"
@@ -10,7 +10,7 @@ repository = "https://github.com/Woomy4680-exe/kelp"
 [dependencies]
 anyhow = "1.0.38"
 clap = "2.33.3"
-kelpdot_macros = "2.1.0"
+kelpdot_macros = "2.1.3"
 serde = { version = "1.0.124", features = ["derive"] }
 serde_yaml = "0.8.17"
 structopt = "0.3.21"

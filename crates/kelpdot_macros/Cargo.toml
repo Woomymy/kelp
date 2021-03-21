@@ -1,7 +1,7 @@
 [package]
 name = "kelpdot_macros"
 description = "Macros (color print) for KelpDot"
-version = "2.1.0"
+version = "2.1.3"
 authors = ["Woomy4680-exe <github@woomy.ovh>"]
 edition = "2018"
 license = "Unlicense"
