@@ -85,7 +85,7 @@ pub fn install() -> anyhow::Result<()> {
     }
     // Check if we need to install packages
     if let Some(packages) = config.packages {
-        let pm = get_distro_pm()?;
+        let mut pm = get_distro_pm()?;
         if let Some(gentoo) = packages.gentoo {
             if is_os("gentoo")? {
                 if let Some(pkgs) = gentoo.packages {
