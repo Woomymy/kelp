@@ -72,9 +72,9 @@ pub fn get_host_os() -> anyhow::Result<Os> {
 }
 
 pub fn is_os(name: &str) -> Result<bool> {
-    let os = get_host_os()?;    
+    let os = get_host_os()?;
     if os.submatches.iter().any(|x| x == name) || os.name == name {
-        return Ok(true)
+        return Ok(true);
     }
     Ok(false)
 }
