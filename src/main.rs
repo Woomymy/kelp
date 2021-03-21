@@ -16,7 +16,6 @@ fn main() -> anyhow::Result<()> {
                 .about("Setups kelpdot in the current folder or in $DOTFILES_ROOT"),
             SubCommand::with_name("save").about("Saves the dotfiles"),
             SubCommand::with_name("install").about("Installs the dotfiles"),
-            SubCommand::with_name("migrate").about("Migrates to newer config versions"),
         ])
         .get_matches();
     // Check CLI options
@@ -26,8 +25,6 @@ fn main() -> anyhow::Result<()> {
         lib::cli::install::install().with_context(|| red!("Unable to install the dotfiles!"))?;
     } else if let Some(_m) = kelp.subcommand_matches("init") {
         lib::cli::init::init().with_context(|| red!("Unable to init kelpdot!"))?;
-    } else if let Some(_m) = kelp.subcommand_matches("migrate") {
-        lib::cli::migrate::migrate().with_context(|| red!("Unable to migrate configurations!"))?;
     } else {
         println!("{}", kelp.usage());
     }
