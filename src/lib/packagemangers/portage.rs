@@ -18,13 +18,13 @@ impl PackageManager for Portage {
 
     fn install_packages(&self, packages: Vec<String>) -> Result<()> {
         if packages.len() > 0 {
-        let executor = get_root_exec_program()?;
-        let mut cmd = Command::new(&executor);
-        cmd.arg("emerge");
-        for pack in packages {
-            cmd.arg(pack);
-        }
-        cmd.status()?;
+            let executor = get_root_exec_program()?;
+            let mut cmd = Command::new(&executor);
+            cmd.arg("emerge");
+            for pack in packages {
+                cmd.arg(pack);
+            }
+            cmd.status()?;
         }
         Ok(())
     }

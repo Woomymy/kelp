@@ -35,19 +35,19 @@ pub fn init() -> anyhow::Result<()> {
             }),
             debian: Some(PackageInfo {
                 with_file: None,
-                packages: Some(vec!()),
+                packages: Some(vec![]),
             }),
             fedora: Some(PackageInfo {
                 with_file: None,
-                packages: Some(vec!()),
+                packages: Some(vec![]),
             }),
             gems: Some(PackageInfo {
                 with_file: None,
-                packages: Some(vec!()),
+                packages: Some(vec![]),
             }),
             npm: Some(PackageInfo {
                 with_file: None,
-                packages: Some(vec!()),
+                packages: Some(vec![]),
             }),
         }),
         postsave: Some(vec![]),
