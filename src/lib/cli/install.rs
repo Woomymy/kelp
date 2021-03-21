@@ -84,7 +84,24 @@ pub fn install() -> anyhow::Result<()> {
         if let Some(gentoo) = packages.gentoo {
             if is_os("gentoo")? {
                 if let Some(pkgs) = gentoo.packages {
-                        return pm.install_packages(pkgs);
+                    // Check if packages != []
+                    if pkgs.len() > 0 {
+                        pm.install_packages(pkgs)?;
+                    }
+                }
+                if let Some(file) = gentoo.with_file {
+                    let mut packages: Vec<String> = Vec::new();
+                    let filepath = format!("{}/{}", root, file);
+                    let fpath = Path::new(&filepath);
+                    if fpath.exists() {
+                        let contents = std::fs::read_to_string(filepath)?;
+                        contents.lines().into_iter().for_each(|x| {
+                            packages.push(String::from(x));
+                        });
+                    }
+                    if packages.len() > 0 {
+                        pm.install_packages(packages)?;
+                    }
                 }
             }
         }
