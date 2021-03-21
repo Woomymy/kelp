@@ -17,6 +17,7 @@ impl PackageManager for Portage {
     }
 
     fn install_packages(&self, packages: Vec<String>) -> Result<()> {
+        if packages.len() > 0 {
         let executor = get_root_exec_program()?;
         let mut cmd = Command::new(&executor);
         cmd.arg("emerge");
@@ -24,6 +25,7 @@ impl PackageManager for Portage {
             cmd.arg(pack);
         }
         cmd.status()?;
+        }
         Ok(())
     }
     fn new() -> Self {
