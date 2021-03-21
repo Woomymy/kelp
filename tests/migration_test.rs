@@ -14,7 +14,8 @@ pub fn test_config_migration_empty() {
             rootfiles: Some(vec![]),
             postsave: Some(vec![]),
             prerun: Some(vec![]),
-            postrun: Some(vec![])
+            postrun: Some(vec![]),
+            packages: None
         }
     );
 }
@@ -42,6 +43,7 @@ pub fn test_config_migration_with_values() {
             rootfiles: Some(vec![]),
             postsave: Some(vec![]),
             prerun: Some(vec![]),
+            packages: None,
             postrun: Some(vec![])
         }
     );
