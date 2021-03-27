@@ -1,0 +1,114 @@
+# I3 configuration
+
+# Super key
+set $mod Mod4
+set $terminal alacritty
+font pango:MesloLGS NF:style=Regular 10
+# Base config
+
+floating_modifier $mod
+
+# Starts a terminal
+bindsym $mod+Return exec $terminal
+
+bindsym $mod+Shift+a kill
+# Applications launcher
+bindsym $mod+d exec "rofi -show drun"
+# Focus
+bindsym $mod+Left focus left
+bindsym $mod+Right focus right
+bindsym $mod+Up focus up
+bindsym $mod+Down focus down
+# Move windows
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Right move right
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Down move down
+
+bindsym $mod+h split h
+bindsym $mod+v split v
+bindsym $mod+f fullscreen toggle
+
+bindsym $mod+Shift+space floating toggle
+set $ws1 "1"
+set $ws2 "2"
+set $ws3 "3"
+set $ws4 "4"
+set $ws5 "5"
+set $ws6 "6"
+set $ws7 "7"
+set $ws8 "8"
+set $ws9 "9"
+set $ws10 "10"
+# Set workspace
+bindsym $mod+ampersand workspace $ws1
+bindsym $mod+eacute workspace $ws2
+bindsym $mod+quotedbl workspace $ws3
+bindsym $mod+apostrophe workspace $ws4
+bindsym $mod+parenleft workspace $ws5
+bindsym $mod+section workspace $ws6
+bindsym $mod+egrave workspace $ws7
+bindsym $mod+exclam workspace $ws8
+bindsym $mod+ccedilla workspace $ws9
+bindsym $mod+agrave workspace $ws10
+# Move windows
+bindsym $mod+Shift+ampersand move container to workspace $ws1
+bindsym $mod+Shift+eacute move container to workspace $ws2
+bindsym $mod+Shift+quotedbl move container to workspace $ws3
+bindsym $mod+Shift+apostrophe move container to workspace $ws4
+bindsym $mod+Shift+parenleft move container to workspace $ws5
+bindsym $mod+Shift+section move container to workspace $ws6
+bindsym $mod+Shift+egrave move container to workspace $ws7
+bindsym $mod+Shift+exclam move container to workspace $ws8
+bindsym $mod+Shift+ccedilla move container to workspace $ws9
+bindsym $mod+Shift+agrave move container to workspace $ws10
+
+# Conf reload & WM restart
+bindsym $mod+Shift+c reload
+bindsym $mod+Shift+r restart
+
+mode "resize" {
+	# Resize Windows
+        bindsym Left resize shrink width 10 px or 10 ppt
+        bindsym Down resize grow height 10 px or 10 ppt
+        bindsym Up resize shrink height 10 px or 10 ppt
+        bindsym Right resize grow width 10 px or 10 ppt
+
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+        bindsym $mod+r mode "default"
+}
+
+bindsym $mod+r mode resize
+# Screenshot
+bindsym $mod+Print exec flameshot gui &
+bindsym $mod+Shift+b exec ~/bin/theming/colors.sh &
+gaps inner 10 
+gaps outer 4
+for_window [class=".*"] border none
+bindsym XF86MonBrightnessDown exec --no-startup-id xbacklight -dec 10%
+bindsym XF86MonBrightnessUp exec --no-startup-id xbacklight -inc 10%
+
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +5% 
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -5%
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle
+
+set_from_resource $fg i3wm.color7 #ff007f
+set_from_resource $bg i3wm.color2 #ff007f
+
+client.focused          $bg     $bg     $fg  $bg       $bg
+client.focused_inactive $bg     $bg     $fg  $bg       $bg
+client.unfocused        $bg     $bg     $fg  $bg       $bg
+client.urgent           $bg     $bg     $fg  $bg       $bg
+client.placeholder      $bg     $bg     $fg  $bg       $bg
+
+client.background       $bg
+
+# Startup
+exec --no-startup-id /usr/libexec/polkit-mate-authentication-agent-1 & 
+exec --no-startup-id ~/bin/theming/setup-themes.sh
+exec --no-startup-id ~/bin/config/screens.sh &
+exec --no-startup-id bash "$HOME/bin/power/battery.sh" & 
+exec --no-startup-id picom -b &
+exec --no-startup-id dunst & 
+
