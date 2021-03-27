@@ -8,9 +8,9 @@ license = "MIT"
 homepage = "https://woomy4680-exe.github.io/kelp-docs/"
 repository = "https://github.com/Woomy4680-exe/kelp"
 [dependencies]
-anyhow = "1.0.38"
+anyhow = "1.0.40"
 kelpdot_macros = "2.1.3"
-serde = { version = "1.0.124", features = ["derive"] }
+serde = { version = "1.0.125", features = ["derive"] }
 serde_yaml = "0.8.17"
 
 [lib]

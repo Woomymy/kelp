@@ -1,0 +1,31 @@
+#-------------------------------
+# Configuration basique
+#-------------------------------
+# Mettre à jour depuis les paquets binaires (par défaut) ou les codes sources.
+#FEATURES="${FEATURES} -getbinpkg"
+
+# Emerge will ignore matching binary packages. A space separated list of packags
+# names or slot atoms.
+#USEPKG_EXCLUDE="--usepkg-exclude=''"
+
+# Nombre de paquets à installer simultanément.
+#EMERGE_JOBS="--jobs=1"
+
+EMERGE_DEFAULT_OPTS="${EMERGE_DEFAULT_OPTS} ${USEPKG_EXCLUDE} ${EMERGE_JOBS}"
+
+#--------------------------------------
+# Paramètres du compilateur
+#--------------------------------------
+# Nombre de processus lancés en parallèle pour installer un paquet.
+MAKEOPTS="-j9"
+
+# Paramètres supplémentaires passés au compilateur. L'option '-march=native'
+# permet d'optimiser les applications en créant un code adapté à votre matériel.
+#CFLAGS="-O2 -march=native -pipe"
+#CXXFLAGS="${CFLAGS}"
+
+# Maximum size of the ccache.
+#CCACHE_SIZE="5G"
+
+# Compression parameters for binary packages
+BINPKG_COMPRESS_FLAGS="-19 -T8"
