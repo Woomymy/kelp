@@ -1,10 +1,11 @@
+---
 name: Linux
 
-on:
+on:  # yamllint disable-line rule:truthy
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 env:
   CARGO_TERM_COLOR: always
@@ -12,24 +13,24 @@ jobs:
   Linux:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - uses: actions/cache@v2
-      with:
-        path: |
-          ~/.cargo/registry
-          ~/.cargo/git
-          target
-        key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
-    - name: rust-toolchain
-      uses: actions-rs/toolchain@v1.0.6
-      with:
-        toolchain: stable
-    - name: Test
-      run: cargo test --verbose
-    - name: Build
-      run: cargo build --verbose --release
-    - name: Upload build
-      uses: actions/upload-artifact@v2
-      with:
-        name: kelp
-        path: target/release/kelp
+      - uses: actions/checkout@v2
+      - uses: actions/cache@v2
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            target
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+      - name: rust-toolchain
+        uses: actions-rs/toolchain@v1.0.6
+        with:
+          toolchain: stable
+      - name: Test
+        run: cargo test --verbose
+      - name: Build
+        run: cargo build --verbose --release
+      - name: Upload build
+        uses: actions/upload-artifact@v2
+        with:
+          name: kelp
+          path: target/release/kelp
