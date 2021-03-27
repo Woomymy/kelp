@@ -9,11 +9,11 @@ pub struct Portage {
 
 impl PackageManager for Portage {
     fn install_package(&mut self, package: &str) -> Result<()> {
-        if self.systempackages.len() == 0 {
+        if self.systempackages.is_empty() {
             let world = std::fs::read_to_string("/var/lib/portage/world")
                 .with_context(|| red!("Can't read WORLD file!"))?;
             world.lines().into_iter().for_each(|x| {
-                self.systempackages.push(String::from(x));
+                self.systempackages.push(x.to_string());
             });
         }
         if !self.systempackages.iter().any(|x| x == package) {
@@ -28,8 +28,8 @@ impl PackageManager for Portage {
     }
 
     fn install_packages(&mut self, packages: Vec<String>) -> Result<()> {
-        if packages.len() > 0 {
-            if self.systempackages.len() == 0 {
+        if !packages.is_empty() {
+            if self.systempackages.is_empty() {
                 let world = std::fs::read_to_string("/var/lib/portage/world")
                     .with_context(|| red!("Can't read WORLD file!"))?;
                 world.lines().into_iter().for_each(|x| {
@@ -40,7 +40,7 @@ impl PackageManager for Portage {
             let mut cmd = Command::new(&executor);
             cmd.arg("emerge");
             for pack in packages {
-                if !self.systempackages.iter().any(|x| x.to_string() == pack) {
+                if !self.systempackages.iter().any(|x| *x == pack) {
                     cmd.arg(pack);
                 }
             }
