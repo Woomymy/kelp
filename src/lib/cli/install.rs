@@ -1,6 +1,9 @@
 use crate::lib::{
     config::loader::load_cfg,
-    fsutil::{copy::copy, paths::{get_ins_root, get_root}},
+    fsutil::{
+        copy::copy,
+        paths::{get_ins_root, get_root},
+    },
     structs::{config::KelpDotConfig, pm::PackageManager},
     util::{
         exec::get_root_exec_program,
