@@ -7,6 +7,12 @@ pub fn get_root() -> anyhow::Result<String> {
     let full = std::fs::canonicalize(basepath).with_context(|| red!("Unable to get root path!"))?;
     Ok(full.to_str().unwrap().to_string())
 }
+/// Gets the INSTALL ROOT
+pub fn get_ins_root() -> anyhow::Result<String> {
+    let basepath = std::env::var("KELPDOT_ROOT").unwrap_or_else(|_| String::from("/"));
+    let full = std::fs::canonicalize(basepath).with_context(|| red!("Invalid root path!"))?;
+    Ok(full.to_str().unwrap().to_string())
+}
 /// Get name of directory to make
 pub fn get_to_make(path: String) -> anyhow::Result<String> {
     let home = std::env::var("HOME").with_context(|| red!("Unable to get env var $HOME"))?;
