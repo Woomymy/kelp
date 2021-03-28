@@ -1,6 +1,6 @@
 use crate::lib::{
     config::loader::load_cfg,
-    fsutil::{copy::copy, paths::get_root},
+    fsutil::{copy::copy, paths::{get_ins_root, get_root}},
     structs::{config::KelpDotConfig, pm::PackageManager},
     util::{
         exec::get_root_exec_program,
@@ -17,6 +17,8 @@ pub fn install() -> anyhow::Result<()> {
     cyan_print!("[INFO] Installing dotfiles {}", root);
     debug_print!("Building OS list...");
     let os = get_host_os()?;
+    let insroot = get_ins_root()?;
+    debug_print!("Install root: {}", insroot);
     cyan_print!("Found OS {}", os.prettyname);
     let config: KelpDotConfig = load_cfg(root.clone())?;
     if let Some(scripts) = config.prerun {
@@ -41,7 +43,7 @@ pub fn install() -> anyhow::Result<()> {
                 cyan_print!("[INFO] Installing {}", file);
                 copy(
                     format!("{}/{}", home_files_path, file.path),
-                    format!("{}/{}", home, file.path),
+                    format!("{}/{}/{}", insroot, home, file.path),
                 )?;
             }
         }
@@ -63,7 +65,8 @@ pub fn install() -> anyhow::Result<()> {
             let fpath = format!("{}{}", root, file.path);
             // ShBang isn't really needed, I know
             let path = Path::new(&fpath);
-            let dest_parent = Path::new(&file.path).parent().unwrap().to_str().unwrap();
+            let inspath = format!("{}/{}", insroot, &file.path);
+            let dest_parent = Path::new(&inspath).parent().unwrap().to_str().unwrap();
             if path.exists() {
                 bash_code = format!(
                     "{}if [[ ! -d {} ]]\nthen\nmkdir -p {}\nfi\ncp -r {} {}\n",
