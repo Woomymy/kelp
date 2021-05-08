@@ -3,7 +3,7 @@ use kelpdot_macros::red;
 use std::path::Path;
 /// Check if a env var is set or return default
 pub fn get_path_from_env<T: ToString>(var: &str, def: T) -> anyhow::Result<String> {
-    let mut base = std::env::var(var).unwrap_or(def.to_string());
+    let mut base = std::env::var(var).unwrap_or_else(|_| def.to_string());
     if !Path::new(&base).exists() {
         base = def.to_string();
     }
@@ -21,11 +21,11 @@ mod tests {
 }
 /// Gets the root of dotfiles using DOTFILES_ROOT path or .
 pub fn get_root() -> anyhow::Result<String> {
-    Ok(get_path_from_env("DOTFILES_ROOT", ".")?)
+    get_path_from_env("DOTFILES_ROOT", ".")
 }
 /// Gets the INSTALL ROOT
 pub fn get_ins_root() -> anyhow::Result<String> {
-    Ok(get_path_from_env("KELPDOT_INS_ROOT", "/")?)
+    get_path_from_env("KELPDOT_INS_ROOT", "/")
 }
 /// Get name of directory to make
 pub fn get_to_make(path: String) -> anyhow::Result<String> {
