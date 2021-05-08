@@ -3,9 +3,9 @@ use kelpdot_macros::red;
 use std::path::Path;
 /// Check if a env var is set or return default
 pub fn get_path_from_env<T: ToString>(var: &str, def: T) -> anyhow::Result<String> {
-    let base = std::env::var(var).unwrap_or(def.to_string());
+    let mut base = std::env::var(var).unwrap_or(def.to_string());
     if !Path::new(&base).exists() {
-        return Ok(def.to_string());
+        base = def.to_string();
     }
     let full = std::fs::canonicalize(base)?;
     Ok(full.to_str().unwrap().to_string())
@@ -21,15 +21,11 @@ mod tests {
 }
 /// Gets the root of dotfiles using DOTFILES_ROOT path or .
 pub fn get_root() -> anyhow::Result<String> {
-    let basepath = std::env::var("DOTFILES_ROOT").unwrap_or_else(|_| String::from("."));
-    let full = std::fs::canonicalize(basepath).with_context(|| red!("Unable to get root path!"))?;
-    Ok(full.to_str().unwrap().to_string())
+    Ok(get_path_from_env("DOTFILES_ROOT", ".")?)
 }
 /// Gets the INSTALL ROOT
 pub fn get_ins_root() -> anyhow::Result<String> {
-    let basepath = std::env::var("KELPDOT_ROOT").unwrap_or_else(|_| String::from("/"));
-    let full = std::fs::canonicalize(basepath).with_context(|| red!("Invalid root path!"))?;
-    Ok(full.to_str().unwrap().to_string())
+    Ok(get_path_from_env("KELPDOT_INS_ROOT", "/")?)
 }
 /// Get name of directory to make
 pub fn get_to_make(path: String) -> anyhow::Result<String> {
