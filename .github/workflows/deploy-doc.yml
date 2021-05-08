@@ -26,5 +26,5 @@ jobs:
       - name: Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
-          personal_token: ${{ secrets.ACCES_TOKEN }}
+          personal_token: ${{ secrets.TOKEN }}
           publish_dir: ./book
