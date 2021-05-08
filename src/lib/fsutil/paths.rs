@@ -23,9 +23,7 @@ mod tests {
 pub fn get_root() -> anyhow::Result<String> {
     let basepath = std::env::var("DOTFILES_ROOT").unwrap_or_else(|_| String::from("."));
     let full = std::fs::canonicalize(basepath).with_context(|| red!("Unable to get root path!"))?;
-    pri
-    Ok(get_path_f)
-    pr
+    Ok(full.to_str().unwrap().to_string())
 }
 /// Gets the INSTALL ROOT
 pub fn get_ins_root() -> anyhow::Result<String> {
