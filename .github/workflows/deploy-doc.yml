@@ -22,6 +22,8 @@ jobs:
       # Builds the Book to /book
       - name: Build book
         run: mdbook build
+      - name: Setup CNAME
+        run: "echo kelp.woomy.ovh >> book/CNAME"
       # Publish to GH pages
       - name: Pages
         uses: peaceiris/actions-gh-pages@v3
