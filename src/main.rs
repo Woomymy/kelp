@@ -24,6 +24,7 @@ fn main() -> anyhow::Result<()> {
     }
     Ok(())
 }
+
 pub fn usage(args: Vec<String>) {
     magenta_print!("KelpDot V{}", env!("CARGO_PKG_VERSION"));
     red_print!("Invalid usage! {}", args.join(" "));
