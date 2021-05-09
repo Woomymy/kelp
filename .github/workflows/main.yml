@@ -34,7 +34,7 @@ jobs:
           files: "kelpdot-aur.tar.gz"
           body_path: "changelog.txt"
       - name: Publish AUR package
-        uses: KSXGitHub/github-actions-deploy-aur@v2.2.3
+        uses: KSXGitHub/github-actions-deploy-aur@v2.2.4
         with:
           pkgname: kelpdot-bin
           pkgbuild: ./PKGBUILD
