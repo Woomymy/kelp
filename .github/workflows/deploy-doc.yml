@@ -18,7 +18,7 @@ jobs:
           toolchain: stable
       # Install mdbook to build the book
       - name: Install MDBook
-        run: cargo install mdbook
+        run: "bash scripts/install-mdbook.sh"
       # Builds the Book to /book
       - name: Build book
         run: mdbook build
