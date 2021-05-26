@@ -52,6 +52,8 @@ pub fn save() -> anyhow::Result<()> {
                         file.file_name().unwrap().to_str().unwrap().to_owned()
                     ),
                 )?;
+            } else {
+                red_print!("[ERROR] File {} not found, skipping...", path);
             }
         }
         cyan_print!("[OK] Homefiles saved!");
