@@ -28,9 +28,4 @@ jobs:
       - name: Test
         run: cargo test --verbose
       - name: Build
-        run: cargo build --verbose --release
-      - name: Upload build
-        uses: actions/upload-artifact@v2
-        with:
-          name: kelp
-          path: target/release/kelp
+        run: cargo build --verbose 
