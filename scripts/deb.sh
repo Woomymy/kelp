@@ -3,4 +3,4 @@ cargo install cargo-deb
 cargo deb
 
 VERSION="$(grep -i version Cargo.toml | head -n 1 | awk '{print $3}' | cut -d '"' -f 2)"
-mv "target/debian/kelpdot-${VERSION}*.deb" "kelpdot.deb"
+mv target/debian/kelpdot-${VERSION}*.deb "kelpdot.deb"
