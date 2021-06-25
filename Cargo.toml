@@ -2,11 +2,11 @@
 name = "kelpdot"
 description = "Simple dotfiles manager"
 version = "2.1.5"
-authors = ["Woomy4680-exe <github@woomy.ovh>"]
+authors = ["Woomymy<github@woomy.ovh>"]
 edition = "2018"
 license = "MIT"
-homepage = "https://woomy4680-exe.github.io/kelp-docs/"
-repository = "https://github.com/Woomy4680-exe/kelp"
+homepage = "https://kelp.woomy.ovh"
+repository = "https://github.com/Woomymy/kelp"
 [dependencies]
 anyhow = "1.0.40"
 kelpdot_macros = "2.1.3"
