@@ -14,7 +14,7 @@ checksum = "88d7ed2934d741c6b37e33e3832298e8850b53fd2d2bea03873375596c7cea4e"
 
 [[package]]
 name = "kelpdot"
-version = "2.1.5"
+version = "2.1.6"
 dependencies = [
  "anyhow",
  "kelpdot_macros",
