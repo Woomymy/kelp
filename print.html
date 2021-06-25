@@ -83,7 +83,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="welcome.html"><strong aria-hidden="true">1.</strong> Welcome</a></li><li class="chapter-item expanded "><a href="install.html"><strong aria-hidden="true">2.</strong> Installation</a></li><li class="chapter-item expanded "><a href="start.html"><strong aria-hidden="true">3.</strong> Get Started</a></li><li class="chapter-item expanded "><a href="config.html"><strong aria-hidden="true">4.</strong> Configuration guide</a></li></ol>            </div>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="welcome.html"><strong aria-hidden="true">1.</strong> Welcome</a></li><li class="chapter-item expanded "><a href="install.html"><strong aria-hidden="true">2.</strong> Installation</a></li><li class="chapter-item expanded "><a href="start.html"><strong aria-hidden="true">3.</strong> Get Started</a></li><li class="chapter-item expanded "><a href="config.html"><strong aria-hidden="true">4.</strong> Configuration guide</a></li><li class="chapter-item expanded "><a href="osdesc.html"><strong aria-hidden="true">5.</strong> OS Description files</a></li></ol>            </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
 
@@ -216,6 +216,19 @@
 <pre><code class="language-yaml">postsave:
     - path: &quot;scripts/usefullscript.sh&quot; # The path to the script, relative to the kelp.yaml file
       elevated: true # Use true to run the script with eleveted privileges (optional) (default: false)
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="os-description-files"><a class="header" href="#os-description-files">OS Description files</a></h1>
+<p>OS description files are used to detected host os for options such as <code>onlyon</code>.</p>
+<h2 id="where-are-these-files-located"><a class="header" href="#where-are-these-files-located">Where are these files located?</a></h2>
+<p>Bundled OSes are included (by <code>include_str!</code>) when kelpdot compiles. This YAML list can be found in <a href="https://github.com/Woomymy/kelp/blob/main/src/config/oses.yaml">/src/config/oses.yaml</a>.</p>
+<p>You can add custom OSes in <code>/etc/kelpdot/os.yaml</code>.</p>
+<h3 id="describing-an-os"><a class="header" href="#describing-an-os">Describing an OS</a></h3>
+<pre><code class="language-yaml"># /etc/kelpdot/os.yaml
+- name: &quot;superos&quot; # Name for `onlyon`
+  file: &quot;/&quot; # if this file exist, we are **sure** the OS is O.K 
+  priority: 0 # If multiple OSes are detected, the higher priority is more important. Use higher for childer distros
+  prettyname: &quot;My super Gentoo-Based distro&quot; # Pretty name of the OS (for printing)
+  submatches: [ &quot;gentoo&quot; ] # For exemple, mother distros
 </code></pre>
 
                     </main>

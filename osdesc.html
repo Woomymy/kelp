@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Configuration guide - KelpDot Documentation</title>
+        <title>OS Description files - KelpDot Documentation</title>
                 
 
         <!-- Custom HTML head -->
@@ -82,7 +82,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="welcome.html"><strong aria-hidden="true">1.</strong> Welcome</a></li><li class="chapter-item expanded "><a href="install.html"><strong aria-hidden="true">2.</strong> Installation</a></li><li class="chapter-item expanded "><a href="start.html"><strong aria-hidden="true">3.</strong> Get Started</a></li><li class="chapter-item expanded "><a href="config.html" class="active"><strong aria-hidden="true">4.</strong> Configuration guide</a></li><li class="chapter-item expanded "><a href="osdesc.html"><strong aria-hidden="true">5.</strong> OS Description files</a></li></ol>            </div>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="welcome.html"><strong aria-hidden="true">1.</strong> Welcome</a></li><li class="chapter-item expanded "><a href="install.html"><strong aria-hidden="true">2.</strong> Installation</a></li><li class="chapter-item expanded "><a href="start.html"><strong aria-hidden="true">3.</strong> Get Started</a></li><li class="chapter-item expanded "><a href="config.html"><strong aria-hidden="true">4.</strong> Configuration guide</a></li><li class="chapter-item expanded "><a href="osdesc.html" class="active"><strong aria-hidden="true">5.</strong> OS Description files</a></li></ol>            </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
 
@@ -143,71 +143,28 @@
 
                 <div id="content" class="content">
                     <main>
-                        <!---Disable markdownlint warnings if 2 headers have the same name-->
-<!--markdownlint-disable-file MD024-->
-<h1 id="configuration-guide"><a class="header" href="#configuration-guide">Configuration guide</a></h1>
-<ul>
-<li><a href="#homefiles">Homefiles</a></li>
-<li><a href="#rootfiles">Rootfiles</a></li>
-</ul>
-<h2 id="homefiles"><a class="header" href="#homefiles">Homefiles</a></h2>
-<blockquote>
-<p>The &quot;Homefiles&quot; key contains an array with the informations about the files located at /home/$USER/</p>
-</blockquote>
-<h3 id="structure"><a class="header" href="#structure">Structure</a></h3>
-<pre><code class="language-yaml">homefiles:
-    - name: &quot;I3 configuration&quot; # String: The name of the file (optional)
-      path: .config/i3/config # String: The path to the file / directory relative to /home/$USER
-      backuponly: false # Use true if you want the file to not be reinstalled with `kelpdot install` (optional) (default: false)
-      onlyon: gentoo # Specify if the file can only be installed in one distro (optional) (default: None)
-</code></pre>
-<h2 id="rootfiles"><a class="header" href="#rootfiles">Rootfiles</a></h2>
-<blockquote>
-<p>The &quot;Rootfiles&quot; key contains an array with the informations about the files with path relative to /</p>
-</blockquote>
-<h3 id="structure-1"><a class="header" href="#structure-1">Structure</a></h3>
-<pre><code class="language-yaml">rootfiles:
-    - name: SysCtl configuration # String: The name of the file (optional)
-      path: /etc/sysctl.conf # String: The path to the file / directory
-      backuponly: true # Use true if you want the file to not be reinstalled with `kelpdot install` (optional) (default: false)
-      onlyon: gentoo # Specify if the file can only be installed in one distro (optional) (default: None)
-</code></pre>
-<h2 id="postsave"><a class="header" href="#postsave">Postsave</a></h2>
-<blockquote>
-<p>The scripts to run <strong>AFTER</strong> saving the dotfiles</p>
-</blockquote>
-<pre><code class="language-yaml">postsave:
-    - path: &quot;scripts/usefullscript.sh&quot; # The path to the script, relative to the kelp.yaml file
-      elevated: true # Use true to run the script with eleveted privileges (optional) (default: false)
-</code></pre>
-<h2 id="prerun"><a class="header" href="#prerun">Prerun</a></h2>
-<blockquote>
-<p>The scripts to run <strong>BEFORE</strong> installing the dotfiles</p>
-</blockquote>
-<pre><code class="language-yaml">postsave:
-    - path: &quot;scripts/usefullscript.sh&quot; # The path to the script, relative to the kelp.yaml file
-      elevated: true # Use true to run the script with eleveted privileges (optional) (default: false)
-</code></pre>
-<h2 id="postrun"><a class="header" href="#postrun">Postrun</a></h2>
-<blockquote>
-<p>The scripts to run <strong>AFTER</strong> installing the dotfiles</p>
-</blockquote>
-<pre><code class="language-yaml">postsave:
-    - path: &quot;scripts/usefullscript.sh&quot; # The path to the script, relative to the kelp.yaml file
-      elevated: true # Use true to run the script with eleveted privileges (optional) (default: false)
+                        <h1 id="os-description-files"><a class="header" href="#os-description-files">OS Description files</a></h1>
+<p>OS description files are used to detected host os for options such as <code>onlyon</code>.</p>
+<h2 id="where-are-these-files-located"><a class="header" href="#where-are-these-files-located">Where are these files located?</a></h2>
+<p>Bundled OSes are included (by <code>include_str!</code>) when kelpdot compiles. This YAML list can be found in <a href="https://github.com/Woomymy/kelp/blob/main/src/config/oses.yaml">/src/config/oses.yaml</a>.</p>
+<p>You can add custom OSes in <code>/etc/kelpdot/os.yaml</code>.</p>
+<h3 id="describing-an-os"><a class="header" href="#describing-an-os">Describing an OS</a></h3>
+<pre><code class="language-yaml"># /etc/kelpdot/os.yaml
+- name: &quot;superos&quot; # Name for `onlyon`
+  file: &quot;/&quot; # if this file exist, we are **sure** the OS is O.K 
+  priority: 0 # If multiple OSes are detected, the higher priority is more important. Use higher for childer distros
+  prettyname: &quot;My super Gentoo-Based distro&quot; # Pretty name of the OS (for printing)
+  submatches: [ &quot;gentoo&quot; ] # For exemple, mother distros
 </code></pre>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                                                    <a rel="prev" href="start.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                                    <a rel="prev" href="config.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
                         
-                                                    <a rel="next" href="osdesc.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                                <i class="fa fa-angle-right"></i>
-                            </a>
                         
                         <div style="clear: both"></div>
                     </nav>
@@ -215,13 +172,10 @@
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                                    <a rel="prev" href="start.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                    <a rel="prev" href="config.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
                 
-                                    <a rel="next" href="osdesc.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                        <i class="fa fa-angle-right"></i>
-                    </a>
                             </nav>
 
         </div>
