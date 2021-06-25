@@ -19,6 +19,8 @@ jobs:
         run: cargo install cargo-aur
       - name: Run custom packaging script
         run: bash scripts/aur.sh
+      - name: Package DEB
+        run: bash scripts/deb.sh
       - name: Fetch all repo  # If we have more than 500commits it is strange...
         run: |
           git fetch --depth=500
@@ -31,8 +33,10 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
         with:
-          files: "kelpdot-aur.tar.gz"
-          body_path: "changelog.txt"
+          files: |
+            "kelpdot-aur.tar.gz"
+            "kelpdot.deb"
+         body_path: "changelog.txt"
       - name: Publish AUR package
         uses: KSXGitHub/github-actions-deploy-aur@v2.2.4
         with:
