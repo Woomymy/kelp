@@ -1,5 +1,5 @@
 ---
-name: AUR package
+name: Deploy new versions to repositories
 on:  # yamllint disable-line rule:truthy
   push:
     tags:
