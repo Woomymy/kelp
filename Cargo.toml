@@ -7,7 +7,6 @@ edition = "2018"
 license = "MIT"
 homepage = "https://kelp.woomy.ovh"
 repository = "https://github.com/Woomymy/kelp"
-license-file = "LICENSE"
 readme = "README.md"
 [dependencies]
 anyhow = "1.0.41"
