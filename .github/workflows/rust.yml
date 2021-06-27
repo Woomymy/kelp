@@ -1,5 +1,5 @@
 ---
-name: Linux
+name: Build & test
 
 on:  # yamllint disable-line rule:truthy
   push:
