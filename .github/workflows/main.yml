@@ -22,7 +22,7 @@ jobs:
       - name: Package DEB
         run: bash scripts/deb.sh
       - name: RPM Build
-        uses: ebbflow-io/cargo-rpm-amd64-fedora@latest
+        uses: ebbflow-io/cargo-rpm-amd64-fedora
       - name: Fetch all repo  # If we have more than 500commits it is strange...
         run: |
           git fetch --depth=500
