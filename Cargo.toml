@@ -22,3 +22,12 @@ path = "src/exports.rs"
 [profile.release]
 lto = "yes" # Enable Link-time-Optimisations
 codegen-units = 1 # See https://doc.rust-lang.org/rustc/codegen-options/index.html#codegen-units
+
+[package.metadata.rpm]
+package = "kelpdot"
+
+[package.metadata.rpm.cargo]
+buildflags = ["--release"]
+
+[package.metadata.rpm.targets]
+kelpdot = { path = "/usr/bin/kelpdot" }
