@@ -23,6 +23,8 @@ jobs:
         run: bash scripts/deb.sh
       - name: RPM Build
         uses: ebbflow-io/cargo-rpm-amd64-fedora@master
+      - name: Move RPM
+        run: bash scripts/rpm.sh
       - name: Fetch all repo  # If we have more than 500commits it is strange...
         run: |
           git fetch --depth=500
