@@ -21,6 +21,8 @@ jobs:
         run: bash scripts/aur.sh
       - name: Package DEB
         run: bash scripts/deb.sh
+      - name: RPM Build
+        uses: ebbflow-io/cargo-rpm-amd64-fedora@latest
       - name: Fetch all repo  # If we have more than 500commits it is strange...
         run: |
           git fetch --depth=500
@@ -36,6 +38,7 @@ jobs:
           files: |
             kelpdot-aur.tar.gz
             kelpdot.deb
+            kelpdot.rpm
           body_path: "changelog.txt"
       - name: Publish AUR package
         uses: KSXGitHub/github-actions-deploy-aur@v2.2.4
