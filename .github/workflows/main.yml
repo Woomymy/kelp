@@ -1,59 +1,23 @@
 ---
-name: Deploy new versions to repositories
+name: Build, test and deploy new versions
 on:  # yamllint disable-line rule:truthy
   push:
     tags:
       - '*'
 
 jobs:
-  deploy:
-    runs-on: ubuntu-latest
+  getversion:
+    runs-on: ubuntu-20.04
+    outputs:
+      version: ${{ steps.packagever.outputs.version }}
     steps:
       - uses: actions/checkout@v2
-      - name: Install rust toolchain
-        uses: actions-rs/toolchain@v1.0.6
-        with:
-          toolchain:
-            stable
-      - name: Install cargo-aur
-        run: cargo install cargo-aur
-      - name: Run custom packaging script
-        run: bash scripts/aur.sh
-      - name: Buidl debian package
-        uses: ebbflow-io/cargo-deb-amd64-ubuntu@1.0
-      - name: List
-        run: ls -lah /github/home
-      - name: Unlink rustup
-        run: unlink /github/home/.cargo
-      - name: RPM Build
-        uses: ebbflow-io/cargo-rpm-amd64-fedora@master
-      #- name: Move DEB
-      - name: Move RPM
-        run: bash scripts/rpm.sh
-      - name: Fetch all repo  # If we have more than 500commits it is strange...
-        run: |
-          git fetch --depth=500
-          git checkout main
-      - name: Generate Changelog
-        run: bash scripts/generate_log.sh
-      - name: Release
-        uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'refs/tags/')
-        env:
-          GITHUB_TOKEN: ${{ secrets.TOKEN }}
-        with:
-          files: |
-            kelpdot-aur.tar.gz
-            kelpdot.deb
-            kelpdot.rpm
-          body_path: "changelog.txt"
-      - name: Publish AUR package
-        uses: KSXGitHub/github-actions-deploy-aur@v2.2.4
-        with:
-          pkgname: kelpdot-bin
-          pkgbuild: ./PKGBUILD
-          commit_username: ${{ secrets.AUR_USERNAME }}
-          commit_email: ${{ secrets.AUR_EMAIL }}
-          ssh_private_key: ${{ secrets.AUR_SSH_PRIVATE_KEY }}
-          commit_message: Update AUR package
-          ssh_keyscan_types: rsa,dsa,ecdsa,ed25519
+      - name: Update repositories
+        run: sudo apt update
+      - name: Install rust
+        run: echo '8\n9' | sudo apt install cargo -y
+      - name: Get package version
+        id: packagever
+        run: echo "::set-output name=version::$(cargo pkgid | awk -F ":" '{print $3}')"
+        shell: bash
+      
