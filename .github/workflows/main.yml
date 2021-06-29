@@ -12,12 +12,25 @@ jobs:
       version: ${{ steps.packagever.outputs.version }}
     steps:
       - uses: actions/checkout@v2
-      - name: Update repositories
-        run: sudo apt update
-      - name: Install rust
-        run: echo '8\n9' | sudo apt install cargo -y
+      - name: rust-toolchain
+        uses: actions-rs/toolchain@v1.0.6
+        with:
+          toolchain: stable
       - name: Get package version
         id: packagever
         run: echo "::set-output name=version::$(cargo pkgid | awk -F ":" '{print $3}')"
         shell: bash
-      
+  check_quality:
+    needs: getversion
+    runs-on: ubuntu-20.04
+    name: Build and check quality
+    steps:
+      - uses: actions/checkout@v2
+      - name: rust-toolchain
+        uses: actions-rs/toolchain@v1.0.6
+        with:
+          toolchain: stable
+      - name: Test code
+        run: cargo test
+      - name: Build code
+        run: cargo build
