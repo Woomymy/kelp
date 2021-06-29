@@ -22,10 +22,9 @@ jobs:
       - name: Buidl debian package
         uses: ebbflow-io/cargo-deb-amd64-ubuntu@1.0
       - name: Unlink files
-        run: |
-          unlink ~/.cargo
-          unlink ~/.rustup
-        shell: bash
+        run: unlink ~/.cargo
+      - name: Unlink rustup
+        run: unlink ~/.rustup
       - name: RPM Build
         uses: ebbflow-io/cargo-rpm-amd64-fedora@master
       #- name: Move DEB
