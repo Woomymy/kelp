@@ -21,8 +21,8 @@ jobs:
         run: bash scripts/aur.sh
       - name: Buidl debian package
         uses: ebbflow-io/cargo-deb-amd64-ubuntu@1.0
-      - name: Unlink files
-        run: unlink /github/home/.rustup
+      - name: List
+        run: ls -lah /github/home
       - name: Unlink rustup
         run: unlink /github/home/.cargo
       - name: RPM Build
