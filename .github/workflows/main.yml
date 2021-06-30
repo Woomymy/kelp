@@ -2,8 +2,8 @@
 name: Build, test and deploy new versions
 on:  # yamllint disable-line rule:truthy
   push:
-    tags:
-      - '*'
+#    tags:
+#      - '*'
 
 jobs:
   getversion:
