@@ -61,5 +61,5 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: kelpdot.deb
-        path: ./target/debian/*.deb
+        path: ./target/release/debian/*.deb
   
