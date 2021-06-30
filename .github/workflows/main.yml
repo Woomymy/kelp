@@ -48,4 +48,18 @@ jobs:
       with:
         name: fedora.rpm
         path: ./target/release/rpmbuild/RPMS/x86_64/*
+  builddeb:
+    needs: [build]
+    runs-on: ubuntu-latest
+    name: Build amd64 deb
+    steps:
+    - uses: actions/checkout@v2
+    - name: builddeb
+      id: builddeb
+      uses: ebbflow-io/cargo-deb-amd64-ubuntu@1.0
+    - name: Upload Deb Artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: kelpdot.deb
+        path: ./target/debian/*.deb
   
