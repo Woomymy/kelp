@@ -49,7 +49,7 @@ jobs:
         name: fedora.rpm
         path: ./target/release/rpmbuild/RPMS/x86_64/*
   builddeb:
-    needs: [build]
+    needs: [check_quality]
     runs-on: ubuntu-latest
     name: Build amd64 deb
     steps:
