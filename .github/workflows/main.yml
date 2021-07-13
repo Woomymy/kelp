@@ -96,6 +96,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
+    - name: Generate Changelog
+      run: bash scripts/generate_log.sh
     - name: Create release
       id: create_release
       uses: actions/create-release@v1
@@ -104,7 +106,7 @@ jobs:
       with:
         tag_name: ${{ needs.getversion.outputs.version }}
         release_name: Release ${{ needs.getversion.outputs.version }}
-        body: 'Hello'
+        body_path: 'changelog.txt'
         draft: false
 
     - uses: actions/download-artifact@v2
