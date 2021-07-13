@@ -62,8 +62,37 @@ jobs:
       with:
         name: kelpdotdeb
         path: ./target/x86_64-unknown-linux-musl/debian/*
+  buildaur:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install rust toolchain
+        uses: actions-rs/toolchain@v1.0.6
+        with:
+          toolchain:
+            stable
+      - name: Install cargo-aur
+        run: cargo install cargo-aur
+      - name: Run custom packaging script
+        run: bash scripts/aur.sh
+      - name: Upload AUR Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: kelpdotaur
+          path: ./kelpdot-aur.tar.gz
+      - name: Publish AUR package
+        uses: KSXGitHub/github-actions-deploy-aur@v2.2.4
+        with:
+          pkgname: kelpdot-bin
+          pkgbuild: ./PKGBUILD
+          commit_username: ${{ secrets.AUR_USERNAME }}
+          commit_email: ${{ secrets.AUR_EMAIL }}
+          ssh_private_key: ${{ secrets.AUR_SSH_PRIVATE_KEY }}
+          commit_message: Update AUR package
+          ssh_keyscan_types: rsa,dsa,ecdsa,ed25519
+          
   create_release:
-    needs: [getversion, check_quality, rpmbuild, builddeb]
+    needs: [getversion, check_quality, rpmbuild, builddeb, buildaur]
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -98,3 +127,12 @@ jobs:
         asset_path: ./kelpdotdeb/kelpdot_${{ needs.getversion.outputs.version }}_amd64.deb
         asset_name: 'kelpdot.deb'
         asset_content_type: application/vnd.debian.binary-package
+    - name: Upload amd64 AUR Release Asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./kelpdotaur/kelpdot-aur.tar.gz
+        asset_name: 'kelpdot-aur.tar.gz'
+        asset_content_type: application/gzip
