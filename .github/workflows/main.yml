@@ -2,8 +2,8 @@
 name: Build, test and deploy new versions
 on:  # yamllint disable-line rule:truthy
   push:
-#    tags:
-#      - '*'
+    tags:
+      - '*'
 
 jobs:
   getversion:
@@ -46,7 +46,7 @@ jobs:
     - name: Up RPM
       uses: actions/upload-artifact@v2
       with:
-        name: fedora.rpm
+        name: fedorarpm
         path: ./target/release/rpmbuild/RPMS/x86_64/*
   builddeb:
     needs: [check_quality]
@@ -60,6 +60,41 @@ jobs:
     - name: Upload Deb Artifact
       uses: actions/upload-artifact@v2
       with:
-        name: kelpdot.deb
+        name: kelpdotdeb
         path: ./target/x86_64-unknown-linux-musl/debian/*
-  
+  create_release:
+    needs: [getversion, check_quality, rpmbuild, builddeb]
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Create release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ needs.getversion.outputs.version }}
+        release_name: Release ${{ needs.getversion.outputs.version }}
+        body: 'Hello'
+        draft: false
+
+    - uses: actions/download-artifact@v2
+    - run: ls -lahR
+    - name: Upload fedora RPM
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: 'fedorarpm/kelpdot-${{ needs.getversion.outputs.version }}-1.fc32.x86_64.rpm'
+        asset_name: 'kelpdot.rpm'
+        asset_content_type: application/octet-stream
+    - name: Upload amd64 deb Release Asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./kelpdotdeb/kelpdot_${{ needs.getversion.outputs.version }}_amd64.deb
+        asset_name: 'kelpdot.deb'
+        asset_content_type: application/vnd.debian.binary-package
