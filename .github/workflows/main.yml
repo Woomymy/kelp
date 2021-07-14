@@ -99,7 +99,7 @@ jobs:
     - name: Generate Changelog
       run: bash scripts/generate_log.sh
     - name: Show changelog
-      run: cat changelog.sh
+      run: cat changelog.txt
     - name: Create release
       id: create_release
       uses: actions/create-release@v1
