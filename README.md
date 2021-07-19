@@ -16,6 +16,10 @@ cargo install kelpdot
 
 ### With package manager
 
+#### Debian GNU/Linux
+
+Kelpdot is aviable in repo `https://apt.woomy.ovh` [installation guide](https://apt.woomy.ovh)
+
 #### Arch GNU/Linux
 
 KelpDot is aviable on the AUR as `kelpdot-bin`
