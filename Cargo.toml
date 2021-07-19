@@ -31,3 +31,7 @@ buildflags = ["--release"]
 
 [package.metadata.rpm.targets]
 kelpdot = { path = "/usr/bin/kelpdot" }
+
+[package.metadata.deb]
+section = "misc"
+priority = "optional"
