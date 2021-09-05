@@ -18,13 +18,13 @@ cargo install kelpdot
 
 #### Debian GNU/Linux
 
-Kelpdot is aviable in repo `https://apt.woomy.ovh` [installation guide](https://apt.woomy.ovh)
+Kelpdot is avaible in repo `https://apt.woomy.ovh` [installation guide](https://apt.woomy.ovh)
 
 #### Arch GNU/Linux
 
-KelpDot is aviable on the AUR as `kelpdot-bin`
+KelpDot is avaible on the AUR as `kelpdot-bin`
 
 #### Gentoo GNU/Linux
 
-KelpDot is aviable in the [Woomy-overlay](https://github.com/Woomymy/Woomy-overlay)
+KelpDot is avaible in the [Woomy-overlay](https://github.com/Woomymy/Woomy-overlay)
 
