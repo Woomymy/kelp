@@ -26,5 +26,5 @@ KelpDot is avaible on the AUR as `kelpdot-bin`
 
 #### Gentoo GNU/Linux
 
-KelpDot is avaible in the [Woomy-overlay](https://github.com/Woomymy/Woomy-overlay)
+KelpDot is avaible in the [Woomy-overlay](https://github.com/Woomymy/Woomy-overlay) as `app-misc/kelpdot`
 
