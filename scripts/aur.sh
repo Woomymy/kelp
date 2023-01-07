@@ -2,17 +2,17 @@
 set -e
 cargo aur
 cat << EOF > PKGBUILD
-# Maintainer: Woomy4680-exe <github@woomy.ovh>
+# Maintainer: Woomymy <woomy@woomy.be>
 pkgname=kelpdot-bin
 pkgver=@VERSION@
 pkgrel=1
 pkgdesc="Simple dotfiles manager"
-url="https://woomy4680-exe.github.io/kelp-docs/"
+url="https://kelp.woomy.be/"
 license=("MIT")
 arch=("x86_64")
 provides=("kelpdot")
 options=("strip")
-source=("https://github.com/Woomy4680-exe/kelp/releases/download/\$pkgver/kelpdot-aur.tar.gz")
+source=("https://github.com/Woomymy/kelp/releases/download/\$pkgver/kelpdot-aur.tar.gz")
 sha256sums=("@PKGSUM@")
 
 package() {

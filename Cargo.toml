@@ -2,10 +2,10 @@
 name = "kelpdot"
 description = "Simple dotfiles manager"
 version = "2.1.9"
-authors = ["Woomymy <github@woomy.ovh>"]
+authors = ["Woomymy <woomy@woomy.be>"]
 edition = "2018"
 license = "MIT"
-homepage = "https://kelp.woomy.ovh"
+homepage = "https://kelp.woomy.be"
 repository = "https://github.com/Woomymy/kelp"
 readme = "README.md"
 

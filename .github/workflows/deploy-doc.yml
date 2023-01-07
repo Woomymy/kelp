@@ -9,7 +9,7 @@ jobs:
   Deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       # Install mdbook to build the book
       - name: Install MDBook
         run: "bash scripts/install-mdbook.sh"
@@ -17,10 +17,10 @@ jobs:
       - name: Build book
         run: mdbook build
       - name: Setup CNAME
-        run: "echo kelp.woomy.ovh >> book/CNAME"
+        run: "echo kelp.woomy.be >> book/CNAME"
       # Publish to GH pages
       - name: Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
-          personal_token: ${{ secrets.TOKEN }}
+          personal_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./book
